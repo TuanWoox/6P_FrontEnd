@@ -22,7 +22,7 @@ function Header() {
   const [tabOpen, setTabOpen] = useState(null);
 
   return (
-    <header className="w-full flex flex-row justify-between items-center p-4 bg-white border-b-2 border-[#F0F0F0] shadow-md">
+    <header className="w-full flex flex-row justify-between items-center p-4 bg-white border-b-2 border-[#F0F0F0] shadow-md relative z-20">
       <Logo />
       <DropDownLink
         title="Sản phẩm & Dịch vụ"

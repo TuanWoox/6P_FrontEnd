@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import GeneralLayout from "../layouts/GeneralLayout";
-import HomePage from "../components/HomePage";
+import GeneralLayout from "./layouts/GeneralLayout";
+import HomePage from "./features/guest/Home/HomePage";
 
 function App() {
   return (
