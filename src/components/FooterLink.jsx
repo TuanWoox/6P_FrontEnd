@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 function FooterLink({ title, items }) {
   return (
     <div className="w-full mx-auto flex flex-col md:flex-row justify-around items-start gap-8 text-center md:text-left">
@@ -6,9 +8,9 @@ function FooterLink({ title, items }) {
         <ul className="space-y-2 text-sm">
           {items.map((item) => (
             <li key={item.name}>
-              <a href={item.link} className="hover:underline">
+              <Link to={item.link} className="hover:underline">
                 {typeof item === "string" ? item : item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
