@@ -1,10 +1,13 @@
 import React from "react";
+import { Link } from "react-router";
 
 function DropDownLink({ title, items, tabOpen, setTabOpen }) {
   const toggleDropdown = () => {
     setTabOpen((prev) => (prev === title ? null : title));
   };
-
+  const handleLinkClick = () => {
+    setTabOpen(null);
+  };
   return (
     <div className="relative inline-block text-left ms-auto">
       <div
@@ -30,13 +33,14 @@ function DropDownLink({ title, items, tabOpen, setTabOpen }) {
         `}
       >
         {items.map((item) => (
-          <a
+          <Link
             key={item.name}
-            href={item.link}
+            to={item.link}
+            onClick={handleLinkClick}
             className="block px-6 py-3 text-base text-gray-700 hover:bg-gray-100"
           >
             {item.name}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

@@ -4,18 +4,18 @@ import Logo from "./Logo";
 import { useState } from "react";
 
 const servicesAndProducts = [
-  { name: "Cho vay", link: "/cho-vay" },
-  { name: "Tiết Kiệm", link: "/tiet-kiem" },
+  { name: "Cho vay", link: "/" },
+  { name: "Tiết Kiệm", link: "/" },
 ];
 
 const toolsAndUtilities = [
-  { name: "Lãi suất", link: "/lai-suat" },
-  { name: "Tích lịch trả nợ", link: "/lich-tra-no" },
+  { name: "Lãi suất", link: "/" },
+  { name: "Tích lịch trả nợ", link: "/" },
 ];
 
 const connectAndSupport = [
-  { name: "Liên hệ", link: "/lien-he" },
-  { name: "Câu hỏi thường gặp", link: "/faq" },
+  { name: "Liên hệ", link: "/connect-faq/connect" },
+  { name: "Câu hỏi thường gặp", link: "/connect-faq/faq" },
 ];
 
 function Header() {
