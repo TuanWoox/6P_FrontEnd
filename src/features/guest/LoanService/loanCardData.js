@@ -9,6 +9,7 @@ const loanCardData = [
     imageSrc:
       "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Vay/SAN-PHAM-TIN-DUNG/Ava_Vay-cam-co-giay-to-co-gia_195-x-343_.jpg?h=32&w=32&ts=20230815090526",
     imageAlt: "Woman shopping online",
+    link: "/loan/loan-consumer",
   },
   {
     isReverse: true,
@@ -20,6 +21,7 @@ const loanCardData = [
     imageSrc:
       "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Vay/Danh-sach-vay/VCB-vay-mua-nh-t.jpg?h=32&w=32&ts=20230327170624",
     imageAlt: "Woman shopping online",
+    link: "/loan/loan-mortgage",
   },
   {
     isReverse: false,
@@ -31,6 +33,7 @@ const loanCardData = [
     imageSrc:
       "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Vay/Danh-sach-vay/1-(1).jpg?h=32&w=32&ts=20230421093733",
     imageAlt: "Woman shopping online",
+    link: "/loan/loan-business",
   },
 ];
 

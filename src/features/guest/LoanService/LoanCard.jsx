@@ -1,23 +1,25 @@
-function LoanCard({
-  // Boolean state
-  isReverse = true,
+import { Link } from "react-router";
 
-  // Text content
-  title = "Vay Tiêu dùng",
-  description = "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit",
-  loanInfo = "Linh Hoạt",
-  loanTerm = "60 tháng",
-  // Image
-  imageSrc = "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Vay/SAN-PHAM-TIN-DUNG/Ava_Vay-cam-co-giay-to-co-gia_195-x-343_.jpg?h=32&w=32&ts=20230815090526",
-  imageAlt = "Woman shopping online",
-}) {
+function LoanCard({ loanData }) {
+  if (!loanData) return null; // Chống crash nếu undefined
+
+  const {
+    isReverse = true,
+    title = "Vay Tiêu dùng",
+    description = "...",
+    loanInfo = "Linh Hoạt",
+    loanTerm = "60 tháng",
+    imageSrc = "...",
+    imageAlt = "Woman shopping online",
+    link,
+  } = loanData;
   return (
     <div
       className={`flex bg-white rounded-lg overflow-hidden max-w-full mb-20 mt-10 ${
         isReverse ? "flex-row-reverse" : ""
       }   shadow-lg`}
     >
-      <div className="w-1/3 border-1 border-gray-800 rounded-xl">
+      <div className="w-1/3 border-1 border-gray-400 rounded-xl">
         <img
           src={imageSrc}
           alt={imageAlt}
@@ -49,9 +51,12 @@ function LoanCard({
           <button className="bg-green-400 hover:bg-green-500 text-white py-2 px-6 rounded-md">
             Đăng ký
           </button>
-          <button className="border border-green-400 text-green-500 py-2 px-6 rounded-md hover:bg-green-50">
+          <Link
+            className="border border-green-400 text-green-500 py-2 px-6 rounded-md hover:bg-green-50"
+            to={link}
+          >
             Tìm hiểu thêm
-          </button>
+          </Link>
         </div>
       </div>
     </div>
