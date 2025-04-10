@@ -15,7 +15,7 @@ function LoanCard({
     <div
       className={`flex bg-white rounded-lg overflow-hidden max-w-full mb-20 mt-10 ${
         isReverse ? "flex-row-reverse" : ""
-      }`}
+      }   shadow-lg`}
     >
       <div className="w-1/3 border-1 border-gray-800 rounded-xl">
         <img
