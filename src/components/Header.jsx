@@ -4,7 +4,7 @@ import Logo from "./Logo";
 import { useState } from "react";
 
 const servicesAndProducts = [
-  { name: "Cho vay", link: "/" },
+  { name: "Cho vay", link: "/loan" },
   { name: "Tiết Kiệm", link: "/" },
 ];
 
