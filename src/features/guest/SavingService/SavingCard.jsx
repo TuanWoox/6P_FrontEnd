@@ -7,6 +7,9 @@ function SavingCard({
     // Image
     imgSrc = "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Tiet-kiem/Danh-sach-tiet-kiem/Danh-sach-tiet-kiem-desktop/Ava_TK-tu-dongi_DT.jpg?h=32&w=32&ts=20230608110243",
     imgAlt = "Saving service",
+
+    //Link to detail page
+    link="",
 }) {
 
     return (
@@ -20,9 +23,9 @@ function SavingCard({
                     <button className="w-40 bg-green-700 hover:bg-green-800 text-white py-2 px-6 rounded-md">
                         Đăng ký
                     </button>
-                    <button className="w-40 border border-green-400 text-green-500 py-2 px-6 rounded-md hover:bg-green-50">
-                        Tìm hiểu thêm
-                    </button>
+                    <Link to={link} className="w-40 border border-green-400 text-green-500 py-2 px-6 rounded-md hover:bg-green-50">
+                    Tìm hiểu thêm
+                    </Link>
                 </div>
             </div>
 

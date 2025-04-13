@@ -28,10 +28,12 @@ function SavingHomepage() {
                     <SavingCard
                         title="Tiết kiệm có kỳ hạn"
                         imgSrc="https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Tiet-kiem/Danh-sach-tiet-kiem/Danh-sach-tiet-kiem-desktop/tietkiem.jpg?h=32&w=32&ts=20230606095910"
+                        link="/saving/term-deposit"
                     />
                     <SavingCard
                         title="Tiết kiệm không kỳ hạn"
                         imgSrc="https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Tiet-kiem/Danh-sach-tiet-kiem/Danh-sach-tiet-kiem-desktop/banner25.jpg?h=32&w=32&ts=20230606095844"
+                        link="/saving/demand-deposit"
                     />
                 </div>
             </div>

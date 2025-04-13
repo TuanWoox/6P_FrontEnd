@@ -4,8 +4,10 @@ function SavingDetail_Image({
     title = "Tiết kiệm",
 
     // Text Content
-    typeOfMoney = "VND",
-    maxTerm = "24 tháng",
+    content1_title = "Loại tiền tệ",
+    content1 = "",
+    content2_title = "Kỳ hạn gửi tối đa",
+    content2 = "",
 }) {
     return (
         <div className="w-full h-[550px] bg-cover bg-center relative p-24 rounded-2xl drop-shadow-lg"
@@ -21,18 +23,18 @@ function SavingDetail_Image({
                 <div className="flex">
                     <div className="w-1/4 mt-10">
                         <p className="text-2xl  mt-4">
-                            Loại tiền tệ
+                            {content1_title}
                         </p>
                         <p className="text-2xl  mt-4 font-bold">
-                            {typeOfMoney}
+                            {content1}
                         </p>
                     </div>
                     <div className="w-1/4 mt-10">
                         <p className="text-2xl  mt-4">
-                            Kỳ hạn gửi tối đa
+                            {content2_title}
                         </p>
                         <p className="text-2xl  mt-4 font-bold">
-                            {maxTerm}
+                            {content2}
                         </p>
                     </div>
                 </div>
