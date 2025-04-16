@@ -42,7 +42,7 @@ function Header() {
         tabOpen={tabOpen}
         setTabOpen={setTabOpen}
       />
-      <a className="ms-auto">
+      <a className="ms-auto" href="/signin">
         <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
       </a>
       <input
