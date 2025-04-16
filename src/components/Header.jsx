@@ -3,7 +3,6 @@ import DropDownLink from "./DropDownLink";
 import Logo from "./Logo";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SearchServicesData from "../features/guest/SearchServices/SearchServicesData";
 
 const servicesAndProducts = [
   { name: "Cho vay", link: "/loan" },
@@ -25,7 +24,22 @@ const User = [
   { name: "Đăng ký", link: "/signup" },
 ];
 
-const listServices = SearchServicesData();
+const listServices = [
+  { name: "Lãi suất", link: "/" },
+  { name: "Tính lịch trả nợ", link: "/loan/loancalculate" },
+  { name: "Cho vay", link: "/loan" },
+  { name: "Vay tiêu dùng", link: "/loan/loan-consumer" },
+  { name: "Vay mua nhà", link: "/loan/loan-mortgage" },
+  { name: "Vay kinh doanh", link: "/loan/loan-business" },
+  { name: "Tiết Kiệm", link: "/saving" },
+  { name: "Tiết kiệm có kỳ hạn", link: "/saving/term-deposit" },
+  { name: "Tiết kiệm không kỳ hạn", link: "/saving/demand-deposit" },
+  { name: "Liên hệ", link: "/connect-faq/connect" },
+  { name: "Câu hỏi thường gặp", link: "/connect-faq/faq" },
+  { name: "Đăng nhập", link: "/signin" },
+  { name: "Quên mật khẩu", link: "/signin" },
+  { name: "Đăng ký", link: "/signup" },
+];
 
 function Header() {
   const [tabOpen, setTabOpen] = useState(null);
