@@ -10,7 +10,7 @@ const servicesAndProducts = [
 
 const toolsAndUtilities = [
   { name: "Lãi suất", link: "/" },
-  { name: "Tích lịch trả nợ", link: "/" },
+  { name: "Tích lịch trả nợ", link: "/loancalculate" },
 ];
 
 const connectAndSupport = [
