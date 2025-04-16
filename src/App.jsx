@@ -6,11 +6,12 @@ import LoanHomepage from "./features/guest/LoanService/LoanHomepage";
 import LoanDetail from "./features/guest/LoanService/LoanDetail/LoanDetail";
 import SavingHomepage from "./features/guest/SavingService/SavingHomepage";
 import SavingDetail from "./features/guest/SavingService/SavingDetail/SavingDetail";
-import LoanCalculate from "./features/guest/LoanCalculate/LoanCalculate";
+import LoanCalculate from "./features/guest/LoanService/LoanCalculate/LoanCalculate";
 import SignUp from "./features/guest/SignUp/SignUp";
 import SignIn from "./features/guest/SignIn/SignIn";
 
 import Connect from "./features/guest/ConnectAndSupport/Connect/Connect";
+import SavingInterest from "./features/guest/SavingService/SavingInterest/SavingInterest";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             path="/loan/loan-business"
             element={<LoanDetail loanType={3} />}
           />
+          <Route path="/loan/loancalculate" element={<LoanCalculate />} />
           {/* Saving Pages for guestSaving Pages for guest */}
           <Route path="/saving" element={<SavingHomepage />} />
           <Route
@@ -44,8 +46,7 @@ function App() {
             path="/saving/demand-deposit"
             element={<SavingDetail savingType={2} />}
           />
-          {/* Loan calculate util */}
-          <Route path="/loancalculate" element={<LoanCalculate />} />
+          <Route path="/saving/saving-interest" element={<SavingInterest />} />
           {/* Connect And Faq */}
           <Route path="/connect-faq/connect" element={<Connect />} />
           <Route path="/connect-faq/faq" element={<Faq />} />
