@@ -5,12 +5,12 @@ import { useState } from "react";
 
 const servicesAndProducts = [
   { name: "Cho vay", link: "/loan" },
-  { name: "Tiết Kiệm", link: "/" },
+  { name: "Tiết Kiệm", link: "/saving" },
 ];
 
 const toolsAndUtilities = [
   { name: "Lãi suất", link: "/" },
-  { name: "Tích lịch trả nợ", link: "/" },
+  { name: "Tích lịch trả nợ", link: "/loancalculate" },
 ];
 
 const connectAndSupport = [
@@ -42,7 +42,7 @@ function Header() {
         tabOpen={tabOpen}
         setTabOpen={setTabOpen}
       />
-      <a className="ms-auto">
+      <a className="ms-auto" href="/signin">
         <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
       </a>
       <input
