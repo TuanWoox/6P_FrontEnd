@@ -84,18 +84,18 @@ const dataForConsumer = {
   ],
   infoCards: [
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Icon-update-1307/Money-Percent-(1).svg?iar=0&ts=20230714090424&hash=1FA7858F1C38EA58F25342FFD6B1EC79",
       title: "Mục đích vay đa dạng",
       description:
         "Đáp ứng nhiều nhu cầu: mua sắm, học tập, du lịch, khám chữa bệnh, v.v.",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Lien-he-va-Ho-tro/HDSD/Icon-update-2105/Vay/shield-slash.svg?iar=0&ts=20230331094903&hash=9B1CDFFFC1424CBAD5A9D500B895A442",
       title: "Phương thức vay linh hoạt",
       description: "Thời hạn vay lên tới 120 tháng, tài sản bảo đảm đa dạng",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Icon-update-1307/flash.svg?iar=0&ts=20230713025835&hash=5D0C2B9D0ABBCCFBF50DBC98AEC528BE",
       title: "Xử lý hồ sơ nhanh chóng",
       description:
         "Thủ tục đơn giản, thời gian phê duyệt nhanh chóng, đội ngũ tư vấn sẵn sàng hỗ trợ 24/7",
@@ -200,19 +200,19 @@ const dataForMortgage = {
   ],
   infoCards: [
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Lien-he-va-Ho-tro/HDSD/Icon-update-2105/Vay/calendar-2.svg?iar=0&ts=20230331094846&hash=6323CDD1A1EABAA205D07208AA6355F2",
       title: "Mức vay cạnh tranh",
       description:
         "Số tiền vay lên tới 100% giá trị nhà đất, tối đa 50 tỷ VND/khoản vay",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Icon-update-1307/Money-Percent-(1).svg?iar=0&ts=20230714090424&hash=1FA7858F1C38EA58F25342FFD6B1EC79",
       title: "Thời hạn vay, kỳ trả nợ linh hoạt",
       description:
         "Kỳ trả nợ gốc linh hoạt theo thu nhập thực tế nhưng chu kỳ trả nợ gốc không quá 03 tháng",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Lien-he-va-Ho-tro/HDSD/Icon-update-2105/Vay/patch-check.svg?iar=0&ts=20230331093423&hash=1697E38893E17CB4B196A21B2368F80A",
       title: "Xử lý hồ sơ nhanh chóng",
       description:
         "Thủ tục đơn giản, thời gian phê duyệt nhanh chóng, đội ngũ tư vấn sẵn sàng hỗ trợ 24/7",
@@ -313,18 +313,18 @@ const dataForBusiness = {
   ],
   infoCards: [
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Icon-update-1307/increase.svg?iar=0&ts=20230714091530&hash=0A125BD2E8C0EF99DB60B67133011241",
       title: "Bổ sung vốn đầu tư sản xuất kinh doanh",
       description: "Bổ sung nhanh chóng và kịp thời vốn đầu tư tài sản cố định",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Vay/Icon-USP/phu-hop-nhieu-doi-tuong-khach-hang.svg?iar=0&ts=20230428092820&hash=39B2D04357AAA93977BC2DEAAC6E1482",
       title: "Lãi suất ưu đãi, đa dạng đối tượng khách hàng",
       description:
         "Đối tượng vay là cá nhân tự kinh doanh, chủ hộ kinh doanh, chủ sở hữu doanh nghiệp tư nhân",
     },
     {
-      icon: "🧑‍🤝‍🧑",
+      icon: "https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/Lien-he-va-Ho-tro/HDSD/Icon-update-2105/Vay/calendar-2.svg?iar=0&ts=20230331094846&hash=6323CDD1A1EABAA205D07208AA6355F2",
       title: "Phương thức trả nợ linh hoạt",
       description: "Phù hợp với thu nhập từ hoạt động kinh doanh",
     },
