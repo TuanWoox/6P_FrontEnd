@@ -185,7 +185,7 @@ function LoanCalculate() {
         }}
       >
         <div>
-          <p className="uppercase text-green-800 font-semibold text-4xl bg-white bg-opacity-70 p-2 rounded">
+          <p className="uppercase text-green-800 font-semibold text-4xl bg-opacity-70 p-2 rounded">
             Tính lịch trả nợ
           </p>
         </div>
