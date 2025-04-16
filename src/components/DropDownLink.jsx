@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "react-router";
 
-function DropDownLink({ title, items, tabOpen, setTabOpen }) {
+function DropDownLink({ title, items, tabOpen, setTabOpen, icon = null }) {
   const toggleDropdown = () => {
     setTabOpen((prev) => (prev === title ? null : title));
   };
+
   const handleLinkClick = () => {
     setTabOpen(null);
   };
+
   return (
     <div className="relative inline-block text-left ms-auto">
       <div
         onClick={toggleDropdown}
-        className={`text-base font-medium text-gray-700 px-6 py-3 hover:bg-gray-100 cursor-pointer transition-all duration-200 relative
+        className={`flex items-center justify-center text-base font-medium text-gray-700 px-6 py-3 hover:bg-gray-100 cursor-pointer transition-all duration-200 relative
           ${
             tabOpen === title
               ? "after:absolute after:left-6 after:right-6 after:bottom-0 after:h-1 after:bg-green-200 after:rounded-full"
@@ -20,7 +22,7 @@ function DropDownLink({ title, items, tabOpen, setTabOpen }) {
           }
         `}
       >
-        {title}
+        {icon ? icon : title}
       </div>
 
       <div

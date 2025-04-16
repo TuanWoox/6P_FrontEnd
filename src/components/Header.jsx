@@ -17,6 +17,10 @@ const connectAndSupport = [
   { name: "Liên hệ", link: "/" },
   { name: "Câu hỏi thường gặp", link: "/faq" },
 ];
+const User = [
+  { name: "Đăng nhập", link: "/signin" },
+  { name: "Đăng ký", link: "/signup" },
+];
 
 function Header() {
   const [tabOpen, setTabOpen] = useState(null);
@@ -42,9 +46,16 @@ function Header() {
         tabOpen={tabOpen}
         setTabOpen={setTabOpen}
       />
-      <a className="ms-auto" href="/signin">
+      <DropDownLink
+        icon= {<UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />}
+        title= "Người dùng"
+        items={User}
+        tabOpen={tabOpen}
+        setTabOpen={setTabOpen}
+      />
+      {/* <a className="ms-auto" href="/signin">
         <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
-      </a>
+      </a> */}
       <input
         type="text"
         className="w-56 bg-slate-100 transition-transform duration-300 ease-in-out rounded-full p-2 border-2 border-[#F0F0F0] outline-none ms-auto text-gray-600 focus:scale-105"
