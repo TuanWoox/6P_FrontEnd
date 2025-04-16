@@ -5,12 +5,12 @@ import { useState } from "react";
 
 const servicesAndProducts = [
   { name: "Cho vay", link: "/loan" },
-  { name: "Tiết Kiệm", link: "/" },
+  { name: "Tiết Kiệm", link: "/saving" },
 ];
 
 const toolsAndUtilities = [
   { name: "Lãi suất", link: "/" },
-  { name: "Tích lịch trả nợ", link: "/" },
+  { name: "Tích lịch trả nợ", link: "/loancalculate" },
 ];
 
 const connectAndSupport = [
