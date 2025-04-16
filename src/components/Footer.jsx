@@ -2,8 +2,8 @@ import FooterLink from "./FooterLink";
 import Logo from "./Logo";
 
 const servicesAndProducts = [
-  { name: "Cho vay", link: "/" },
-  { name: "Tiết Kiệm", link: "/" },
+  { name: "Cho vay", link: "/loan" },
+  { name: "Tiết Kiệm", link: "/saving" },
 ];
 
 const toolsAndUtilities = [

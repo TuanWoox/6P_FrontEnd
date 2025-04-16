@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const servicesAndProducts = [
   { name: "Cho vay", link: "/loan" },
-  { name: "Tiết Kiệm", link: "/" },
+  { name: "Tiết Kiệm", link: "/saving" },
 ];
 
 const toolsAndUtilities = [
