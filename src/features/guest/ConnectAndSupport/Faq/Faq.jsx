@@ -17,7 +17,7 @@ function Faq() {
       <div className="p-8">
         <h1 className="font-bold text-3xl">Các câu hỏi thường gặp</h1>
         <div className="mt-4 flex flex-row gap-4  justify-center">
-          <FaqList listFaq={listFaq} setFaqTab={setFaqTab} />
+          <FaqList listFaq={listFaq} setFaqTab={setFaqTab} faqTab={faqTab} />
           <FaqAnswer answer={listFaq[faqTab].answer} />
         </div>
       </div>

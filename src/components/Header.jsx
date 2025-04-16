@@ -14,8 +14,8 @@ const toolsAndUtilities = [
 ];
 
 const connectAndSupport = [
-  { name: "Liên hệ", link: "/" },
-  { name: "Câu hỏi thường gặp", link: "/faq" },
+  { name: "Liên hệ", link: "/connect-faq/connect" },
+  { name: "Câu hỏi thường gặp", link: "/connect-faq/faq" },
 ];
 
 function Header() {

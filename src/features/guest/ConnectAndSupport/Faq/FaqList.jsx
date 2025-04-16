@@ -1,5 +1,5 @@
 import FaqQuestion from "./FaqQuestion";
-function FaqList({ listFaq, setFaqTab }) {
+function FaqList({ listFaq, setFaqTab, faqTab }) {
   return (
     <div>
       {listFaq.map((item, index) => (
@@ -8,6 +8,8 @@ function FaqList({ listFaq, setFaqTab }) {
           onClick={() => {
             setFaqTab(index);
           }}
+          isOpen={faqTab === index}
+          key={index}
         />
       ))}
     </div>

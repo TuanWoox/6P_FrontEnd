@@ -10,6 +10,7 @@ import LoanCalculate from "./features/guest/LoanCalculate/LoanCalculate";
 import SignUp from "./features/guest/SignUp/SignUp";
 import SignIn from "./features/guest/SignIn/SignIn";
 
+import Connect from "./features/guest/ConnectAndSupport/Connect/Connect";
 
 function App() {
   return (
@@ -33,10 +34,21 @@ function App() {
             path="/loan/loan-business"
             element={<LoanDetail loanType={3} />}
           />
-          <Route path="/saving" element={<SavingHomepage/>} />
-          <Route path="/saving/term-deposit" element={<SavingDetail savingType={1} />} />
-          <Route path="/saving/demand-deposit" element={<SavingDetail savingType={2} />} />
+          {/* Saving Pages for guestSaving Pages for guest */}
+          <Route path="/saving" element={<SavingHomepage />} />
+          <Route
+            path="/saving/term-deposit"
+            element={<SavingDetail savingType={1} />}
+          />
+          <Route
+            path="/saving/demand-deposit"
+            element={<SavingDetail savingType={2} />}
+          />
+          {/* Loan calculate util */}
           <Route path="/loancalculate" element={<LoanCalculate />} />
+          {/* Connect And Faq */}
+          <Route path="/connect-faq/connect" element={<Connect />} />
+          <Route path="/connect-faq/faq" element={<Faq />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
         </Route>
