@@ -12,6 +12,7 @@ import SignIn from "./features/guest/SignIn/SignIn";
 
 import Connect from "./features/guest/ConnectAndSupport/Connect/Connect";
 import SavingInterest from "./features/guest/SavingService/SavingInterest/SavingInterest";
+import SavingCalculate from "./features/guest/SavingService/SavingCalculate/SavingCalculate";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             element={<SavingDetail savingType={2} />}
           />
           <Route path="/saving/saving-interest" element={<SavingInterest />} />
+          {/* <Route path="/saving/savingcalculate" element={<SavingCalculate />} /> */}
           {/* Connect And Faq */}
           <Route path="/connect-faq/connect" element={<Connect />} />
           <Route path="/connect-faq/faq" element={<Faq />} />
