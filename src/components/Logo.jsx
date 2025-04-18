@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 
-function Logo() {
+function Logo({className}) {
   return (
-    <div className="w-10 h-10">
-      <Link to="/">
+    <div className={`w-10 h-10 ${className}`}>
+      <Link to="/" >
         <img
           src="/logo.png"
           alt="6PBank Logo"

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import GeneralLayout from "./layouts/GeneralLayout";
+import CustomerLayout from "./layouts/CustomerLayout";
 import HomePage from "./features/guest/Home/HomePage";
 import Faq from "./features/guest/ConnectAndSupport/Faq/Faq";
 import LoanHomepage from "./features/guest/LoanService/LoanHomepage";
@@ -54,6 +55,9 @@ function App() {
           <Route path="/connect-faq/faq" element={<Faq />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+        </Route>
+        <Route element={<CustomerLayout />}>
+          <Route path="/testCustomer" element={<div>Test</div>} />
         </Route>
       </Routes>
     </BrowserRouter>
