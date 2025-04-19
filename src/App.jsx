@@ -14,6 +14,8 @@ import HomePageCustomer from "./features/customer/Home/Homepage";
 import Connect from "./features/guest/ConnectAndSupport/Connect/Connect";
 import SavingInterest from "./features/guest/SavingService/SavingInterest/SavingInterest";
 import SavingCalculate from "./features/guest/SavingService/SavingCalculate/SavingCalculate";
+import SavingPage from "./features/customer/SavingService/SavingPage";
+import SavingDetailPage from "./features/customer/SavingService/SavingDetail/SavingDetailPage";
 
 function App() {
   return (
@@ -58,6 +60,8 @@ function App() {
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer" element={<HomePageCustomer />} />
+          <Route path="/customer/saving" element={<SavingPage />} />
+          <Route path="/customer/saving/:accountId" element={<SavingDetailPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -42,7 +42,7 @@ function HomePage() {
             <div className="w-full max-w-5xl mx-auto mt-4 p-4 ">
                 <h1 className="text-3xl font-semibold">Dịch vụ ngân hàng</h1>
                 <div className="flex gap-35 mt-10">
-                    <HomeButton link="/" label={<>Tiền gửi <br /> Tiết kiệm</> } icon={<BanknotesIcon className="text-emerald-500 w-15"/>}/>
+                    <HomeButton link="customer/saving" label={<>Tiền gửi <br /> Tiết kiệm</> } icon={<BanknotesIcon className="text-emerald-500 w-15"/>}/>
                     <HomeButton link="/" label={<>Danh sách <br />vay</>} icon={<DocumentTextIcon className="text-emerald-500 w-15"/>}/>
                 </div>
             </div>
