@@ -71,6 +71,57 @@ const calculateDecliningBalanceSchedule = (
   return { schedule, totals };
 };
 
+const calculateInterestOnlyBalloonSchedule = (
+  amount,
+  annualRate,
+  term,
+  startDateString
+) => {
+  const schedule = [];
+  const monthlyRate = annualRate / 12 / 100;
+  let totalInterestPaid = 0;
+  var startDate = new Date(startDateString);
+  if (isNaN(startDate.getTime())) {
+    startDate = new Date();
+    startDate.setHours(0, 0, 0, 0);
+  }
+
+  const monthlyInterestPayment = amount * monthlyRate;
+
+  for (let k = 1; k <= term; k++) {
+    const paymentDate = new Date(startDate);
+    paymentDate.setMonth(startDate.getMonth() + k);
+
+    let principalPayment = 0;
+    let totalPayment = monthlyInterestPayment;
+    const remainingBalanceStart = amount;
+
+    if (k === term) {
+      principalPayment = amount;
+      totalPayment = principalPayment + monthlyInterestPayment;
+    }
+
+    schedule.push({
+      period: k,
+      paymentDate: paymentDate.toISOString(),
+      remainingBalanceStart: remainingBalanceStart,
+      principalPayment: principalPayment,
+      interestPayment: monthlyInterestPayment,
+      totalPayment: totalPayment,
+    });
+
+    totalInterestPaid += monthlyInterestPayment;
+  }
+
+  const totals = {
+    totalPrincipal: amount,
+    totalInterest: totalInterestPaid,
+    totalRepayment: amount + totalInterestPaid,
+  };
+
+  return { schedule, totals };
+};
+
 function LoanCalculate() {
   const [inputs, setInputs] = useState({
     amount: "",
@@ -90,7 +141,7 @@ function LoanCalculate() {
   const [scheduleData, setScheduleData] = useState({
     schedule: [],
     totals: {},
-  }); // State for schedule
+  });
   const [canCalculate, setCanCalculate] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -117,40 +168,60 @@ function LoanCalculate() {
       term > 0 &&
       startDate
     ) {
-      const { schedule, totals } = calculateDecliningBalanceSchedule(
-        amount,
-        annualRate,
-        term,
-        startDate
-      );
-      setScheduleData({ schedule, totals });
-
+      let calculatedScheduleData = { schedule: [], totals: {} };
+      let calculatedResults = {
+        monthlyPayment: 0,
+        totalPrincipal: 0,
+        totalInterest: 0,
+        totalRepayment: 0,
+        method: "--",
+      };
       const monthlyRate = annualRate / 12 / 100;
-      let monthlyPayment = 0;
-      if (term > 0) {
-        if (monthlyRate > 0) {
-          monthlyPayment =
-            (amount * (monthlyRate * Math.pow(1 + monthlyRate, term))) /
-            (Math.pow(1 + monthlyRate, term) - 1);
-        } else {
-          monthlyPayment = amount / term;
+
+      if (term <= 12) {
+        calculatedScheduleData = calculateInterestOnlyBalloonSchedule(
+          amount,
+          annualRate,
+          term,
+          startDate
+        );
+        calculatedResults = {
+          monthlyPayment: amount * monthlyRate,
+          totalPrincipal: calculatedScheduleData.totals.totalPrincipal,
+          totalInterest: calculatedScheduleData.totals.totalInterest,
+          totalRepayment: calculatedScheduleData.totals.totalRepayment,
+          method: "Vay ngắn hạn (≤12 tháng)",
+        };
+      } else {
+        calculatedScheduleData = calculateDecliningBalanceSchedule(
+          amount,
+          annualRate,
+          term,
+          startDate
+        );
+
+        let annuityMonthlyPayment = 0;
+        if (term > 0) {
+          if (monthlyRate > 0) {
+            annuityMonthlyPayment =
+              (amount * (monthlyRate * Math.pow(1 + monthlyRate, term))) /
+              (Math.pow(1 + monthlyRate, term) - 1);
+          } else {
+            annuityMonthlyPayment = amount / term;
+          }
         }
+
+        calculatedResults = {
+          monthlyPayment: annuityMonthlyPayment,
+          totalPrincipal: calculatedScheduleData.totals.totalPrincipal,
+          totalInterest: calculatedScheduleData.totals.totalInterest,
+          totalRepayment: calculatedScheduleData.totals.totalRepayment,
+          method: "Vay trung/dài hạn (>12 tháng)",
+        };
       }
 
-      const totalRepaymentAnnuity = monthlyPayment * term;
-      const totalInterestAnnuity = totalRepaymentAnnuity - amount;
-
-      setResults({
-        monthlyPayment: monthlyPayment,
-        totalPrincipal: amount,
-        totalInterest: totalInterestAnnuity,
-        totalRepayment: totalRepaymentAnnuity,
-        method:
-          term > 12
-            ? "Vay trả góp (dư nợ giảm dần)"
-            : "Vay trả góp (dư nợ giảm dần)",
-      });
-
+      setScheduleData(calculatedScheduleData);
+      setResults(calculatedResults);
       setCanCalculate(true);
     } else {
       setResults({
@@ -185,7 +256,7 @@ function LoanCalculate() {
         }}
       >
         <div>
-          <p className="uppercase text-green-800 font-semibold text-4xl bg-white bg-opacity-70 p-2 rounded">
+          <p className="uppercase text-green-800 font-semibold text-4xl bg-opacity-70 p-2 rounded">
             Tính lịch trả nợ
           </p>
         </div>
