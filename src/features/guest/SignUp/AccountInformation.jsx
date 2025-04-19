@@ -1,3 +1,4 @@
+import { isEmailAvailable } from "../../../services/authService";
 // FormSections/AccountInfoSection.jsx
 export default function AccountInfoSection({ register, errors, watch }) {
   return (
@@ -25,6 +26,16 @@ export default function AccountInfoSection({ register, errors, watch }) {
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                 message: "Email không hợp lệ",
+              },
+              validate: async (value) => {
+                if (!value) return true; // If the field is empty, return true (no error)
+                try {
+                  await isEmailAvailable(value);
+
+                  return true;
+                } catch (error) {
+                  return error.message || "Không thể kiểm tra email"; // Default error message if
+                }
               },
             })}
           />
