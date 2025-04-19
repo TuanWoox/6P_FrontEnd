@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import GeneralLayout from "./layouts/GeneralLayout";
 import CustomerLayout from "./layouts/CustomerLayout";
-import HomePage from "./features/guest/Home/HomePage";
+import HomePageGuest from "./features/guest/Home/HomePage";
 import Faq from "./features/guest/ConnectAndSupport/Faq/Faq";
 import LoanHomepage from "./features/guest/LoanService/LoanHomepage";
 import LoanDetail from "./features/guest/LoanService/LoanDetail/LoanDetail";
@@ -10,7 +10,7 @@ import SavingDetail from "./features/guest/SavingService/SavingDetail/SavingDeta
 import LoanCalculate from "./features/guest/LoanService/LoanCalculate/LoanCalculate";
 import SignUp from "./features/guest/SignUp/SignUp";
 import SignIn from "./features/guest/SignIn/SignIn";
-
+import HomePageCustomer from "./features/customer/Home/Homepage";
 import Connect from "./features/guest/ConnectAndSupport/Connect/Connect";
 import SavingInterest from "./features/guest/SavingService/SavingInterest/SavingInterest";
 import SavingCalculate from "./features/guest/SavingService/SavingCalculate/SavingCalculate";
@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route element={<GeneralLayout />}>
           <Route path="/test" element={<div>Test</div>} />
-          <Route index element={<HomePage />} />
+          <Route index element={<HomePageGuest />} />
           <Route path="/faq" element={<Faq />} />
           {/*Loan routes*/}
           <Route path="/loan" element={<LoanHomepage />} />
@@ -57,7 +57,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
         </Route>
         <Route element={<CustomerLayout />}>
-          <Route path="/testCustomer" element={<div>Test</div>} />
+          <Route path="/customer" element={<HomePageCustomer />} />
         </Route>
       </Routes>
     </BrowserRouter>
