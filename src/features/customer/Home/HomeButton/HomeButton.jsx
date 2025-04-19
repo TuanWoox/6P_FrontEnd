@@ -9,7 +9,7 @@ function HomeButton({ icon, label, link }) {
         <div className="absolute inset-0 bg-emerald-300 rounded-full blur-md opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
         
         {/* Outer circle with gradient */}
-        <div className="bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-32 h-32 md:w-40 md:h-40 flex items-center justify-center shadow-lg group-hover:shadow-xl relative z-10 overflow-hidden">
+        <div className="bg-gradient-to-br from-emerald-400 to-green-500 rounded-full w-20 h-20 md:w-25 md:h-25 flex items-center justify-center shadow-lg group-hover:shadow-xl relative z-10 overflow-hidden">
           {/* Glossy overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-white to-transparent opacity-20"></div>
           
@@ -19,7 +19,7 @@ function HomeButton({ icon, label, link }) {
           </div>
           
           {/* Inner circle with animation */}
-          <div className="bg-white bg-opacity-20 rounded-full w-24 h-24 md:w-32 md:h-32 flex items-center justify-center backdrop-blur-sm group-hover:bg-opacity-30 transition-all duration-300">
+          <div className="bg-white bg-opacity-20 rounded-full w-24 h-24 md:w-20 md:h-20 flex items-center justify-center backdrop-blur-sm group-hover:bg-opacity-30 transition-all duration-300">
             {/* Icon with pulse animation on hover */}
             <div className="text-white transform transition-all duration-300 group-hover:scale-110 relative">
               {/* Pulse ring (appears on hover) */}

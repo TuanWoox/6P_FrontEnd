@@ -10,13 +10,13 @@ function SideBar() {
                 {/* Green sidebar container */}
                 <div className="bg-[#B7DC9D] p-4 rounded-xl w-full flex flex-col items-center h-full">
                 {/* VFB Logo */}
-                <div className=" w-full rounded-xl py-3 mb-4 flex flex-col items-center gap-5">
+                <div className=" w-full rounded-xl py-3 mb-3 flex flex-col items-center gap-2">
                     <h1 className="text-white text-5xl font-bold">6P Bank</h1>
                     <Logo />
                 </div>
                 
                 {/* User Info */}
-                <div className="bg-[#96C576] rounded-xl p-7 w-full flex flex-col items-center gap-4 mb-6">
+                <div className="bg-[#96C576] rounded-xl p-3 w-full flex flex-col items-center gap-1 mb-6">
                     <div className="rounded-full w-20 h-20 flex items-center justify-center mb-3">
                     <img
                         src="/avatar_default.png"
@@ -32,7 +32,7 @@ function SideBar() {
                 </div>
 
                 {/* Navigation */}
-                <div className="w-full flex flex-col gap-7">
+                <div className="w-full flex flex-col gap-3">
                     <ButtonSidebar icon={<ArrowsRightLeftIcon className="w-8" />} label="Chuyển tiền" link="transfer" />
                     <ButtonSidebar icon={<BuildingLibraryIcon className="w-8" />} label="Tài khoản" link="account" />
                     <ButtonSidebar icon={<CreditCardIcon className="w-8" />} label="Dịch vụ thẻ" link="card-services" />
@@ -41,7 +41,7 @@ function SideBar() {
                 </div>
 
                 {/* Logout button */}
-                <div className="mt-5 w-full pt-4">
+                <div className="mt-2 w-full pt-4">
                     <ButtonSidebar icon={<ArrowLeftEndOnRectangleIcon className="w-8" />} label="Đăng xuất" link="signout" type="logout" />
                 </div>
                 </div>
