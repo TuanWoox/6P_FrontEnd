@@ -4,14 +4,7 @@ import { ArrowPathIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import useOTPService from "../hooks/useOTPService";
 import useVerifyOTP from "../hooks/useVerifyOTP";
 
-const OtpModal = ({
-  isOpen,
-  setIsOpen,
-  action,
-  email,
-  phoneNumber,
-  onNextStep,
-}) => {
+const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
   const {
@@ -43,7 +36,7 @@ const OtpModal = ({
 
   useEffect(() => {
     if (isOpen) {
-      triggerOTPService({ email, phoneNumber });
+      triggerOTPService({ email });
     }
   }, [isOpen]); // Add isOpen to the dependency array
 
@@ -74,7 +67,7 @@ const OtpModal = ({
           Xác minh mã OTP
         </h2>
         <p className="text-gray-600 text-sm mb-4">
-          Nhập mã gồm 4 chữ số vừa được gửi đến số điện thoại của bạn.
+          Nhập mã gồm 4 chữ số vừa được gửi đến email của bạn
         </p>
 
         <div className="flex flex-col items-center gap-2 mb-4">
@@ -123,9 +116,7 @@ const OtpModal = ({
             className={`ml-1 text-blue-600 cursor-pointer hover:underline ${
               isSendingOTP ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            onClick={() =>
-              !isSendingOTP && triggerOTPService({ email, phoneNumber })
-            }
+            onClick={() => !isSendingOTP && triggerOTPService({ email })}
           >
             Gửi lại
           </span>

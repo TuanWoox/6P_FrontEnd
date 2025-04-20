@@ -3,6 +3,7 @@ import DropDownLink from "./DropDownLink";
 import Logo from "./Logo";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
 const servicesAndProducts = [
   { name: "Cho vay", link: "/loan" },
@@ -48,7 +49,7 @@ function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const searchContainerRef = useRef(null);
   const navigate = useNavigate();
-
+  const { isAuthenticated } = useAuthContext();
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -128,15 +129,25 @@ function Header() {
         tabOpen={tabOpen}
         setTabOpen={setTabOpen}
       />
-      <DropDownLink
-        icon={
-          <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
-        }
-        title="Người dùng"
-        items={User}
-        tabOpen={tabOpen}
-        setTabOpen={setTabOpen}
-      />
+      {isAuthenticated ? (
+        <Link
+          to="/customer"
+          className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out py-2 px-4 ms-auto"
+        >
+          <UserCircleIcon className="w-6 h-6" />
+        </Link>
+      ) : (
+        <DropDownLink
+          icon={
+            <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
+          }
+          title="Người dùng"
+          items={User}
+          tabOpen={tabOpen}
+          setTabOpen={setTabOpen}
+          className="py-2 px-4 ms-auto" // Add ms-auto here as well
+        />
+      )}
 
       {/* <a className="ms-auto" href="/signin">
         <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />

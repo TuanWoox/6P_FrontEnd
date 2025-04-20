@@ -1,11 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
-import { createSignUpOTP } from "../services/otpService";
+import { createLogInOTP, createSignUpOTP } from "../services/otpService";
 
 function otpActionService(action) {
   switch (action) {
     case "signUp":
       return createSignUpOTP;
     // You can add more cases here for other actions, e.g. login
+    case "logIn":
+      return createLogInOTP;
     default:
       throw new Error("Unsupported action");
   }
