@@ -16,6 +16,7 @@ import SavingInterest from "./features/guest/SavingService/SavingInterest/Saving
 import SavingCalculate from "./features/guest/SavingService/SavingCalculate/SavingCalculate";
 import SavingPage from "./features/customer/SavingService/SavingPage";
 import SavingDetailPage from "./features/customer/SavingService/SavingDetail/SavingDetailPage";
+import TransactionInquiry from "./features/customer/Transaction/TransactionInquiry";
 import LoanPage from "./features/customer/LoanService/LoanPage";
 import LoanDetailPage from "./features/customer/LoanService/LoanDetail/LoanDetailPage";
 
@@ -54,7 +55,6 @@ function App() {
           />
           <Route path="/saving/saving-interest" element={<SavingInterest />} />
           {/* <Route path="/saving/savingcalculate" element={<SavingCalculate />} /> */}
-          {/* Connect And Faq */}
           <Route path="/connect-faq/connect" element={<Connect />} />
           <Route path="/connect-faq/faq" element={<Faq />} />
           <Route path="/signup" element={<SignUp />} />
@@ -63,11 +63,11 @@ function App() {
         <Route element={<CustomerLayout />}>
           <Route path="/customer" element={<HomePageCustomer />} />
           <Route path="/customer/saving" element={<SavingPage />} />
+          <Route path="/customer/transaction" element={<TransactionInquiry />} />
           <Route
             path="/customer/saving/:accountId"
             element={<SavingDetailPage />}
           />
-          {/* Loan Pages */}
           <Route path="/customer/loan" element={<LoanPage />} />
           <Route path="/customer/loan/:loanId" element={<LoanDetailPage />} />
         </Route>

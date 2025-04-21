@@ -36,7 +36,7 @@ function SideBar() {
                     <ButtonSidebar icon={<ArrowsRightLeftIcon className="w-8" />} label="Chuyển tiền" link="transfer" />
                     <ButtonSidebar icon={<BuildingLibraryIcon className="w-8" />} label="Tài khoản" link="account" />
                     <ButtonSidebar icon={<CreditCardIcon className="w-8" />} label="Dịch vụ thẻ" link="card-services" />
-                    <ButtonSidebar icon={<WalletIcon className="w-8" />} label="Lịch sử giao dịch" link="transaction-history" />
+                    <ButtonSidebar icon={<WalletIcon className="w-8" />} label="Lịch sử giao dịch" link="customer/transaction" />
                     
                 </div>
 
