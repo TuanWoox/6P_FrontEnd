@@ -1,6 +1,6 @@
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { ArrowRightEndOnRectangleIcon } from '@heroicons/react/24/solid';
-
+import { Link } from "react-router";
 function SignIn() {
     return (
         <div className="flex items-center justify-center p-4 mt-4 mb-4 ">
@@ -38,14 +38,14 @@ function SignIn() {
                         <div className="mb-4 flex justify-between items-center">
                             <button
                                 type="submit"
-                                className="text-white bg-[#95C475] border-2 px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-white hover:text-[#95C475] hover:border-[#95C475]-2"
+                                className="text-white bg-[#95C475] border-2 px-6 py-2 rounded-xl flex items-center gap-2 hover:bg-white hover:text-[#95C475] hover:border-[#95C475]"
                             >
                                 <ArrowRightEndOnRectangleIcon className="w-6 h-6" />
                                 Đăng nhập
                             </button>
-                            <a href="#" className="hover:underline text-sm text-[#95C475] ">
+                            <Link to="/forgetpassword" className="hover:underline text-sm text-[#95C475] ">
                                 Quên mật khẩu?
-                            </a>
+                            </Link>
                         </div>
                     </form>
                     <p className="text-gray-600 text-sm">

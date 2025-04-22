@@ -19,6 +19,7 @@ import SavingDetailPage from "./features/customer/SavingService/SavingDetail/Sav
 import TransactionInquiry from "./features/customer/Transaction/TransactionInquiry";
 import LoanPage from "./features/customer/LoanService/LoanPage";
 import LoanDetailPage from "./features/customer/LoanService/LoanDetail/LoanDetailPage";
+import ForgetPassword from "./features/guest/ForgetPassword/ForgetPassword";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/connect-faq/faq" element={<Faq />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/forgetpassword" element={<ForgetPassword />} />
         </Route>
         <Route element={<CustomerLayout />}>
           <Route path="/customer" element={<HomePageCustomer />} />
