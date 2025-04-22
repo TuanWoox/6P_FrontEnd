@@ -25,7 +25,9 @@ export const isEmailAvailable = async (data) => {
 };
 export const checkAccount = async (data) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/checkAccount`, data);
+    const response = await axios.post(`${API_URL}/auth/checkAccount`, data, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     const errMsg =
@@ -36,7 +38,9 @@ export const checkAccount = async (data) => {
 
 export const logIn = async (data) => {
   try {
-    const response = await axiosAuth.post(`${API_URL}/auth/logIn`, data);
+    const response = await axios.post(`${API_URL}/auth/logIn`, data, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     const errMsg =

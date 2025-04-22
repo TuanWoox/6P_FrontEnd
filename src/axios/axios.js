@@ -3,7 +3,6 @@ import axios from "axios";
 
 // Create axios instance with default config
 const axiosAuth = axios.create({
-  baseURL: "/api",
   withCredentials: true, // For cookies
   headers: {
     "Content-Type": "application/json",

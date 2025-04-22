@@ -25,6 +25,7 @@ function SignIn() {
     login(data);
     setOtpModal(false);
   };
+
   const handleLogInClick = () => {
     handleSubmit(() => {
       setOtpModal(true);

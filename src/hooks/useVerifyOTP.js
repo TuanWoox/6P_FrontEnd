@@ -11,9 +11,6 @@ export default function useVerifyOTP() {
     data: verifyData,
   } = useMutation({
     mutationFn: (data) => verifyOTP(data),
-    onSuccess: (data) => {
-      console.log("OTP verified successfully:", data);
-    },
     onError: (error) => {
       console.error("Error verifying OTP:", error.message);
     },

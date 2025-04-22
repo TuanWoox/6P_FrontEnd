@@ -13,8 +13,13 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
     isSuccess,
     error,
   } = useOTPService();
-  const { verifyingOTP, isVerifyingLoading, isVerifyingSuccess, verifyError } =
-    useVerifyOTP();
+  const {
+    verifyingOTP,
+    isVerifyingLoading,
+    isVerifyingSuccess,
+    verifyError,
+    verifyData,
+  } = useVerifyOTP();
 
   const handleChange = (index, value) => {
     if (/^\d?$/.test(value)) {
@@ -42,7 +47,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
 
   useEffect(() => {
     if (isVerifyingSuccess) {
-      onNextStep();
+      onNextStep(verifyData.OTPToken);
     }
   }, [isVerifyingSuccess]);
 

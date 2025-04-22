@@ -11,9 +11,7 @@ export default function useCreateSignUpOTP() {
     data,
   } = useMutation({
     mutationFn: createOTP,
-    onSuccess: (data) => {
-      console.log("OTP sent successfully:", data);
-    },
+    onSuccess: (data) => {},
     onError: (error) => {
       console.error("Error sending OTP:", error.message);
     },

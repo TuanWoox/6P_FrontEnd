@@ -17,6 +17,7 @@ export const createOTP = async (data) => {
 export const verifyOTP = async (data) => {
   try {
     const response = await axios.get(`${API_URL}/otp/verifyOTP`, {
+      withCredentials: true,
       params: { otp: data.otp }, // Send OTP as query parameter
     });
     return response.data;
