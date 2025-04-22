@@ -10,8 +10,8 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
   const {
     triggerOTPService,
     isLoading: isSendingOTP,
-    isSuccess,
-    error,
+    isSuccess: isSendingOTPSuccess,
+    error: otpError,
   } = useOTPService();
   const {
     verifyingOTP,
@@ -47,7 +47,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
 
   useEffect(() => {
     if (isVerifyingSuccess) {
-      onNextStep(verifyData.OTPToken);
+      onNextStep();
     }
   }, [isVerifyingSuccess]);
 
@@ -91,11 +91,11 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
             ))}
           </div>
 
-          {verifyError?.message || error?.message ? (
+          {verifyError?.message || otpError?.message ? (
             <p className="text-sm text-red-500 mt-1">
-              {verifyError?.message || error?.message}
+              {verifyError?.message || otpError?.message}
             </p>
-          ) : isSuccess ? (
+          ) : isSendingOTPSuccess ? (
             <p className="text-sm text-green-600 mt-1 flex items-center gap-1">
               <CheckCircleIcon className="w-4 h-4 text-green-600" />
               OTP đã được gửi thành công!
@@ -121,7 +121,9 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
             className={`ml-1 text-blue-600 cursor-pointer hover:underline ${
               isSendingOTP ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            onClick={() => !isSendingOTP && triggerOTPService({ email })}
+            onClick={() =>
+              !isSendingOTP && triggerOTPService({ email, type: action })
+            }
           >
             Gửi lại
           </span>
