@@ -12,7 +12,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
     isLoading: isSendingOTP,
     isSuccess,
     error,
-  } = useOTPService(action);
+  } = useOTPService();
   const { verifyingOTP, isVerifyingLoading, isVerifyingSuccess, verifyError } =
     useVerifyOTP();
 
@@ -36,7 +36,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
 
   useEffect(() => {
     if (isOpen) {
-      triggerOTPService({ email });
+      triggerOTPService({ email, type: action });
     }
   }, [isOpen]); // Add isOpen to the dependency array
 

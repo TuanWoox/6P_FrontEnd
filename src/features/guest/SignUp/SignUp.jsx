@@ -6,8 +6,12 @@ import OtpModal from "../../../components/OTPModal";
 import PersonalInfoSection from "./PersonalInformation";
 import AccountInfoSection from "./AccountInformation";
 import ContactInfoSection from "./ContactInformation";
-
+import { useAuthContext } from "../../../context/AuthContext";
+import { Navigate } from "react-router";
+import Spinner from "../../../components/Spinner";
 function SignUp() {
+  const { isAuthenticated, loading: isAuthenticating } = useAuthContext();
+
   const { registerUser, isCreatingUser, isSuccess } = useSignUp();
 
   const {
@@ -37,6 +41,10 @@ function SignUp() {
     })();
   };
 
+  if (isAuthenticating) return <Spinner />;
+  if (isAuthenticated) {
+    return <Navigate to="/customer" replace />;
+  }
   const isAgree = watch("isAgree", false);
 
   return (
@@ -131,7 +139,7 @@ function SignUp() {
         <OtpModal
           isOpen={otpModal}
           setIsOpen={setOtpModal}
-          action="signUp"
+          action="register"
           email={watch("customer.email")}
           phoneNumber={watch("customer.phoneNumber")}
           onNextStep={onSubmit}

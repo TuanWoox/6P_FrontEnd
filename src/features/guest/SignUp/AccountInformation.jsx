@@ -31,7 +31,6 @@ export default function AccountInfoSection({ register, errors, watch }) {
                 if (!value) return true; // If the field is empty, return true (no error)
                 try {
                   await isEmailAvailable(value);
-
                   return true;
                 } catch (error) {
                   return error.message || "Không thể kiểm tra email"; // Default error message if

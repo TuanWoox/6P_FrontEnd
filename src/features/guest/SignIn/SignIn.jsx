@@ -7,6 +7,7 @@ import { useState } from "react";
 import OtpModal from "../../../components/OTPModal";
 import { useAuthContext } from "../../../context/AuthContext";
 import Spinner from "../../../components/Spinner";
+import { checkAccount } from "../../../services/authService";
 function SignIn() {
   const { login, loading } = useAuth();
   const { isAuthenticated, loading: isAuthenticating } = useAuthContext();
@@ -80,6 +81,16 @@ function SignIn() {
                   minLength: {
                     value: 6,
                     message: "Mật khẩu phải có ít nhất 6 ký tự",
+                  },
+                  validate: async () => {
+                    const email = watch("email");
+                    const password = watch("password");
+                    try {
+                      await checkAccount({ email, password });
+                      return true;
+                    } catch (error) {
+                      return error.message || "Không thể kiểm tra tài khoản"; // Default error message if
+                    }
                   },
                 })}
               />

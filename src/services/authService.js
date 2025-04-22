@@ -23,6 +23,17 @@ export const isEmailAvailable = async (data) => {
     throw { message: errMsg };
   }
 };
+export const checkAccount = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/checkAccount`, data);
+    return response.data;
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Không thể kiểm tra tài khoản";
+    throw { message: errMsg };
+  }
+};
+
 export const logIn = async (data) => {
   try {
     const response = await axiosAuth.post(`${API_URL}/auth/logIn`, data);
