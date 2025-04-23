@@ -7,6 +7,8 @@ import LoanInfoCard from "./LoanInfoCard";
 import loanData from "../loanData";
 import Loader from "../../../../components/Loader"; // Import your Loader component
 import CustomButton from "../../../../components/CustomButton";
+import loanHistoryData from "./LoanHistory/loanHistoryData";
+import LoanHistoryList from "./LoanHistory/LoanHistoryList";
 
 const title = "Khoản vay";
 
@@ -64,15 +66,23 @@ function LoanDetailPage() {
                   loanType={loanAccountData.loanType}
                 />
                 <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
-                <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129">
-                  <LoanInfoCard
-                    amount={loanAccountData.amount}
-                    paidAmount={loanAccountData.paidAmount}
-                    loanType={loanAccountData.loanType}
-                    startDate={loanAccountData.startDate}
-                    dueDate={loanAccountData.dueDate}
-                    monthlyPayment={loanAccountData.monthlyPayment}
-                  />
+                <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129 overflow-y-auto">
+                  {activeTab === "info" ? (
+                    <LoanInfoCard
+                      amount={loanAccountData.amount}
+                      paidAmount={loanAccountData.paidAmount}
+                      loanType={loanAccountData.loanType}
+                      startDate={loanAccountData.startDate}
+                      dueDate={loanAccountData.dueDate}
+                      monthlyPayment={loanAccountData.monthlyPayment}
+                    />
+                  ) : (
+                    <LoanHistoryList
+                      loanHistoryData={loanHistoryData.payments.filter(
+                        (item) => item.loan.loanID === loanId
+                      )}
+                    />
+                  )}
                 </div>
                 <CustomButton
                   name="THANH TOÁN"
