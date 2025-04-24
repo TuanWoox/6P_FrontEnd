@@ -1,17 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCheckingAccount, getAllCheckingAccount } from "../services/checkingAccountService";
-
-export function useGetCheckingAccount() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["checkingAccount"],
-    queryFn: getCheckingAccount,
-  });
-  return {
-    data,
-    isLoading,
-    error,
-  };
-}
+import { getAllCheckingAccount } from "../services/checkingAccountService";
 
 export default function useCheckingAccounts() {
   const {
@@ -30,4 +18,3 @@ export default function useCheckingAccounts() {
     retry: refetch,
   };
 }
-
