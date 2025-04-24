@@ -30,7 +30,7 @@ function SideBar() {
 
   return (
     <div className="w-90 p-3 m-3">
-      <div className="inner-homepage">
+      <div className="inner-homepage fixed">
         {/* Green sidebar container */}
         <div className="bg-[#B7DC9D] p-4 rounded-xl w-full flex flex-col items-center h-full">
           {/* VFB Logo */}
@@ -77,7 +77,7 @@ function SideBar() {
             <ButtonSidebar
               icon={<ArrowsRightLeftIcon className="w-8" />}
               label="Chuyển tiền"
-              link="transfer"
+              link="customer/transfer"
             />
             <ButtonSidebar
               icon={<BuildingLibraryIcon className="w-8" />}

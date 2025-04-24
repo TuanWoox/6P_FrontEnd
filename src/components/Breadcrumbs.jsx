@@ -26,7 +26,7 @@ function Breadcrumbs({ breadcrumbs }) {
                         {crumb.isCurrent ? (
                             <span className="text-gray-800">{crumb.label}</span>
                         ) : (
-                            <Link to={crumb.path} className="text-gray-600 hover:text-gray-800">
+                            <Link to={crumb.path} className="text-gray-600 transition duration-300 hover:text-[#96C576]">
                                 {crumb.label}
                             </Link>
                         )}

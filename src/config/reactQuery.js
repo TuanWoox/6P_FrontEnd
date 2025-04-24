@@ -7,7 +7,7 @@ const queryClient = new QueryClient({
       cacheTime: 1000 * 60 * 5, // 5 minutes
 
       // Stale time: how long to wait before considering data stale
-      staleTime: 10, // 10s
+      staleTime: 1000, // 10s
 
       // Retry failed requests
       retry: 3, // Retry up to 3 times

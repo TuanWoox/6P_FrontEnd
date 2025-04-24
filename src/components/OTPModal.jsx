@@ -121,7 +121,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
             className={`ml-1 text-blue-600 cursor-pointer hover:underline ${
               isSendingOTP ? "opacity-50 cursor-not-allowed" : ""
             }`}
-            onClick={() => !isSendingOTP && triggerOTPService({ email })}
+            onClick={() => !isSendingOTP && triggerOTPService({ email, type: action })}
           >
             Gửi lại
           </span>

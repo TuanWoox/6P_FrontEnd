@@ -2,14 +2,13 @@ import { HomeIcon } from "@heroicons/react/16/solid";
 import { Link } from "react-router";
 import TransactionItem from "./TransactionItem";
 import DataRangePicker from "./DateRangePicker";
-import { useState, useEffect } from "react";
-import transactions from "./transactionData"; 
+import { useState } from "react";
+import useTransactions from "../../../hooks/useTransactions"; // điều chỉnh path tùy project
 
 export default function TransactionInquiry() {
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
-    const [filter, setFilter] = useState('all');
-    const [filteredTransactions, setFilteredTransactions] = useState([]);
+    const [filter, setFilter] = useState("all");
 
     const filterButtons = [
         { label: 'Toàn bộ', value: 'all' },
@@ -17,32 +16,22 @@ export default function TransactionInquiry() {
         { label: 'Tiền ra', value: 'out' },
     ];
 
-    useEffect(() => {
-        let result = transactions;
-        if (filter !== "all") {
-            result = result.filter((tx) => tx.type === filter);
-        }
+    const {
+        filteredTransactions,
+        loading,
+        error,
+    } = useTransactions(fromDate, toDate, filter);  
 
-        if (fromDate) {
-            result = result.filter((tx) => new Date(tx.date) >= fromDate);
-        }
-
-        if (toDate) {
-            result = result.filter((tx) => new Date(tx.date) <= toDate);
-        }
-        setFilteredTransactions(result);
-      }, [filter, fromDate, toDate]);
-    
     const handleSubmit = () => {
         console.log('From:', fromDate, '\nTo:', toDate);
     };
+
     const resetFilters = () => {
         setFromDate(null);
         setToDate(null);
         setFilter('all');
-        setFilteredTransactions(transactions);
-    };
-
+      };
+      
     return (
         <>
             <h1 className="text-3xl text-[#333333] font-bold">Tra cứu giao dịch</h1>
@@ -69,17 +58,12 @@ export default function TransactionInquiry() {
                     <p className="text-xs w-full text-center mt-3">Quý khách có thể truy vấn xem lịch sử giao dịch trong vòng 1 năm với khoảng thời gian tối đa trong một lầm tìm kiếm là 31 ngày</p>
                     <div className="mt-4 w-full flex justify-center gap-3">
                         <button
-                            type="submit"
-                            className="w-full text-base max-w-24 bg-[#B7DC9D] cursor-pointer hover:bg-white hover:text-[#96C576] hover:border-[#96C576] border-2 border-[#B7DC9D] text-white font-semibold py-2 rounded-2xl transition duration-300">
-                            Tìm kiếm   
-                        </button>
-                        <button
                                 type="button"
                                 onClick={resetFilters}
                                 className="w-full text-base text-white max-w-24 bg-[#DA1E28] cursor-pointer hover:bg-white hover:text-[#DA1E28] border-2 border-[#DA1E28] font-medium py-2 px-4 rounded-2xl transition duration-300"
                             >
                                 Đặt lại
-                            </button>
+                        </button>
                     </div>
                 </div>
             </form>
@@ -106,14 +90,15 @@ export default function TransactionInquiry() {
             </div>
 
             <div className="flex flex-col gap-3 w-full max-w-4xl mx-auto bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-89 h-89 overflow-y-auto">
-            {filteredTransactions.length > 0 ? (
+            {loading ? (
+                <div className="text-center text-2xl py-8 text-gray-500">Đang tải dữ liệu...</div>
+            ) : error ? (
+                <div className="text-center text-2xl py-8 text-red-500">{error}</div>
+            ) : filteredTransactions.length > 0 ? (
                 filteredTransactions.map((tx) => (
-                    <TransactionItem
-                    key={tx.id}
-                    {...tx}
-                    />
+                    <TransactionItem key={tx._id} {...tx} />
                 ))
-                ) : (
+            ) : (
                 <div className="text-center text-2xl py-8 text-gray-500">
                     Không có giao dịch nào phù hợp với bộ lọc hiện tại
                 </div>
