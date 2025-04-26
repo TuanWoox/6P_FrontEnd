@@ -1,13 +1,15 @@
+import React from 'react';
+import { Fragment } from 'react';
 function StepBar({ StepBars, activeStep }) {
     const numberOfNodes = StepBars.length;
     return (
         <>
             {StepBars.map((stepBar, index) => (
-                <>
-                    <div className="flex items-center flex-col" key={index}>
+                <Fragment key={index}>
+                    <div className="flex items-center flex-col">
                         <div
-                            className={`w-7 h-7 rounded-full flex items-center justify-center 
-                                ${index <= activeStep ? 'bg-[#95C475] border-2 border-black' : 'bg-gray-300'}`}
+                            className={`w-10 h-10 rounded-full flex items-center justify-center 
+                                ${index <= activeStep ? 'bg-[#95C475] ' : 'bg-gray-300'}`}
                         >
                             <span className="text-white">{stepBar.number}</span>
                         </div>
@@ -27,8 +29,7 @@ function StepBar({ StepBars, activeStep }) {
                         />
                       </div>
                     )}
-                </>
-
+                </Fragment>
             ))}
         </>
     )
