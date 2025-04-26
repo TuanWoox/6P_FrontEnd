@@ -1,14 +1,15 @@
 // src/axios/axiosConfig.js
 import axios from "axios";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Create axios instance with default config
 const axiosAuth = axios.create({
+  baseURL: API_URL, // Thêm base URL của backend
   withCredentials: true, // For cookies
   headers: {
     "Content-Type": "application/json",
   },
 });
-const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Track if we're refreshing to avoid infinite loops
 let isRefreshing = false;
