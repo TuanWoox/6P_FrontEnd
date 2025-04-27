@@ -14,7 +14,7 @@ export default function CreateTransactionStep({
     const [amountError, setAmountError] = useState("");
     const accountOptions = accounts.map((acc) => ({
         value: acc.accountNumber,
-        label: `${acc.accountNumber} - Số dư: ${acc.balance.toLocaleString()} VND`,
+        label: `${acc.accountNumber} - Số dư khả dụng: ${acc.balance.toLocaleString()} VND`,
     }));
 
     const { data, error, isFetching, refetch } = useQuery(
@@ -69,13 +69,6 @@ export default function CreateTransactionStep({
                 onChange={(v) => handleInputChange("sourceAccount", v)}
                 options={accountOptions}
             />
-
-            <div className="text-right mt-2 mb-4">
-                <span className="text-sm text-gray-600">Số dư khả dụng: </span>
-                <span className="font-medium">
-                    {transactionDetails.balance.toLocaleString()} VND
-                </span>
-            </div>
 
             <InputField
                 label="Tài khoản người thụ hưởng"

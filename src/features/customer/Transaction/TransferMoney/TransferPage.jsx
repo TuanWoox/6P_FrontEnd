@@ -32,7 +32,7 @@ export default function TransferPage() {
             setTransactionDetails((td) => ({
                 ...td,
                 sourceAccount: accounts[0].accountNumber,
-                balance: accounts[0].balance.toString(),
+                balance: accounts[0].balance,
             }));
         }
     }, [accounts]);
@@ -82,6 +82,7 @@ export default function TransferPage() {
                     <ConfirmTransactionStep
                         transactionDetails={transactionDetails}
                         nextStep={nextStep}
+                        setTransactionDetails={setTransactionDetails}
                         preStep={preStep}
                         email={chosenAccount?.owner.email}
                     />

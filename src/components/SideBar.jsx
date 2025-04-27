@@ -19,8 +19,8 @@ export default function SideBar() {
 
     return (
         <div className="w-90 p-3 m-3">
-            <div className="inner-homepage">
-                <div className="bg-[#B7DC9D] p-4 rounded-xl w-full flex flex-col items-center h-full">
+            <div className="inner-homepage fixed min-w-fit ">
+                <div className="bg-[#B7DC9D] p-4 rounded-xl w-full flex flex-col items-center h-full shadow-gray-400/50 shadow-lg">
                     <div className="w-full rounded-xl py-3 mb-3 flex flex-col items-center gap-2">
                         <h1 className="text-white text-5xl font-bold">
                             6P Bank

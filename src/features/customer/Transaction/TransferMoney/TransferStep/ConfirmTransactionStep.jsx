@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import OtpModal from "../../../../../components/OTPModal";
 import Button from "../FormElements/Button";
 import TransactionDetail from "../FormElements/TransactionDetail";
@@ -6,11 +6,11 @@ import { useTransferMoney } from "../../../../../hooks/useTransferMoney";
 
 export default function ConfirmTransactionStep({
     transactionDetails,
+    setTransactionDetails, // cần thêm setter từ parent
     nextStep,
     preStep,
     email,
 }) {
-    // 1) Bring in your transfer mutation
     const {
         mutate: transfer,
         isLoading: isTransferring,
@@ -20,17 +20,19 @@ export default function ConfirmTransactionStep({
 
     const [otpModalOpen, setOtpModalOpen] = useState(false);
 
-    // 2) When OTP completes, fire the transfer mutation
     const handleOtpSuccess = useCallback(() => {
         transfer(transactionDetails);
     }, [transfer, transactionDetails]);
 
-    // 3) If transfer succeeded, call nextStep()
-    if (transferResult) {
-        nextStep();
-    }
-
-    // 4) If transferError, you can show it below
+    useEffect(() => {
+        if (transferResult) {
+            setTransactionDetails((td) => ({
+                ...td,
+                transactionId: transferResult.transactionID,
+            }));
+            nextStep();
+        }
+    }, [transferResult, nextStep, setTransactionDetails]);
     return (
         <>
             <div className="bg-gray-50 p-6 rounded-lg">
