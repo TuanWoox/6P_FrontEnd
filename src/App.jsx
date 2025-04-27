@@ -59,6 +59,9 @@ const LoanPage = lazy(() => import("./features/customer/LoanService/LoanPage"));
 const LoanDetailPage = lazy(() =>
   import("./features/customer/LoanService/LoanDetail/LoanDetailPage")
 );
+const ChangePassword = lazy(() =>
+  import("./features/customer/ChangePassword/ChangePassword")
+);
 
 function App() {
   return (
@@ -122,6 +125,10 @@ function App() {
                 <Route
                   path="/customer/loan/:loanId"
                   element={<LoanDetailPage />}
+                />
+                <Route
+                  path="/customer/change-password"
+                  element={<ChangePassword />}
                 />
                 <Route
                   path="/customer/loan/:loanId/payment/:paymentId"
