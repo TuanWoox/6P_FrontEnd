@@ -4,6 +4,7 @@ import useChangePassword from "../../../hooks/useChangePassword";
 import OtpModal from "../../../components/OTPModal";
 import { useState, useEffect } from "react";
 import { getEmail } from "../../../services/customerService";
+import ChangePasswordInput from "./ChangePasswordInput";
 
 function ChangePassword() {
   const {
@@ -34,12 +35,14 @@ function ChangePassword() {
 
   const handleChangePasswordClick = () => {
     handleSubmit((data) => {
+      console.log("Form data:", data); // Log the form data
       setFormData(data);
       setOtpModal(true);
     })();
   };
 
   const onNextStep = async () => {
+    console.log("Sending data to API:", formData); // Log the form data
     if (formData) {
       const success = await changePassword(
         formData.oldPassword,
@@ -78,63 +81,45 @@ function ChangePassword() {
 
       <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">
         <form className="space-y-4">
-          <div className="ralative">
-            <input
-              type="password"
-              placeholder="Mật khẩu hiện tại"
-              className="w-full border-0 border-b-2 border-gray-300 focus:border-[#95C475] focus:outline-none py-2 placeholder-gray-400"
-              {...register("oldPassword", {
-                required: "Vui lòng nhập mật khẩu hiện tại",
-                minLength: {
-                  value: 6,
-                  message: "Mật khẩu phải có ít nhất 6 ký tự",
-                },
-              })}
-            />
-            {errors.oldPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.oldPassword.message}
-              </p>
-            )}
-          </div>
+          <ChangePasswordInput
+            register={register}
+            errors={errors}
+            placeholder="Mật khẩu hiện tại"
+            required="Vui lòng nhập mật khẩu hiện tại"
+            name="oldPassword"
+            validation={{
+              minLength: {
+                value: 6,
+                message: "Mật khẩu phải có ít nhất 6 ký tự",
+              },
+            }}
+          />
 
-          <div className="mb-6">
-            <input
-              type="password"
-              placeholder="Mật khẩu mới"
-              className="w-full border-0 border-b-2 border-gray-300 focus:border-[#95C475] focus:outline-none py-2 placeholder-gray-400"
-              {...register("newPassword", {
-                required: "Vui lòng nhập mật khẩu mới",
-                minLength: {
-                  value: 6,
-                  message: "Mật khẩu phải có ít nhất 6 ký tự",
-                },
-              })}
-            />
-            {errors.newPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.newPassword.message}
-              </p>
-            )}
-          </div>
+          <ChangePasswordInput
+            register={register}
+            errors={errors}
+            placeholder="Mật khẩu mới"
+            required="Vui lòng nhập mật khẩu mới"
+            name="newPassword"
+            validation={{
+              minLength: {
+                value: 6,
+                message: "Mật khẩu phải có ít nhất 6 ký tự",
+              },
+            }}
+          />
 
-          <div className="mb-6">
-            <input
-              type="password"
-              placeholder="Xác nhận mật khẩu mới"
-              className="w-full border-0 border-b-2 border-gray-300 focus:border-[#95C475] focus:outline-none py-2 placeholder-gray-400"
-              {...register("confirmNewPassword", {
-                required: "Vui lòng xác nhận mật khẩu mới",
-                validate: (value) =>
-                  value === watch("newPassword") || "Mật khẩu không khớp",
-              })}
-            />
-            {errors.confirmNewPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.confirmNewPassword.message}
-              </p>
-            )}
-          </div>
+          <ChangePasswordInput
+            register={register}
+            errors={errors}
+            placeholder="Xác nhận mật khẩu mới"
+            required="Vui lòng xác nhận mật khẩu mới"
+            name="confirmNewPassword"
+            validation={{
+              validate: (value) =>
+                value === watch("newPassword") || "Mật khẩu mới không khớp",
+            }}
+          />
 
           <div className="mb-4 flex justify-between items-center">
             <button
