@@ -33,7 +33,7 @@ function LoanPage() {
       <InnerHeader title={title} breadcrumbs={loansListBreadcrumbs} />
       <div className="max-w-screen-lg mx-auto">
         <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
-        <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129 overflow-y-auto">
+        <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-140 overflow-y-auto">
           {activeTab === "loanlist" || activeTab === "closedloanlist" ? (
             <LoanList loanData={filteredLoans} />
           ) : (

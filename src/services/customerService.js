@@ -21,3 +21,16 @@ export const getEmail = async () => {
     throw { message: errMsg };
   }
 };
+
+export const getInformationForSideBar = async () => {
+  try {
+    const response = await axiosAuth.get(
+      `${API_URL}/customer/getSideBarInformation`
+    );
+    return response.data;
+  } catch (err) {
+    const errMsg =
+      err.response?.data?.message || "Không thể lấy thông tin cho SideBar";
+    throw { message: errMsg };
+  }
+};

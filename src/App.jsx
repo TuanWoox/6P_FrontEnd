@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import queryClient from "./config/reactQuery";
 import AuthProvider from "./context/AuthContext";
 import Spinner from "./components/Spinner";
+import LoanDetailHistory from "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory";
 
 // Lazy load layouts
 const GeneralLayout = lazy(() => import("./layouts/GeneralLayout"));
@@ -128,6 +129,10 @@ function App() {
                 <Route
                   path="/customer/change-password"
                   element={<ChangePassword />}
+                />
+                <Route
+                  path="/customer/loan/:loanId/payment/:paymentId"
+                  element={<LoanDetailHistory />}
                 />
               </Route>
             </Routes>
