@@ -5,10 +5,11 @@
   "proxy": "http://localhost:5000",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm:prettier:watch\" \"vite\"",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier:watch": "chokidar '**/*.{js,jsx,ts,tsx,json,css,html,md}' -i node_modules -c 'npx prettier --write --tab-width 4 {{path}}'"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -34,10 +35,17 @@
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "chokidar": "^4.0.3",
+    "concurrently": "^9.1.2",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "prettier": "^3.5.3",
     "vite": "^6.2.0"
+  },
+  "prettier": {
+    "tabWidth": 4
   }
+
 }

@@ -122,7 +122,7 @@ function SignIn() {
           </form>
           <p className="text-gray-600 text-sm">
             Chưa có tài khoản?{"  "}
-            <Link href="/signup" className="text-[#95C475] hover:underline">
+            <Link to="/signup" className="text-[#95C475] hover:underline">
               Đăng ký ngay
             </Link>
           </p>
