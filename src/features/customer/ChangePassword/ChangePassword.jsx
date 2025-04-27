@@ -103,6 +103,9 @@ function ChangePassword() {
                 value: 6,
                 message: "Mật khẩu phải có ít nhất 6 ký tự",
               },
+              validate: (value) =>
+                value !== watch("oldPassword") ||
+                "Mật khẩu mới không được trùng với mật khẩu hiện tại",
             }}
           />
 
