@@ -7,7 +7,7 @@ function LoanHistoryList({ loanHistoryData }) {
       {loanHistoryData &&
         Array.isArray(loanHistoryData) &&
         loanHistoryData.map((item, index) => (
-          <LoanHistoryItem key={item.paymentID || index} item={item} />
+          <LoanHistoryItem key={item._id || index} item={item} />
         ))}
       {(!loanHistoryData ||
         !Array.isArray(loanHistoryData) ||
