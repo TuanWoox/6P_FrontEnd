@@ -16,6 +16,7 @@ export default function SideBar() {
 
   const customerName = sidebarData?.fullName;
   const checkingAccount = sidebarData?.checkingAccount;
+  // console.log("SideBar", sidebarData);
 
   return (
     <div className="w-90 p-3 m-3">

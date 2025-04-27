@@ -15,6 +15,7 @@ export const getInformationForSideBar = async () => {
     const response = await axiosAuth.get(
       `${API_URL}/customer/getSideBarInformation`
     );
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     const errMsg =
