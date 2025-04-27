@@ -14,8 +14,9 @@ export default function SideBar() {
     const { logout, loading: authLoading } = useAuth();
     const { sidebarData, isLoading, error } = useFetchSideBar();
 
-    const customerName = sidebarData?.fullName;
-    const checkingAccount = sidebarData?.checkingAccount;
+
+  const customerName = sidebarData?.fullName;
+  const checkingAccount = sidebarData?.checkingAccount;
 
     return (
         <div className="w-90 p-3 m-3">

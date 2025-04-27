@@ -67,6 +67,9 @@ const LoanPage = lazy(() => import("./features/customer/LoanService/LoanPage"));
 const LoanDetailPage = lazy(
     () => import("./features/customer/LoanService/LoanDetail/LoanDetailPage"),
 );
+const ChangePassword = lazy(() =>
+  import("./features/customer/ChangePassword/ChangePassword")
+);
 
 function App() {
     return (
@@ -166,6 +169,37 @@ function App() {
                             </Route>
                         </Routes>
                     </Suspense>
+              <Route element={<CustomerLayout />}>
+                <Route path="/customer" element={<HomePageCustomer />} />
+                <Route path="/customer/saving" element={<SavingPage />} />
+                <Route
+                  path="/customer/saving/:accountId"
+                  element={<SavingDetailPage />}
+                />
+                <Route
+                  path="/customer/transaction"
+                  element={<TransactionInquiry />}
+                />
+                    <Route
+                                    path="/customer/transfer"
+                                    element={<TransferPage />}
+                                />
+                <Route path="/customer/loan" element={<LoanPage />} />
+                <Route
+                  path="/customer/loan/:loanId"
+                  element={<LoanDetailPage />}
+                />
+                <Route
+                  path="/customer/change-password"
+                  element={<ChangePassword />}
+                />
+                <Route
+                  path="/customer/loan/:loanId/payment/:paymentId"
+                  element={<LoanDetailHistory />}
+                />
+              </Route>
+            </Routes>
+          </Suspense>
 
                     {/* Devtools & Toasts */}
                     <ReactQueryDevtools initialIsOpen={false} />
