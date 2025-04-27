@@ -35,14 +35,12 @@ function ChangePassword() {
 
   const handleChangePasswordClick = () => {
     handleSubmit((data) => {
-      console.log("Form data:", data); // Log the form data
       setFormData(data);
       setOtpModal(true);
     })();
   };
 
   const onNextStep = async () => {
-    console.log("Sending data to API:", formData); // Log the form data
     if (formData) {
       const success = await changePassword(
         formData.oldPassword,
@@ -72,10 +70,9 @@ function ChangePassword() {
 
       <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">
         <p>
-          Mật khẩu truy cập phải đủ từ 8 đến 20 kí tự và không có dấu cách
-          (khoảng trống) bao gồm ít nhất 1 kí tự hoa (A, B, C, ... Z), 1 kí tự
-          thường (a, b, c, ... z), 1 kí tự số (0,1,2 ... 9), 1 kí tự đặc biệt
-          (@, #, $, % ...)
+          Mật khẩu truy cập phải đủ từ 6 kí tự và không được trùng với mật khẩu
+          cũ. Vui lòng không sử dụng các thông tin cá nhân như tên, ngày sinh,
+          số điện thoại làm mật khẩu.
         </p>
       </div>
 
