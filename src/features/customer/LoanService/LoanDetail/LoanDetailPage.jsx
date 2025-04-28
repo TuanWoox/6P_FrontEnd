@@ -1,86 +1,74 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import InnerHeader from "../../../../components/InnerHeader";
 import LoanAccountCard from "../../LoanService/LoanDetail/LoanAccountCard";
 import Tabs from "./Tabs";
 import LoanInfoCard from "./LoanInfoCard";
-import loanData from "../loanData";
-import Loader from "../../../../components/Loader"; // Import your Loader component
+import Loader from "../../../../components/Loader";
 import CustomButton from "../../../../components/CustomButton";
-import loanHistoryData from "./LoanHistory/loanHistoryData";
 import LoanHistoryList from "./LoanHistory/LoanHistoryList";
+import { useFetchLoanDetail } from "../../../../hooks/useFetchLoanDetail"; // Đường dẫn tới custom hook của bạn
+import { useState } from "react";
 
 const title = "Khoản vay";
 
 const loanDetailBreadcrumbs = [
   { label: "Trang chủ", path: "/customer", icon: true },
   { label: "Danh sách vay", path: "/customer/loan", icon: true },
-  { label: "Khoản vay", isCurrent: true }, // Mark the last item as current
+  { label: "Khoản vay", isCurrent: true },
 ];
 
 function LoanDetailPage() {
   const { loanId } = useParams();
-  const [activeTab, setActiveTab] = useState("info"); // Default to 'savinglist' (Danh sách)
+  const [activeTab, setActiveTab] = useState("info");
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
 
-  const [loanAccountData, setLoanAccountData] = useState(null);
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState(null); // State to handle errors
+  // Sử dụng custom hook để lấy chi tiết khoản vay
+  const { loanDetail, isLoading, isError, error } = useFetchLoanDetail(loanId);
 
-  useEffect(() => {
-    // In a real app, you'd fetch data from an API using accountId
-    // Example: fetch(`/api/savings/${accountId}`).then(...)
+  // loanDetail.loanTypeInterest.loanType.name
+  const loanTypeName = loanDetail?.loanTypeInterest?.loanType?.name;
 
-    // For now, find the data in the imported array
-    const foundAccount = loanData.find((account) => account.id === loanId);
+  const totalPaid = loanDetail?.loanPayments
+    ? loanDetail.loanPayments.reduce((sum, p) => sum + (p.amount || 0), 0)
+    : 0;
 
-    if (foundAccount) {
-      setLoanAccountData(foundAccount);
-      setLoading(false);
-    } else {
-      setError("Loan account not found.");
-      setLoading(false);
-    }
-
-    // Clean up effect if needed (e.g., abort fetch request)
-  }, [loanId]); // Re-run effect if accountId changes
+  console.log(loanDetail);
 
   return (
     <div className="mx-auto p-4">
       <InnerHeader title={title} breadcrumbs={loanDetailBreadcrumbs} />
       <div className="max-w-screen-md mx-auto">
-        {loading ? (
+        {isLoading ? (
           <Loader />
-        ) : error ? (
-          <p className="text-red-500">{error}</p>
+        ) : isError ? (
+          <p className="text-red-500">{error?.message || "Đã xảy ra lỗi"}</p>
         ) : (
           <>
-            {/* ✅ Di chuyển destructure vào đây */}
-            {loanAccountData && (
+            {loanDetail && (
               <>
                 <LoanAccountCard
-                  id={loanAccountData.id}
-                  loanType={loanAccountData.loanType}
+                  id={loanDetail._id || loanDetail.id}
+                  loanTypeName={loanTypeName}
                 />
                 <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
                 <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129 overflow-y-auto">
                   {activeTab === "info" ? (
                     <LoanInfoCard
-                      amount={loanAccountData.amount}
-                      paidAmount={loanAccountData.paidAmount}
-                      loanType={loanAccountData.loanType}
-                      startDate={loanAccountData.startDate}
-                      dueDate={loanAccountData.dueDate}
-                      monthlyPayment={loanAccountData.monthlyPayment}
+                      amount={loanDetail.balance}
+                      paidAmount={totalPaid}
+                      loanType={loanDetail.loanType}
+                      startDate={loanDetail.createdAt}
+                      dueDate={loanDetail.dueDate}
+                      monthlyPayment={loanDetail.monthlyPayment}
+                      loanTypeName={loanTypeName}
+                      status={loanDetail.status}
                     />
                   ) : (
                     <LoanHistoryList
-                      loanHistoryData={loanHistoryData.payments.filter(
-                        (item) => item.loan.loanID === loanId
-                      )}
+                      loanHistoryData={loanDetail.loanPayments || []}
                     />
                   )}
                 </div>

@@ -1,13 +1,13 @@
 import ProgressBar from "../../../../components/ProgressBar";
-import { formatCurrency } from "../../../../utils/helpers";
+import { formatCurrency, getTodayFormatted } from "../../../../utils/helpers";
 
 function LoanInfoCard({
   amount,
   paidAmount,
-  loanType,
   startDate,
-  dueDate,
   monthlyPayment,
+  loanTypeName,
+  status,
 }) {
   const remainingAmount = amount - paidAmount;
   const percentage = Math.round((paidAmount / amount) * 100);
@@ -21,19 +21,14 @@ function LoanInfoCard({
 
       <div className="flex justify-between items-center mb-4">
         <div className="text-gray-600">Loại vay</div>
-        <div className="font-medium">{loanType}</div>
+        <div className="font-medium">{loanTypeName}</div>
       </div>
 
       <div className="border-t border-gray-300 my-4"></div>
 
       <div className="flex justify-between items-center mb-4">
         <div className="text-gray-600">Ngày vay</div>
-        <div className="font-medium">{startDate}</div>
-      </div>
-
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-gray-600">Ngày hết hạn</div>
-        <div className="font-medium">{dueDate}</div>
+        <div className="font-medium">{getTodayFormatted(startDate)}</div>
       </div>
 
       <div className="border-t border-gray-300 my-4"></div>
@@ -60,9 +55,14 @@ function LoanInfoCard({
 
       <div className="flex justify-between items-center mb-4"></div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
         <div className="text-gray-600">Số tiền cần thanh toán hàng tháng</div>
         <div className="font-medium">{formatCurrency(monthlyPayment)} VND</div>
+      </div>
+
+      <div className="flex justify-between items-center mb-4">
+        <div className="text-gray-600">Trạng thái</div>
+        <div className="font-medium">{status}</div>
       </div>
     </div>
   );

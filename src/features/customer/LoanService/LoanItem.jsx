@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 
 function LoanItem({ item }) {
-  const { id, amount, dueDate, status } = item;
+  console.log("LoanItem", item);
+  const { _id: id, balance: amount, status } = item;
 
   // Format amount with commas
   const formattedAmount = amount.toLocaleString();
@@ -25,8 +26,7 @@ function LoanItem({ item }) {
               Số tiền vay: {formattedAmount} VND
             </p>
             <div className="flex justify-between items-center">
-              <p className="text-md text-gray-500">Ngày đến hạn: {dueDate}</p>
-              {status === "closed" && (
+              {status === "CLOSED" && (
                 <span className="text-red-500 text-xl font-bold">Đã đóng</span>
               )}
             </div>

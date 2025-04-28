@@ -10,11 +10,24 @@ export const getName = async () => {
     throw { message: errMsg };
   }
 };
+
+export const getEmail = async () => {
+  try {
+    const response = await axiosAuth.post(`${API_URL}/customer/getEmail`);
+    return response.data;
+  } catch (err) {
+    const errMsg =
+      err.response?.data?.message || "Không thể lấy email ngươi dùng";
+    throw { message: errMsg };
+  }
+};
+
 export const getInformationForSideBar = async () => {
   try {
     const response = await axiosAuth.get(
       `${API_URL}/customer/getSideBarInformation`
     );
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     const errMsg =
