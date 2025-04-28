@@ -1,22 +1,23 @@
 import SavingsList from "./SavingList";
 import Tabs from "./Tabs";
 import Breadcrumbs from "../../../components/Breadcrumbs.jsx";
-import savingsData from "./savingData.js";
 import AddSavingsProductContent from "./AddSavingProductContent.jsx";
-import products from "./productsData.js";
-import { useState } from "react";
 import InnerHeader from "../../../components/InnerHeader.jsx";
+import productsData from "./productsData.js"
+import { useState } from "react";
+import { useFetchSavingList } from "../../../hooks/useFetchSavingList"; 
 
-const title = "Danh Sách Tiết kiệm";
+const title = "Danh Sách Tiết Kiệm";
 
 const savingsListBreadcrumbs = [
   { label: "Trang chủ", path: "/customer", icon: true },
-  { label: "Danh sách tiết kiệm", isCurrent: true }, // Mark the last item as current
+  { label: "Danh sách tiết kiệm", isCurrent: true },
 ];
 
 function SavingPage() {
-  const [activeTab, setActiveTab] = useState("savinglist"); // Default to 'savinglist' (Danh sách)
+  const [activeTab, setActiveTab] = useState("savinglist");
 
+  const { savingList, isLoading, error } = useFetchSavingList(); 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -25,15 +26,22 @@ function SavingPage() {
     <div className="mx-auto p-4">
       <InnerHeader title={title} breadcrumbs={savingsListBreadcrumbs} />
       <div className="max-w-screen-lg mx-auto">
-        {" "}
-        {/* Added max-width and auto horizontal margins for centering */}
-        {/* Pass activeTab state and the change handler to Tabs */}
         <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
-        {/* Conditionally render content based on activeTab */}
-        {activeTab === "savinglist" ? ( // Use 'list' to match the state and tab prop
-          <SavingsList savingsData={savingsData} />
+
+        {activeTab === "savinglist" ? (
+          <>
+            {isLoading && (
+              <div className="text-center text-gray-500 py-8">Đang tải dữ liệu tiết kiệm...</div>
+            )}
+            {error && (
+              <div className="text-center text-red-500 py-8">Đã xảy ra lỗi khi tải dữ liệu.</div>
+            )}
+            {!isLoading && !error && (
+              <SavingsList savingsData={savingList || []} />
+            )}
+          </>
         ) : (
-          <AddSavingsProductContent products={products} />
+          <AddSavingsProductContent products={productsData} /> 
         )}
       </div>
     </div>

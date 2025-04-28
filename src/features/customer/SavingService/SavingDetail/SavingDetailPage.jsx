@@ -1,102 +1,76 @@
-import { useState, useEffect } from "react"; // Import useState and useEffect
-import { useParams } from "react-router-dom"; // Import useParams hook
+import { useParams } from "react-router-dom";
+import { useFetchSavingDetail } from "../../../../hooks/useFetchSavingDetail";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import SavingsDetailsCard from "./SavingsDetailsCard";
 import InterestInfoCard from "./InterestInfoCard";
 import CloseAccountButton from "./CloseAccountButton";
-
-// Import your data source
-// In a real application, you would likely fetch this data from an API
-import savingsData from "../savingData"; // Assuming this is your data source file
+import { differenceInDays } from "date-fns";
 
 function SavingDetailPage() {
-  // Get the accountId from the URL parameters
   const { accountId } = useParams();
+  const { savingDetail: rawSavingDetail, isLoading, isError, error } = useFetchSavingDetail(accountId);
 
-  // State to store the data for the specific savings account
-  const [savingAccountData, setSavingAccountData] = useState(null);
-  const [loading, setLoading] = useState(true); // State to handle loading
-  const [error, setError] = useState(null); // State to handle errors
-
-  useEffect(() => {
-    // In a real app, you'd fetch data from an API using accountId
-    // Example: fetch(`/api/savings/${accountId}`).then(...)
-
-    // For now, find the data in the imported array
-    const foundAccount = savingsData.find(
-      (account) => account.id === accountId
-    );
-
-    if (foundAccount) {
-      setSavingAccountData(foundAccount);
-      setLoading(false);
-    } else {
-      setError("Savings account not found.");
-      setLoading(false);
-    }
-
-    // Clean up effect if needed (e.g., abort fetch request)
-  }, [accountId]); // Re-run effect if accountId changes
-
-  // Define breadcrumb data dynamically based on the found account
-  const breadcrumbs = [
-    { label: "Trang chủ", path: "/customer", icon: true },
-    { label: "Danh sách tiết kiệm", path: "/customer/saving" },
-    // Use the account type for the last breadcrumb
-    {
-      label: savingAccountData ? savingAccountData.type : "Loading...",
-      isCurrent: true,
-    },
-  ];
-
-  if (loading) {
-    return <div className="text-center mt-8">Đang tải...</div>; // Loading state
+  if (isLoading) {
+    return <div className="text-center mt-8">Đang tải...</div>;
   }
 
-  if (error) {
-    return <div className="text-center mt-8 text-red-500">{error}</div>; // Error state
+  if (isError) {
+    return <div className="text-center mt-8 text-red-500">Lỗi: {error.message || "Không thể tải dữ liệu."}</div>;
   }
 
-  if (!savingAccountData) {
-    // This case should ideally be covered by the error state above,
-    // but added as a safeguard.
+  if (!rawSavingDetail) {
     return (
       <div className="text-center mt-8 text-red-500">
         Không tìm thấy dữ liệu tài khoản tiết kiệm.
       </div>
     );
   }
+  console.log("rawSavingDetail", rawSavingDetail);
 
-  // Now you have the specific savingAccountData object
-  // Use its properties to pass to the components
+  const principalAmount = rawSavingDetail.balance || 0;
+  const maturityPeriodMonths = rawSavingDetail.savingTypeInterest?.maturityPeriod || 0;
+  const monthlyInterestRate = rawSavingDetail.savingTypeInterest?.monthlyInterestRate || 0; 
 
-  // Data for the savings details card
+  const dateOpened = new Date(rawSavingDetail.dateOpened);
+  const today = new Date();
+  const dayDeposited = differenceInDays(today, dateOpened);
+
+  let interestEarned;
+  if (maturityPeriodMonths === 0) {
+    interestEarned = principalAmount * ((monthlyInterestRate / 100) / 30) * dayDeposited;
+    interestEarned = Math.max(0, interestEarned);
+
+  } else {
+    interestEarned = principalAmount * (monthlyInterestRate / 100) * maturityPeriodMonths;
+  }
+
+  const amountReceived = principalAmount + interestEarned;
+
+  const breadcrumbs = [
+    { label: "Trang chủ", path: "/customer", icon: true },
+    { label: "Danh sách tiết kiệm", path: "/customer/saving" },
+    { label: rawSavingDetail.savingTypeInterest?.savingType?.name || "Loading...", isCurrent: true },
+  ];
+
   const savingsDetails = {
-    type: savingAccountData.type,
-    term: savingAccountData.term,
-    accountNumber: savingAccountData.accountNumber,
-    amount: savingAccountData.amount,
-    daysDeposited: savingAccountData.daysDeposited,
+    type: rawSavingDetail.savingTypeInterest?.savingType?.name || "Không xác định",
+    term: maturityPeriodMonths ? `${maturityPeriodMonths} tháng` : "Không kỳ hạn",
+    accountNumber: rawSavingDetail.accountNumber,
+    amount: principalAmount.toLocaleString(),
+    daysDeposited: `${dayDeposited} ngày` || "Chưa có",
   };
 
-  // Data for the interest info card
   const interestInfo = {
-    interestRate: savingAccountData.interestRate,
-    interestEarned: savingAccountData.interestEarned,
-    amountReceived: savingAccountData.amountReceived,
+    interestRate: `${rawSavingDetail.savingTypeInterest?.annualInterestRate || 0}%/năm`,
+    interestEarned: Math.round(interestEarned).toLocaleString(),
+    amountReceived: Math.round(amountReceived).toLocaleString(), 
   };
 
   return (
     <div className="mx-auto p-4">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">Sổ tiết kiệm</h1>
-      {/* Pass the dynamically generated breadcrumbs */}
       <Breadcrumbs breadcrumbs={breadcrumbs} />
-
-      {/* Content Area with max-width and centering */}
       <div className="max-w-screen-md mx-auto">
-        {" "}
-        {/* Added max-width and centering for the main content block */}
-        {/* Pass the dynamically sourced data to the cards */}
         <SavingsDetailsCard {...savingsDetails} />
         <InterestInfoCard {...interestInfo} />
         <CloseAccountButton />
