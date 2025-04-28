@@ -35,12 +35,6 @@ const SavingInterest = lazy(
     () =>
         import("./features/guest/SavingService/SavingInterest/SavingInterest"),
 );
-const SavingCalculate = lazy(
-    () =>
-        import(
-            "./features/guest/SavingService/SavingCalculate/SavingCalculate"
-        ),
-);
 const Connect = lazy(
     () => import("./features/guest/ConnectAndSupport/Connect/Connect"),
 );
@@ -67,8 +61,8 @@ const LoanPage = lazy(() => import("./features/customer/LoanService/LoanPage"));
 const LoanDetailPage = lazy(
     () => import("./features/customer/LoanService/LoanDetail/LoanDetailPage"),
 );
-const ChangePassword = lazy(() =>
-  import("./features/customer/ChangePassword/ChangePassword")
+const ChangePassword = lazy(
+    () => import("./features/customer/ChangePassword/ChangePassword"),
 );
 
 function App() {
@@ -119,7 +113,6 @@ function App() {
                                     path="/saving/saving-interest"
                                     element={<SavingInterest />}
                                 />
-                                {/* <Route path="/saving/savingcalculate" element={<SavingCalculate />} /> */}
                                 <Route
                                     path="/connect-faq/connect"
                                     element={<Connect />}
@@ -166,40 +159,13 @@ function App() {
                                     path="/customer/loan/:loanId/payment/:paymentId"
                                     element={<LoanDetailHistory />}
                                 />
+                                <Route
+                                    path="/customer/change-password"
+                                    element={<ChangePassword />}
+                                />
                             </Route>
                         </Routes>
                     </Suspense>
-              <Route element={<CustomerLayout />}>
-                <Route path="/customer" element={<HomePageCustomer />} />
-                <Route path="/customer/saving" element={<SavingPage />} />
-                <Route
-                  path="/customer/saving/:accountId"
-                  element={<SavingDetailPage />}
-                />
-                <Route
-                  path="/customer/transaction"
-                  element={<TransactionInquiry />}
-                />
-                    <Route
-                                    path="/customer/transfer"
-                                    element={<TransferPage />}
-                                />
-                <Route path="/customer/loan" element={<LoanPage />} />
-                <Route
-                  path="/customer/loan/:loanId"
-                  element={<LoanDetailPage />}
-                />
-                <Route
-                  path="/customer/change-password"
-                  element={<ChangePassword />}
-                />
-                <Route
-                  path="/customer/loan/:loanId/payment/:paymentId"
-                  element={<LoanDetailHistory />}
-                />
-              </Route>
-            </Routes>
-          </Suspense>
 
                     {/* Devtools & Toasts */}
                     <ReactQueryDevtools initialIsOpen={false} />
