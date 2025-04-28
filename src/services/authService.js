@@ -23,6 +23,30 @@ export const isEmailAvailable = async (data) => {
     throw { message: errMsg };
   }
 };
+export const checkEmailAvailable = async (data) => {
+  try {
+    const response = await axios.get(`${API_URL}/auth/checkEmailAvailable`, {
+      params: { email: data },
+    });
+    return response.data;
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Không thể kiểm tra email";
+    throw { message: errMsg };
+  }
+}
+export const identityVerification = async (data) => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/identityVerification`, data, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Không thể xác thực danh tính";
+    throw { message: errMsg };
+  }
+}
 export const checkAccount = async (data) => {
   try {
     const response = await axios.post(`${API_URL}/auth/checkAccount`, data, {

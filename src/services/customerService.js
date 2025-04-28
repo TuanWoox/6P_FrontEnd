@@ -35,3 +35,25 @@ export const getInformationForSideBar = async () => {
     throw { message: errMsg };
   }
 };
+export const getCustomerID = async (data) => {
+  try {
+    const response = await axiosAuth.post(`${API_URL}/customer/getCustomerID`, data);
+    return response.data;
+  } catch (err) {
+    const errMsg =
+      err.response?.data?.message || "Không thể lấy ID người dùng";
+    throw { message: errMsg };
+  }
+}
+export const resetPassword = async (data) => {
+  try {
+    const response = await axiosAuth.post(`${API_URL}/customer/resetPassword`, data, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Không thể đặt lại mật khẩu";
+    throw { message: errMsg };
+  }
+};

@@ -113,7 +113,7 @@ function SignIn() {
                 {loading ? "Đang Đăng nhập" : "Đăng nhập"}
               </button>
               <Link
-                href="#"
+                to="/forget-password"
                 className="hover:underline text-sm text-[#95C475] "
               >
                 Quên mật khẩu?

@@ -40,7 +40,9 @@ const Connect = lazy(
 );
 const SignUp = lazy(() => import("./features/guest/SignUp/SignUp"));
 const SignIn = lazy(() => import("./features/guest/SignIn/SignIn"));
-
+const ForgetPassword = lazy(() =>
+  import("./features/guest/ForgetPassword/ForgetPassword")
+);
 // Lazy load customer feature components
 const HomePageCustomer = lazy(
     () => import("./features/customer/Home/HomePage"),
@@ -123,6 +125,7 @@ function App() {
                                 />
                                 <Route path="/signup" element={<SignUp />} />
                                 <Route path="/signin" element={<SignIn />} />
+                                <Route path="/forget-password" element={<ForgetPassword />} />
                             </Route>
 
                             {/* Customer Routes */}
