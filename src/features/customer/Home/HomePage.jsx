@@ -11,16 +11,16 @@ import { Link } from "react-router";
 import HomeButton from "./HomeButton/HomeButton";
 
 function HomePage() {
-  return (
-    <div className="homepage">
-      <form action="" className="mb-7">
-        <div className="relative w-full max-w-2xl mx-auto">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 text-gray-400 transform -translate-y-1/2" />
+    return (
+        <div className="homepage">
+            <form action="" className="mb-7">
+                <div className="relative w-full max-w-2xl mx-auto">
+                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 text-gray-400 transform -translate-y-1/2" />
 
-          <input
-            type="text"
-            placeholder="Tìm kiếm trong 6P Bank"
-            className="
+                    <input
+                        type="text"
+                        placeholder="Tìm kiếm trong 6P Bank"
+                        className="
                         w-full
                         text-lg
                         h-12

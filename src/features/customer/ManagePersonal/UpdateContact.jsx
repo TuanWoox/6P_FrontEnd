@@ -128,6 +128,7 @@ function UpdateContact() {
                                 required: "Vui lòng nhập email",
                                 pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: "Email không hợp lệ" },
                                 validate: async (value) => {
+                                    if (value === personalInfo?.customerProfile?.email) return true;
                                     if (!value) return true;
                                     try {
                                       await isEmailAvailable(value);

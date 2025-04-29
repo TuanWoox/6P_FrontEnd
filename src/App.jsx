@@ -8,6 +8,7 @@ import AuthProvider from "./context/AuthContext";
 import Spinner from "./components/Spinner";
 import LoanDetailHistory from "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory";
 import TransferPage from "./features/customer/Transaction/TransferMoney/TransferPage";
+import NewLoanPage from "./features/customer/LoanService/NewLoan/NewLoanPage";
 
 // Lazy load layouts
 const GeneralLayout = lazy(() => import("./layouts/GeneralLayout"));
@@ -166,6 +167,10 @@ function App() {
                                 <Route
                                     path="/customer/loan/:loanId/payment/:paymentId"
                                     element={<LoanDetailHistory />}
+                                />
+                                <Route
+                                    path="/customer/loan/new/"
+                                    element={<NewLoanPage />}
                                 />
                                 <Route
                                     path="/customer/change-password"
