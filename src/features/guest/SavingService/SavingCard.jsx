@@ -20,11 +20,11 @@ function SavingCard({
             </div>
             <div className="px-6 pb-4">
                 <div className="flex justify-between items-center">
-                    <button className="w-40 bg-green-700 hover:bg-green-800 text-white py-2 px-6 rounded-md">
+                    <button className="w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-6 rounded-md text-center">
                         Đăng ký
                     </button>
-                    <Link to={link} className="w-40 border border-green-400 text-green-500 py-2 px-6 rounded-md hover:bg-green-50">
-                    Tìm hiểu thêm
+                    <Link to={link} className="w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-6 rounded-md text-center">
+                        Tìm hiểu thêm
                     </Link>
                 </div>
             </div>

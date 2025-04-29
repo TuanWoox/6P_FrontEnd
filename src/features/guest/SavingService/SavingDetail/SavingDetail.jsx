@@ -43,8 +43,8 @@ function SavingDetail({ savingType }) {
             onClick={() => setProductInfo("Thông tin chung")}
             className={`pb-2 mr-6 cursor-pointer border-b-2 font-semibold text-2xl duration-600 ${
               productInfo === "Thông tin chung"
-                ? "border-green-500 text-green-500"
-                : "border-transparent text-gray-500 hover:border-green-500 hover:text-green-500"
+                ? "border-[#95C475] text-[#95C475]"
+                : "border-transparent text-gray-500 hover:border-[#95C475] hover:text-[#95C475]"
             }`}
           >
             <span>Thông tin chung</span>
@@ -55,8 +55,8 @@ function SavingDetail({ savingType }) {
             onClick={() => setProductInfo("Điều kiện tham gia")}
             className={`pb-2 cursor-pointer border-b-2 font-semibold text-2xl duration-600 ${
               productInfo === "Điều kiện tham gia"
-                ? "border-green-500 text-green-500"
-                : "border-transparent text-gray-500 hover:border-green-500 hover:text-green-500"
+                ? "border-[#95C475] text-[#95C475]"
+                : "border-transparent text-gray-500 hover:border-[#95C475] hover:text-[#95C475]"
             }`}
           >
             <span>Điều kiện tham gia</span>

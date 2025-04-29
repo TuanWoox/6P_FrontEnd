@@ -10,7 +10,7 @@ function SavingHomepage() {
                         "url('https://www.vietcombank.com.vn/-/media/Project/VCB-Sites/VCB/KHCN/San-pham-Dich-vu/Tiet-kiem/Danh-sach-tiet-kiem/Danh-sach-tiet-kiem-desktop/Herobanner-Tietkiem.jpg?h=1500&iar=0&w=3942&ts=20230607081424&hash=BA757FFB667CD87DFC8239B74448F5CE')"
                 }
                 }>
-                <p className="text-green-800 font-semibold text-4xl">
+                <p className="text-[#95C475] font-semibold text-4xl">
                     Tiết kiệm
                 </p>
                 <div className="w-1/4 mt-10">
@@ -21,7 +21,7 @@ function SavingHomepage() {
             </div>
             <div className="max-w-5xl mx-auto mt-10 mb-5 bg-gray-100 p-6 rounded-2xl">
                 {/* Header */}
-                <h2 className="text-3xl font-bold text-green-800 mb-8 text-center">Sản phẩm tiết kiệm</h2>
+                <h2 className="text-3xl font-bold text-[#95C475] mb-8 text-center">Sản phẩm tiết kiệm</h2>
 
                 {/* Cards container */}
                 <div className="flex flex-wrap justify-center gap-8">
