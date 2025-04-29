@@ -67,7 +67,12 @@ const LoanDetailPage = lazy(
 const ChangePassword = lazy(
     () => import("./features/customer/ChangePassword/ChangePassword"),
 );
-
+const PersonalInfor = lazy(
+    () => import("./features/customer/ManagePersonal/PersonalInfor"),
+);
+const UpdateContact = lazy(
+    () => import("./features/customer/ManagePersonal/UpdateContact"),
+);
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
@@ -170,6 +175,14 @@ function App() {
                                 <Route
                                     path="/customer/change-password"
                                     element={<ChangePassword />}
+                                />
+                                <Route
+                                    path="/customer/personal-infor"
+                                    element={<PersonalInfor />}
+                                />
+                                <Route
+                                    path="/customer/personal-infor/update-contact"
+                                    element={<UpdateContact />}
                                 />
                             </Route>
                         </Routes>

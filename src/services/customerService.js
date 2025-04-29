@@ -57,3 +57,25 @@ export const resetPassword = async (data) => {
     throw { message: errMsg };
   }
 };
+export const getPersonalInfo = async () => {
+  try {
+    const response = await axiosAuth.get(`${API_URL}/customer/getPersonalInfor`);
+    return response.data;
+  } catch (err) {
+    const errMsg =
+      err.response?.data?.message || "Không thể lấy thông tin cá nhân";
+    throw { message: errMsg };
+  }
+}
+export const updatePersonalInfo = async (data) => {
+  try {
+    const response = await axiosAuth.post(`${API_URL}/customer/updatePersonalInfor`, data, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    const errMsg =
+      error.response?.data?.message || "Không thể cập nhật thông tin cá nhân";
+    throw { message: errMsg };
+  }
+}
