@@ -4,6 +4,8 @@ import {
   BanknotesIcon,
   CurrencyDollarIcon,
   DocumentTextIcon,
+  Cog6ToothIcon,
+  
 } from "@heroicons/react/16/solid";
 import { Link } from "react-router";
 import HomeButton from "./HomeButton/HomeButton";
@@ -65,6 +67,20 @@ function HomePage() {
               </>
             }
             icon={<DocumentTextIcon className="text-emerald-500 w-15" />}
+          />
+        </div>
+      </div>
+      <div className="w-full max-w-5xl mx-auto mt-4 p-4 ">
+        <h1 className="text-3xl font-semibold">Tiện ích cài đặt</h1>
+        <div className="flex gap-35 mt-10">
+          <HomeButton
+            link="customer/personal-infor"
+            label={
+              <>
+                Thông tin <br /> Cá nhân 
+              </>
+            }
+            icon={<Cog6ToothIcon className="text-emerald-500 w-15" />}
           />
         </div>
       </div>

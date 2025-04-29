@@ -10,16 +10,6 @@ function ResetPassword({ onStepChange, formData, setResetStatus  }) {
     getValues,
     watch,
   } = useForm();
-  // const handleResetPassword = () => {
-  //   const { customerId } = formData;
-  //   handleSubmit(async (data) => {
-  //     resetPassw({
-  //       customerId,
-  //       newPassword: data.customer.newPassword,
-  //     });
-  //   })();
-  //   onStepChange(2); // Chuyển sang bước 2 sau khi đặt lại mật khẩu thành công
-  // }
   const handleResetPassword = () => {
     const { customerId } = formData;
     handleSubmit(async (data) => {
