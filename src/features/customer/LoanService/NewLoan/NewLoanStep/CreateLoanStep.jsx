@@ -17,8 +17,6 @@ function CreateLoanStep({ handleCreateLoanNext }) {
     const location = useLocation();
     const loanType = location.state?.product;
 
-    console.log("loanType", loanType);
-
     const accountOptions = accounts.map((acc) => ({
         value: acc.accountNumber,
         label: `${acc.accountNumber}`,
