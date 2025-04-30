@@ -1,14 +1,17 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { useFetchSavingDetail } from "../../../../hooks/useFetchSavingDetail";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
 import SavingsDetailsCard from "./SavingsDetailsCard";
 import InterestInfoCard from "./InterestInfoCard";
 import CloseAccountButton from "./CloseAccountButton";
+import WithdrawSaving from "../WithdrawSaving/WithdrawSaving";
 import { differenceInDays } from "date-fns";
 
 function SavingDetailPage() {
   const { accountId } = useParams();
   const { savingDetail: rawSavingDetail, isLoading, isError, error } = useFetchSavingDetail(accountId);
+  const [showWithdrawalConfirm, setShowWithdrawalConfirm] = useState(false);
 
   if (isLoading) {
     return <div className="text-center mt-8">Đang tải...</div>;
@@ -25,26 +28,44 @@ function SavingDetailPage() {
       </div>
     );
   }
-  console.log("rawSavingDetail", rawSavingDetail);
 
   const principalAmount = rawSavingDetail.balance || 0;
+  const monthlyInterestRate = rawSavingDetail.savingTypeInterest?.monthlyInterestRate || 0;
   const maturityPeriodMonths = rawSavingDetail.savingTypeInterest?.maturityPeriod || 0;
-  const monthlyInterestRate = rawSavingDetail.savingTypeInterest?.monthlyInterestRate || 0; 
+  const annualInterestRate = rawSavingDetail.savingTypeInterest?.annualInterestRate || 0;
+  const percentMoneyLose = rawSavingDetail.savingTypeInterest?.percentMoneyLose0 || 0;
 
   const dateOpened = new Date(rawSavingDetail.dateOpened);
   const today = new Date();
   const dayDeposited = differenceInDays(today, dateOpened);
 
+  const maturityDate = new Date(dateOpened);
+  maturityDate.setMonth(maturityDate.getMonth() + maturityPeriodMonths);
+
+  const remainingDays = differenceInDays(maturityDate, today);
+  const isMaturityDatePassed = remainingDays <= 0;
+
+  // Tính lãi suất
   let interestEarned;
   if (maturityPeriodMonths === 0) {
     interestEarned = principalAmount * ((monthlyInterestRate / 100) / 30) * dayDeposited;
-    interestEarned = Math.max(0, interestEarned);
-
   } else {
     interestEarned = principalAmount * (monthlyInterestRate / 100) * maturityPeriodMonths;
   }
+  interestEarned = Math.max(0, interestEarned);
 
-  const amountReceived = principalAmount + interestEarned;
+  const grossAmountReceived = principalAmount + interestEarned;
+
+  let penaltyAmount = 0;
+  let finalAmountReceived = grossAmountReceived;
+  const isEarlyWithdrawal = maturityPeriodMonths > 0 && !isMaturityDatePassed;
+
+  if (isEarlyWithdrawal) {
+    penaltyAmount = grossAmountReceived * (percentMoneyLose / 100);
+    finalAmountReceived = grossAmountReceived - penaltyAmount;
+  }
+
+  const closeButtonText = isEarlyWithdrawal ? "TẤT TOÁN TRƯỚC HẠN" : "TẤT TOÁN";
 
   const breadcrumbs = [
     { label: "Trang chủ", path: "/customer", icon: true },
@@ -57,13 +78,31 @@ function SavingDetailPage() {
     term: maturityPeriodMonths ? `${maturityPeriodMonths} tháng` : "Không kỳ hạn",
     accountNumber: rawSavingDetail.accountNumber,
     amount: principalAmount.toLocaleString(),
-    daysDeposited: `${dayDeposited} ngày` || "Chưa có",
+    daysDeposited: `${dayDeposited} ngày`,
+    remainingDays: `${remainingDays} ngày`,
+    maturityDate: maturityDate.toLocaleDateString("vi-VN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }),
   };
 
   const interestInfo = {
-    interestRate: `${rawSavingDetail.savingTypeInterest?.annualInterestRate || 0}%/năm`,
+    interestRate: `${annualInterestRate}%/năm`,
     interestEarned: Math.round(interestEarned).toLocaleString(),
-    amountReceived: Math.round(amountReceived).toLocaleString(), 
+    amountReceived: Math.round(grossAmountReceived).toLocaleString(),
+  };
+
+  const withdrawDetail = {
+    rawSavingDetail,
+    principalAmount,
+    today,
+    annualInterestRate,
+    finalAmountReceived,
+    isEarlyWithdrawal,
+    penaltyAmount,
+    onCancel: () => setShowWithdrawalConfirm(false),
+    onConfirm: () => alert("Xác nhận tất toán!"), // TODO: Add confirmation logic here
   };
 
   return (
@@ -71,9 +110,21 @@ function SavingDetailPage() {
       <h1 className="text-2xl font-bold text-gray-800 mb-4">Sổ tiết kiệm</h1>
       <Breadcrumbs breadcrumbs={breadcrumbs} />
       <div className="max-w-screen-md mx-auto">
-        <SavingsDetailsCard {...savingsDetails} />
-        <InterestInfoCard {...interestInfo} />
-        <CloseAccountButton />
+
+        {!showWithdrawalConfirm ? (
+          <>
+            <SavingsDetailsCard {...savingsDetails} />
+            <InterestInfoCard {...interestInfo} />
+            <CloseAccountButton
+              buttonText={closeButtonText}
+              onClick={() => setShowWithdrawalConfirm(true)}
+            />
+          </>
+        ) : (
+          <>
+            <WithdrawSaving {...withdrawDetail} />
+          </>
+        )}
       </div>
     </div>
   );
