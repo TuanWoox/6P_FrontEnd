@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import Button from "../Button";
+import { useNavigate } from "react-router";
 
 function CreateSavingStep({
     dispatch,
@@ -26,7 +27,7 @@ function CreateSavingStep({
             balance: state?.formData.balance,
         },
     });
-
+    const navigate = useNavigate();
     const selectedAccount = watch("accountNumber");
     const selectedSavingTypeId = watch("savingTypeId");
 
@@ -61,6 +62,14 @@ function CreateSavingStep({
         isSavingTypesLoading ||
         isInterestRatesLoading ||
         isDepositLoading;
+
+    // Validation for balance: ensures balance is <= available balance in checking account
+    const validateBalance = (value) => {
+        if (selectedAccountInfo && value > selectedAccountInfo.balance) {
+            return `Số tiền gửi không thể lớn hơn số dư tài khoản (${selectedAccountInfo.balance.toLocaleString("vi-VN")} VNĐ)`;
+        }
+        return true;
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -152,8 +161,14 @@ function CreateSavingStep({
                             </option>
                             {filteredInterestRates?.map((rate) => (
                                 <option key={rate._id} value={rate._id}>
-                                    {rate.maturityPeriod} tháng - Lãi suất{" "}
-                                    {rate.monthlyInterestRate}%
+                                    {rate.maturityPeriod > 0 ? (
+                                        <>
+                                            {rate.maturityPeriod} tháng - Lãi
+                                            suất {rate.monthlyInterestRate}%
+                                        </>
+                                    ) : (
+                                        <>Lãi suất {rate.dailyInterestRate}%</>
+                                    )}
                                 </option>
                             ))}
                         </select>
@@ -179,6 +194,7 @@ function CreateSavingStep({
                                         Infinity,
                                     message: `Tối đa là ${depositType?.maxDepositLimit?.toLocaleString("vi-VN")} VNĐ`,
                                 },
+                                validate: validateBalance, // Custom validation logic here
                             })}
                             className={inputStyle}
                             placeholder="Số tiền gửi"
@@ -193,7 +209,16 @@ function CreateSavingStep({
                     </div>
                 </div>
 
-                <div className="text-right mt-2">
+                <div className="flex flex-wrap justify-between">
+                    <Button
+                        type="submit"
+                        variant="outline"
+                        onClick={() => {
+                            navigate(-1);
+                        }}
+                    >
+                        Quay về
+                    </Button>
                     <Button type="submit" variant="primary" loading={isLoading}>
                         Tiếp tục
                     </Button>

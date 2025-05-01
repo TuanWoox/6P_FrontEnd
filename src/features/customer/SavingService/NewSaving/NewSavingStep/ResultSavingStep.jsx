@@ -2,65 +2,87 @@ import { useNavigate } from "react-router";
 import Button from "../Button";
 import StatusCard from "./StatusCard";
 
-function ResultSavingStep() {
+function ResultSavingStep({ data, error, interestsRate, savingTypes }) {
     const navigate = useNavigate();
+
+    const rate = interestsRate?.find(
+        (interestRate) => interestRate._id === data.savingTypeInterest,
+    );
+    const savingType = savingTypes?.find(
+        (saving) => saving._id === rate.savingType._id,
+    );
+
     return (
         <div className="max-w-2xl mx-auto p-4">
-            <StatusCard data={"Hi"} />
+            <StatusCard data={data} error={error} />
 
             {/* Phần 5: Chi tiết giao dịch */}
             <div className="bg-gray-100 rounded-lg p-6">
                 <div className="space-y-4">
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Tài khoản nhận</span>
-                        <span className="text-gray-800 font-medium">
-                            1048411145
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-600">Sản phẩm vay</span>
-                        <span className="text-gray-800 font-medium">
-                            Vay tiêu dùng
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-600">Tài khoản vay</span>
-                        <span className="text-gray-800 font-medium">
-                            CA0000050195612
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-600">Ngày vay</span>
-                        <span className="text-gray-600">Ngày hết hạn</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-800 font-medium">
-                            29/09/2024
-                        </span>
-                        <span className="text-gray-800 font-medium">
-                            29/09/2025
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-600">Lãi suất</span>
-                        <span className="text-gray-800 font-medium">
-                            4.8%/tháng
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
                         <span className="text-gray-600">
-                            Tổng thanh toán tạm tính
+                            Số tài khoản tiết kiệm
                         </span>
-                        <span className="text-red-600 font-medium">
-                            10.480.000 VND
+                        <span className="text-gray-800 font-medium">
+                            {data.accountNumber}
                         </span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Mã giao dịch</span>
+                        <span className="text-gray-600">Số tiền tiết kiệm</span>
                         <span className="text-gray-800 font-medium">
-                            735341100
+                            {data.balance}
                         </span>
                     </div>
+
+                    <div className="flex justify-between">
+                        <span className="text-gray-600">Ngày mở tài khoản</span>
+                        {rate.maturityPeriod > 0 && (
+                            <span className="text-gray-600">Ngày hết hạn</span>
+                        )}
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-800 font-medium">
+                            {new Date(data.createdAt).toLocaleDateString(
+                                "vi-VN",
+                            )}
+                        </span>
+                        {rate.maturityPeriod > 0 && (
+                            <span className="text-gray-800 font-medium">
+                                {new Date(
+                                    data.finishEarningDate,
+                                ).toLocaleDateString("vi-VN")}
+                            </span>
+                        )}
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600">Loại tiết kiệm</span>
+                        <span className="text-gray-800 font-medium">
+                            {savingType.name}
+                        </span>
+                    </div>
+                    {rate.maturityPeriod > 0 ? (
+                        <>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Kỳ hạn</span>
+                                <span className="text-gray-800 font-medium">
+                                    {rate.maturityPeriod} tháng
+                                </span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Lãi suất</span>
+                                <span className="text-gray-800 font-medium">
+                                    {rate.monthlyInterestRate}%/tháng
+                                </span>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Lãi suất</span>
+                            <span className="text-gray-800 font-medium">
+                                {rate.dailyInterestRate}%/ngày
+                            </span>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="flex justify-center items-center mt-6">

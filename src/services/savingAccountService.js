@@ -69,3 +69,15 @@ export const getAllSavingDepositTypes = async () => {
         throw { message: errMsg };
     }
 };
+export const createSavingAccount = async (data) => {
+    try {
+        const response = await axiosAuth.post(
+            `${API_URL}/savingAccount/createSavingAccount`,
+            data,
+        );
+        return response.data;
+    } catch (err) {
+        const errMsg = err.response?.data?.message || "Không thể tạo tài khoản";
+        throw { message: errMsg };
+    }
+};

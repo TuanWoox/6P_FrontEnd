@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button";
+import OtpModal from "../../../../../components/OTPModal";
 
-const ConfirmSavingStep = ({ state, interestsRate, savingTypes, dispatch }) => {
+const ConfirmSavingStep = ({
+    state,
+    interestsRate,
+    savingTypes,
+    dispatch,
+    personalInfo,
+    isCreatingSuccess,
+    createSavingAccountFn,
+}) => {
+    const [otpModal, setOtpModal] = useState(false);
+
+    useEffect(() => {
+        if (isCreatingSuccess) dispatch({ type: "NEXT_STEP" });
+    }, [isCreatingSuccess, dispatch]);
+
     // Find the selected saving type and interest rate
     const savingType = savingTypes?.find(
         (saving) => saving._id === state.formData.savingTypeId,
@@ -17,6 +32,11 @@ const ConfirmSavingStep = ({ state, interestsRate, savingTypes, dispatch }) => {
         state.formData.balance
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " VND";
+
+    const onNextStep = async () => {
+        await createSavingAccountFn(state.formData);
+        dispatch({ type: "NEXT_STEP" });
+    };
 
     return (
         <div className="p-4 max-w-3xl mx-auto">
@@ -44,26 +64,42 @@ const ConfirmSavingStep = ({ state, interestsRate, savingTypes, dispatch }) => {
                     <span className="font-semibold">{savingType?.name}</span>
                 </div>
 
-                <div className="flex justify-between">
-                    <span className="text-gray-600">Kỳ hạn</span>
-                    <span className="font-semibold">
-                        {rate?.maturityPeriod} tháng
-                    </span>
-                </div>
+                {rate && rate.maturityPeriod > 0 && (
+                    <div className="flex justify-between">
+                        <span className="text-gray-600">Kỳ hạn</span>
+                        <span className="font-semibold">
+                            {rate?.maturityPeriod} tháng
+                        </span>
+                    </div>
+                )}
 
                 <div className="flex justify-between">
                     <span className="text-gray-600">Lãi suất</span>
-                    <span className="font-semibold">
-                        {rate?.monthlyInterestRate}%/tháng
-                    </span>
+                    {rate ? (
+                        rate.maturityPeriod > 0 ? (
+                            <span className="font-semibold">
+                                {rate?.monthlyInterestRate}%/tháng
+                            </span>
+                        ) : (
+                            <span className="font-semibold">
+                                {rate?.dailyInterestRate}%/ngày
+                            </span>
+                        )
+                    ) : (
+                        <span className="font-semibold">N/A</span>
+                    )}
                 </div>
 
-                <div className="flex justify-between">
-                    <span className="text-gray-600">Lãi suất</span>
-                    <span className="font-semibold">
-                        {rate?.annualInterestRate}%/năm
-                    </span>
-                </div>
+                {rate && (
+                    <div className="flex justify-between">
+                        <span className="text-gray-600">
+                            Lãi suất (hàng năm)
+                        </span>
+                        <span className="font-semibold">
+                            {rate?.annualInterestRate}%/năm
+                        </span>
+                    </div>
+                )}
 
                 <hr className="my-4" />
 
@@ -72,6 +108,7 @@ const ConfirmSavingStep = ({ state, interestsRate, savingTypes, dispatch }) => {
                     ngày gửi tiền, ngày đến hạn sẽ được gửi đến địa chỉ thư điện
                     tử (email) mà Quý khách đã đăng ký với VFB
                 </p>
+
                 <div className="flex justify-between mt-6">
                     <Button
                         variant="outline"
@@ -85,13 +122,21 @@ const ConfirmSavingStep = ({ state, interestsRate, savingTypes, dispatch }) => {
                     <Button
                         variant="primary"
                         onClick={() => {
-                            dispatch({ type: "NEXT_STEP" });
+                            setOtpModal(true);
                         }}
                     >
                         Xác nhận
                     </Button>
                 </div>
             </div>
+
+            <OtpModal
+                isOpen={otpModal}
+                setIsOpen={setOtpModal}
+                action="createSavingAccount"
+                email={personalInfo.customerProfile.email}
+                onNextStep={onNextStep}
+            />
         </div>
     );
 };

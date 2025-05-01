@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import InnerHeader from "../../../../components/InnerHeader";
 import ProgressSteps from "../../LoanService/NewLoan/ProgressSteps";
 import CreateSavingStep from "./NewSavingStep/CreateSavingStep";
@@ -6,8 +6,10 @@ import { useFetchAllSavingTypes } from "../../../../hooks/useFetchAllSavingTypes
 import { useFetchAllSavingnterestRates } from "../../../../hooks/useFetchAllSavingnterestRates";
 import { useFetchDepositSavingTypes } from "../../../../hooks/useFetchDepositSavingTypes";
 import useCheckingAccounts from "../../../../hooks/useGetCheckingAccount";
+import { useFetchPersonalInfo } from "../../../../hooks/useFetchPersonalInfo";
 import ConfirmSavingStep from "./NewSavingStep/ConfirmSavingStep";
 import ResultSavingStep from "./NewSavingStep/ResultSavingStep";
+import useCreateSavingAccount from "../../../../hooks/useCreateSavingAccount";
 
 const title = "Danh sách Tiết Kiệm";
 
@@ -40,6 +42,7 @@ function savingReducer(state, action) {
             };
         case "RESET":
             return initialState;
+
         default:
             return state;
     }
@@ -72,6 +75,20 @@ function NewSavingPage() {
         isDepositLoading,
         depositError,
     } = useFetchDepositSavingTypes();
+    const {
+        newSavingAccount,
+        createSavingAccountFn,
+        isCreating,
+        isCreatingSuccess,
+        createError,
+    } = useCreateSavingAccount();
+    const { personalInfo, isLoading, error } = useFetchPersonalInfo();
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: "RESET" });
+        };
+    }, []);
 
     return (
         <div className="mx-auto p-4">
@@ -98,9 +115,19 @@ function NewSavingPage() {
                         interestsRate={interestRates}
                         savingTypes={savingTypes}
                         dispatch={dispatch}
+                        personalInfo={personalInfo}
+                        createSavingAccountFn={createSavingAccountFn}
+                        isCreatingSuccess={isCreatingSuccess}
                     />
                 )}
-                {step === 3 && <ResultSavingStep />}
+                {step === 3 && (
+                    <ResultSavingStep
+                        interestsRate={interestRates}
+                        savingTypes={savingTypes}
+                        data={newSavingAccount.newSavingAccount}
+                        error={createError}
+                    />
+                )}
             </div>
         </div>
     );
