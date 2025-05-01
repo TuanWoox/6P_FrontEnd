@@ -1,36 +1,18 @@
 import { useForm } from "react-hook-form";
-import useCheckingAccounts from "../../../../../hooks/useGetCheckingAccount";
-import { useFetchAllSavingTypes } from "../../../../../hooks/useFetchAllSavingTypes";
-import { useFetchAllSavingnterestRates } from "../../../../../hooks/useFetchAllSavingnterestRates";
-import { useFetchDepositSavingTypes } from "../../../../../hooks/useFetchDepositSavingTypes";
+import Button from "../Button";
 
-function CreateSavingStep() {
-    // Custom hooks for fetching data
-    const {
-        accounts = [],
-        loading: accountsLoading,
-        error: accountsError,
-    } = useCheckingAccounts();
-
-    const {
-        savingTypes = [],
-        isSavingTypesLoading,
-        savingTypesError,
-    } = useFetchAllSavingTypes();
-
-    const {
-        interestRate = [],
-        isInterestRateLoading,
-        interestRateError,
-    } = useFetchAllSavingnterestRates();
-
-    const {
-        savingDeposits = [],
-        isDepositLoading,
-        depositError,
-    } = useFetchDepositSavingTypes();
-
-    // Form setup
+function CreateSavingStep({
+    dispatch,
+    state,
+    accounts,
+    accountsLoading,
+    savingTypes,
+    isSavingTypesLoading,
+    interestRates,
+    isInterestRatesLoading,
+    savingDeposits,
+    isDepositLoading,
+}) {
     const {
         register,
         handleSubmit,
@@ -38,23 +20,21 @@ function CreateSavingStep() {
         formState: { errors },
     } = useForm({
         defaultValues: {
-            accountNumber: "",
-            savingTypeId: "",
-            term: "",
-            amount: "",
+            accountNumber: state?.formData.accountNumber,
+            savingTypeId: state?.formData.savingTypeId,
+            savingTypeInterest: state?.formData.savingTypeInterest,
+            balance: state?.formData.balance,
         },
     });
 
-    // Watched values
     const selectedAccount = watch("accountNumber");
     const selectedSavingTypeId = watch("savingTypeId");
 
-    // Derived data
     const selectedAccountInfo = accounts.find(
         (acc) => acc.accountNumber === selectedAccount,
     );
 
-    const filteredInterestRates = interestRate?.filter(
+    const filteredInterestRates = interestRates?.filter(
         (rate) => rate.savingType._id === selectedSavingTypeId,
     );
 
@@ -64,13 +44,11 @@ function CreateSavingStep() {
           )
         : null;
 
-    // Form submission handler
     const onSubmit = (data) => {
-        console.log("Form submitted:", data);
-        // Add your form submission logic here
+        dispatch({ type: "SET_FORM_DATA", payload: data });
+        dispatch({ type: "NEXT_STEP" });
     };
 
-    // Common styles
     const inputStyle =
         "w-full px-3 py-2 border-0 border-b border-gray-300 focus:outline-none focus:border-blue-500";
     const sectionStyle =
@@ -78,20 +56,17 @@ function CreateSavingStep() {
     const labelStyle = "text-gray-600 text-sm mb-2 block";
     const errorStyle = "text-red-500 text-sm mt-1";
 
-    // Loading states
     const isLoading =
         accountsLoading ||
         isSavingTypesLoading ||
-        isInterestRateLoading ||
+        isInterestRatesLoading ||
         isDepositLoading;
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="max-w-4xl mx-auto flex flex-col gap-6 p-4">
-                {/* Source Account Section */}
                 <div className={sectionStyle}>
                     <h3 className={labelStyle}>Tài khoản nguồn</h3>
-
                     <select
                         {...register("accountNumber", {
                             required: "Vui lòng chọn tài khoản",
@@ -117,7 +92,6 @@ function CreateSavingStep() {
                             {errors.accountNumber.message}
                         </p>
                     )}
-
                     <div className="text-right text-sm">
                         <span className="text-gray-500">Số dư khả dụng: </span>
                         <span className="text-blue-600 font-semibold">
@@ -130,12 +104,10 @@ function CreateSavingStep() {
                     </div>
                 </div>
 
-                {/* Section Heading */}
                 <h2 className="text-xl font-semibold text-gray-800">
                     Thông tin tiết kiệm
                 </h2>
 
-                {/* Saving Product Section */}
                 <div className={sectionStyle}>
                     <label className={labelStyle}>Sản phẩm tiết kiệm</label>
                     <select
@@ -162,44 +134,40 @@ function CreateSavingStep() {
                     )}
                 </div>
 
-                {/* Term and Amount Section */}
                 <div className={`${sectionStyle} space-y-10`}>
-                    {/* Term Selection */}
                     <div>
                         <label className={labelStyle}>Kỳ hạn</label>
                         <select
-                            {...register("term", {
+                            {...register("savingTypeInterest", {
                                 required: "Vui lòng chọn kỳ hạn",
                             })}
                             className={inputStyle}
                             defaultValue=""
                             disabled={
-                                !selectedSavingTypeId || isInterestRateLoading
+                                !selectedSavingTypeId || isInterestRatesLoading
                             }
                         >
                             <option value="" disabled>
                                 Chọn kỳ hạn
                             </option>
                             {filteredInterestRates?.map((rate) => (
-                                <option
-                                    key={rate._id}
-                                    value={rate.maturityPeriod}
-                                >
+                                <option key={rate._id} value={rate._id}>
                                     {rate.maturityPeriod} tháng - Lãi suất{" "}
                                     {rate.monthlyInterestRate}%
                                 </option>
                             ))}
                         </select>
-                        {errors.term && (
-                            <p className={errorStyle}>{errors.term.message}</p>
+                        {errors.savingTypeInterest && (
+                            <p className={errorStyle}>
+                                {errors.savingTypeInterest.message}
+                            </p>
                         )}
                     </div>
 
-                    {/* Amount Input */}
                     <div>
                         <label className={labelStyle}>Số tiền gửi</label>
                         <input
-                            {...register("amount", {
+                            {...register("balance", {
                                 required: "Vui lòng nhập số tiền",
                                 min: {
                                     value: depositType?.minDepositLimit || 0,
@@ -217,23 +185,18 @@ function CreateSavingStep() {
                             type="number"
                             disabled={!depositType || isDepositLoading}
                         />
-                        {errors.amount && (
+                        {errors.balance && (
                             <p className={errorStyle}>
-                                {errors.amount.message}
+                                {errors.balance.message}
                             </p>
                         )}
                     </div>
                 </div>
 
-                {/* Submit Button */}
                 <div className="text-right mt-2">
-                    <button
-                        type="submit"
-                        className="bg-[#96C576] text-white px-6 py-2 rounded-lg hover:bg-[#a0d37e] transition-colors"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? "Đang xử lý..." : "Tiếp tục"}
-                    </button>
+                    <Button type="submit" variant="primary" loading={isLoading}>
+                        Tiếp tục
+                    </Button>
                 </div>
             </div>
         </form>

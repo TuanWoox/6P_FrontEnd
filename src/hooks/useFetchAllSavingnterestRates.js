@@ -3,16 +3,16 @@ import { getAllSavingInterestRates } from "../services/savingAccountService";
 
 export function useFetchAllSavingnterestRates() {
     const {
-        data: interestRate,
-        isLoading: isInterestRateLoading,
-        error: interestRateError,
+        data: interestRates,
+        isLoading: isInterestRatesLoading,
+        error: interestRatesError,
     } = useQuery({
         queryFn: getAllSavingInterestRates,
         queryKey: ["savingInterestRates"],
     });
     return {
-        interestRate,
-        isInterestRateLoading,
-        interestRateError,
+        interestRates,
+        isInterestRatesLoading,
+        interestRatesError,
     };
 }
