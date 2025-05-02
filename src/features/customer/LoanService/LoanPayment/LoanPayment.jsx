@@ -42,6 +42,14 @@ function LoanPayment() {
         },
     ];
 
+    if (isLoading)
+        return <div className="text-center py-8">Đang tải tài khoản...</div>;
+    if (isError)
+        return (
+            <div className="text-center py-8 text-red-600">
+                Lỗi tải tài khoản: {error.message}
+            </div>
+        );
     return (
         <div>
             <InnerHeader title={title} breadcrumbs={paymentBreadcrumbs} />
@@ -57,7 +65,15 @@ function LoanPayment() {
                     />
                 )}
 
-                {currentStep === 2 && <ConfirmLoanPayment preStep={preStep} />}
+                {currentStep === 2 && (
+                    <ConfirmLoanPayment
+                        preStep={preStep}
+                        nextStep={nextStep}
+                        accounts={accounts}
+                        payments={loanDetail.loanPayments}
+                        paymentDetails={paymentDetails}
+                    />
+                )}
 
                 {currentStep === 3 && <ResultLoanPayment goToHome={goToHome} />}
             </div>
