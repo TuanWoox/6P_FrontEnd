@@ -84,7 +84,7 @@ function LoanDetailPage() {
                                     name="THANH TOÁN"
                                     width="w-full"
                                     height="h-12"
-                                    link="/"
+                                    link={`/customer/loan/${loanId}/process`}
                                 />
                             </>
                         )}
