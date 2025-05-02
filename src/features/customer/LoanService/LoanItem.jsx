@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 
 function LoanItem({ item }) {
-    const { _id: id, balance: amount, status } = item;
+    const { _id: id, balance: amount, status, accountNumber } = item;
 
     // Format amount with commas
     const formattedAmount = amount.toLocaleString();
@@ -18,7 +18,7 @@ function LoanItem({ item }) {
                 <div className="flex justify-between items-start mb-4">
                     <div>
                         <p className="text-xl text-gray-700 font-medium">
-                            {id}
+                            {accountNumber}
                         </p>
                     </div>
                     <div className="text-[#95C475] text-sm font-medium flex items-center">
