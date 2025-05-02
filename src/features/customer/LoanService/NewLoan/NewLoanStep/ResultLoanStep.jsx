@@ -1,7 +1,29 @@
 import CustomButton from "../../../../../components/CustomButton";
+import {
+    formatCurrency,
+    getTodayFormatted,
+} from "../../../../../utils/helpers";
 import Button from "../Button";
 
-function ResultLoanStep({ goToHome }) {
+function ResultLoanStep({ goToHome, loanData }) {
+    console.log("loanData", loanData);
+    const loanType = loanData.loanTypeInterest.loanType.name;
+
+    // Chuyển dateOpened từ string sang Date object
+    const openedDate = new Date(loanData.dateOpened);
+
+    // Tạo bản sao để không thay đổi ngày gốc
+    const dueDate = new Date(openedDate.getTime());
+
+    // Cộng thêm số tháng từ loanTerm
+    dueDate.setMonth(
+        dueDate.getMonth() + parseInt(loanData.loanTypeInterest.termMonths), // hoặc loanTerm nếu đúng tên trường
+    );
+
+    // Định dạng ngày theo "vi-VN"
+    const formattedDueDate = dueDate.toLocaleDateString("vi-VN");
+    console.log("formattedDueDate", formattedDueDate);
+
     return (
         <div className="max-w-2xl mx-auto p-4">
             <div className="bg-gray-100 rounded-lg p-6 mb-4 text-center">
@@ -13,7 +35,7 @@ function ResultLoanStep({ goToHome }) {
                     Cho vay thành công!
                 </div>
                 <div className="text-gray-600 text-sm">
-                    21:11 Thứ hai 29/09/2024
+                    {new Date().toLocaleDateString("vi-VN")}
                 </div>
             </div>
 
@@ -21,21 +43,15 @@ function ResultLoanStep({ goToHome }) {
             <div className="bg-gray-100 rounded-lg p-6">
                 <div className="space-y-4">
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Tài khoản nhận</span>
-                        <span className="text-gray-800 font-medium">
-                            1048411145
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
                         <span className="text-gray-600">Sản phẩm vay</span>
                         <span className="text-gray-800 font-medium">
-                            Vay tiêu dùng
+                            {loanType}
                         </span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-600">Tài khoản vay</span>
                         <span className="text-gray-800 font-medium">
-                            CA0000050195612
+                            {loanData.accountNumber}
                         </span>
                     </div>
                     <div className="flex justify-between">
@@ -44,30 +60,23 @@ function ResultLoanStep({ goToHome }) {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-800 font-medium">
-                            29/09/2024
+                            {getTodayFormatted(loanType.dateOpened)}
                         </span>
                         <span className="text-gray-800 font-medium">
-                            29/09/2025
+                            {formattedDueDate}
                         </span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-600">Lãi suất</span>
                         <span className="text-gray-800 font-medium">
-                            4.8%/tháng
+                            {loanData.loanTypeInterest.annualInterestRate}% /
+                            năm
                         </span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">
-                            Tổng thanh toán tạm tính
-                        </span>
+                        <span className="text-gray-600">Tổng thanh toán</span>
                         <span className="text-red-600 font-medium">
-                            10.480.000 VND
-                        </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-gray-600">Mã giao dịch</span>
-                        <span className="text-gray-800 font-medium">
-                            735341100
+                            {formatCurrency(loanData.balance)} VND
                         </span>
                     </div>
                 </div>

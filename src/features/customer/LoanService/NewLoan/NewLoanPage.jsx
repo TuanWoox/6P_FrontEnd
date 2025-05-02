@@ -42,9 +42,12 @@ function NewLoanPage() {
                         nextStep={nextStep}
                         preStep={preStep}
                         loanData={loanData} // <-- Truyền data sang ConfirmLoanStep
+                        handleCreateLoanNext={handleCreateLoanNext} // <-- Truyền hàm này để ConfirmLoanStep có thể gọi nextStep
                     />
                 )}
-                {currentStep === 3 && <ResultLoanStep goToHome={goToHome} />}
+                {currentStep === 3 && (
+                    <ResultLoanStep goToHome={goToHome} loanData={loanData} />
+                )}
             </div>
         </div>
     );
