@@ -17,12 +17,14 @@ function LoanPaymentStatus({
                     {new Date(dueDate).toLocaleDateString("vi-VN")}
                 </span>
             </div>
-            <div className="mb-2">
-                <span className="text-gray-600">Ngày thanh toán: </span>
-                <span className="font-medium text-gray-800">
-                    {new Date(paymentDate).toLocaleDateString("vi-VN")}
-                </span>
-            </div>
+            {paymentDate && (
+                <div className="mb-2">
+                    <span className="text-gray-600">Ngày thanh toán: </span>
+                    <span className="font-medium text-gray-800">
+                        {new Date(paymentDate).toLocaleDateString("vi-VN")}
+                    </span>
+                </div>
+            )}
             <div className="mb-2">
                 <span className="text-gray-600">Trạng thái: </span>
                 <span
@@ -31,11 +33,19 @@ function LoanPaymentStatus({
                     {status}
                 </span>
             </div>
-            {overdueDays > 0 && (
+            {overdueDays !== null && overdueDays > 0 && (
+                <div className="mb-2">
+                    <span className="text-gray-600">Số ngày còn lại: </span>
+                    <span className="font-medium text-green-500">
+                        {overdueDays}
+                    </span>
+                </div>
+            )}
+            {overdueDays !== null && overdueDays < 0 && (
                 <div className="mb-2">
                     <span className="text-gray-600">Số ngày quá hạn: </span>
                     <span className="font-medium text-red-500">
-                        {overdueDays}
+                        {overdueDays * -1} Ngày
                     </span>
                 </div>
             )}

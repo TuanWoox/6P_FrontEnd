@@ -2,6 +2,7 @@ import Button from "../FormElements/Button";
 import InputField from "../FormElements/InputField";
 import SelectField from "../FormElements/SelectField";
 import LoanPaymentStatus from "../FormElements/LoanPaymentStatus";
+import { useEffect } from "react";
 
 function CreateLoanPayment({
     nextStep,
@@ -27,16 +28,22 @@ function CreateLoanPayment({
     const chosenAccount = accounts.find(
         (acc) => acc.accountNumber === paymentDetails.sourceAccount,
     );
+
     const isInsufficientBalance =
         chosenAccount && chosenPayment
             ? chosenAccount.balance < chosenPayment.amount
             : false;
 
+    useEffect(() => {
+        if (chosenPayment) {
+            handleInputChange("amount", chosenPayment.amount);
+        }
+    }, [chosenPayment, handleInputChange]);
     return (
         <div className="bg-gray-50 p-6 rounded-lg space-y-4">
             {allPaymentsPaid ? (
                 <p className="text-green-500 text-lg font-semibold">
-                    You have paid all the payments of this loan.
+                    Chúc mừng bạn đã thanh toán hết khoản vay này!
                 </p>
             ) : (
                 <>
@@ -48,8 +55,8 @@ function CreateLoanPayment({
                     />
                     {isInsufficientBalance && (
                         <p className="text-red-500 text-sm">
-                            Your account does not have enough money for this
-                            payment.
+                            Tài khoản của bạn không đủ tiền cho khoản thanh toán
+                            này.
                         </p>
                     )}
                     <SelectField
@@ -62,9 +69,8 @@ function CreateLoanPayment({
                         <LoanPaymentStatus
                             amount={chosenPayment.amount}
                             dueDate={chosenPayment.dueDate}
-                            paymentDate={chosenPayment.paymentDate}
-                            status={chosenPayment.status}
                             overdueDays={chosenPayment.overdueDays}
+                            status={chosenPayment.status}
                         />
                     )}
                     <Button

@@ -7,6 +7,7 @@ import ConfirmLoanPayment from "./PaymentStep/ConfirmLoanPayment.jsx";
 import ResultLoanPayment from "./PaymentStep/ResultLoanPayment.jsx";
 import useCheckingAccounts from "../../../../hooks/useGetCheckingAccount.js";
 import { useFetchLoanDetail } from "../../../../hooks/useFetchLoanDetail.js";
+import { useUpdateLoanPaymentsQuery } from "../../../../hooks/useUpdateLoanPayments.js";
 
 function LoanPayment() {
     const title = "Thanh toán khoản vay";
@@ -27,7 +28,14 @@ function LoanPayment() {
             [field]: value,
         }));
     }, []);
-    const nextStep = () => setCurrentStep((step) => step + 1);
+
+    const { isLoading: isUpdating, isError: isUpdateError } =
+        useUpdateLoanPaymentsQuery(loanId);
+
+    const nextStep = async () => {
+        setCurrentStep((step) => step + 1);
+    };
+
     const preStep = () => setCurrentStep((step) => step - 1);
     const goToHome = () => setCurrentStep(1);
 
@@ -42,12 +50,12 @@ function LoanPayment() {
         },
     ];
 
-    if (isLoading)
+    if (isLoading || isUpdating)
         return <div className="text-center py-8">Đang tải tài khoản...</div>;
-    if (isError)
+    if (isError || isUpdateError)
         return (
             <div className="text-center py-8 text-red-600">
-                Lỗi tải tài khoản: {error.message}
+                Lỗi tải tài khoản: {error?.message}
             </div>
         );
     return (
@@ -75,7 +83,12 @@ function LoanPayment() {
                     />
                 )}
 
-                {currentStep === 3 && <ResultLoanPayment goToHome={goToHome} />}
+                {currentStep === 3 && (
+                    <ResultLoanPayment
+                        goToHome={goToHome}
+                        paymentDetails={paymentDetails}
+                    />
+                )}
             </div>
         </div>
     );

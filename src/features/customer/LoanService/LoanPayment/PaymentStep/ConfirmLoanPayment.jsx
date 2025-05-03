@@ -1,9 +1,9 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../FormElements/Button";
 import LoanPaymentStatus from "../FormElements/LoanPaymentStatus";
 import OtpModal from "../../../../../components/OTPModal";
 import { getEmail } from "../../../../../services/customerService";
+import { useLoanPayment } from "../../../../../hooks/useLoanPayment";
 
 function ConfirmLoanPayment({
     preStep,
@@ -13,6 +13,9 @@ function ConfirmLoanPayment({
     paymentDetails,
 }) {
     const [otpModal, setOtpModal] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
+
+    const { mutate: loanPayment } = useLoanPayment();
 
     const chosenPayment = payments.find(
         (pay) => pay._id === paymentDetails.targetPayment,
@@ -20,8 +23,6 @@ function ConfirmLoanPayment({
     const chosenAccount = accounts.find(
         (acc) => acc.accountNumber === paymentDetails.sourceAccount,
     );
-
-    const [userEmail, setUserEmail] = useState("");
 
     useEffect(() => {
         const fetchEmail = async () => {
@@ -38,6 +39,25 @@ function ConfirmLoanPayment({
     const handleClickConfirm = () => {
         setOtpModal(true);
     };
+
+    const handleOtpSuccess = () => {
+        const paymentData = {
+            sourceAccount: paymentDetails.sourceAccount,
+            targetPayment: paymentDetails.targetPayment,
+            amount: paymentDetails.amount,
+        };
+
+        loanPayment(paymentData, {
+            onSuccess: () => {
+                console.log("Thanh toán thành công!");
+                nextStep();
+            },
+            onError: (error) => {
+                console.error("Lỗi thanh toán:", error.message);
+            },
+        });
+    };
+
     return (
         <div>
             <p className="text-2xl font-semibold mb-4">
@@ -100,9 +120,9 @@ function ConfirmLoanPayment({
             <OtpModal
                 isOpen={otpModal}
                 setIsOpen={setOtpModal}
-                action="change-password"
+                action="loan-payment"
                 email={userEmail}
-                onNextStep={nextStep}
+                onNextStep={handleOtpSuccess}
             />
         </div>
     );
