@@ -49,7 +49,7 @@ export default function SideBar() {
                             6P Bank
                         </h1>
                         <div className="animate-spin-slow">
-                            <Logo />
+                            <Logo to="customer" />
                         </div>
                     </div>
 

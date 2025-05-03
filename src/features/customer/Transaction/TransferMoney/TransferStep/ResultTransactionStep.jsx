@@ -11,7 +11,7 @@ export default function ResultTransactionStep({
                 <div className="w-2 h-2 bg-green-500 rounded-full mx-auto my-2"></div>
                 <h2 className="text-xl font-medium">Giao dịch thành công!</h2>
                 <div className="text-red-600 font-bold text-2xl my-2">
-                    {transactionDetails.amount.toLocaleString()} VND
+                    {Number(transactionDetails.amount).toLocaleString()} VND
                 </div>
                 <div className="text-gray-500 text-sm">
                     21:11 Thứ năm 16/10/2024

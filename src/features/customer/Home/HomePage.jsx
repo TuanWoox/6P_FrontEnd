@@ -112,7 +112,7 @@ function HomePage() {
                         link="customer/change-password"
                         label={
                             <>
-                                Đổi mật khẩu <br /> tài khoản
+                                Cài đặt <br /> mật khẩu
                             </>
                         }
                         icon={
