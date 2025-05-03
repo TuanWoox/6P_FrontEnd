@@ -81,3 +81,17 @@ export const createSavingAccount = async (data) => {
         throw { message: errMsg };
     }
 };
+export const withdrawSavingAccount = async (data) => {
+    try {
+        console.log(data);
+        const response = await axiosAuth.post(
+            `${API_URL}/savingAccount/withdrawSaving/${data.savingAccountNumber}`,
+        );
+        return response.data;
+    } catch (err) {
+        console.log(err);
+        const errMsg =
+            err.response?.data?.message || "Không thể tất toán tiết kiệm";
+        throw { message: errMsg };
+    }
+};
