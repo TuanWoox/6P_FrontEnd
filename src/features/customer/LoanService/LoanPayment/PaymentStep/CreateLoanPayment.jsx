@@ -10,6 +10,7 @@ function CreateLoanPayment({
     payments,
     paymentDetails,
     handleInputChange,
+    moneyAddOnOverdue,
 }) {
     const unpaidPayments = payments.filter((pay) => pay.status !== "PAID");
     const allPaymentsPaid = unpaidPayments.length === 0;
@@ -31,9 +32,14 @@ function CreateLoanPayment({
 
     const isInsufficientBalance =
         chosenAccount && chosenPayment
-            ? chosenAccount.balance < chosenPayment.amount
+            ? chosenAccount.balance <
+              chosenPayment.amount +
+                  (chosenPayment.status === "OVERDUE"
+                      ? chosenPayment.overdueDays *
+                        moneyAddOnOverdue *
+                        chosenPayment.amount
+                      : 0)
             : false;
-
     useEffect(() => {
         if (chosenPayment) {
             handleInputChange("amount", chosenPayment.amount);
@@ -71,6 +77,7 @@ function CreateLoanPayment({
                             dueDate={chosenPayment.dueDate}
                             overdueDays={chosenPayment.overdueDays}
                             status={chosenPayment.status}
+                            moneyAddOnOverdue={moneyAddOnOverdue}
                         />
                     )}
                     <Button

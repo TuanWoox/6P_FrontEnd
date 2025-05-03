@@ -70,6 +70,9 @@ function LoanPayment() {
                         payments={loanDetail.loanPayments}
                         paymentDetails={paymentDetails}
                         handleInputChange={handleInputChange}
+                        moneyAddOnOverdue={
+                            loanDetail.loanTypeInterest.moneyAddOnOverdue
+                        }
                     />
                 )}
 
@@ -80,6 +83,9 @@ function LoanPayment() {
                         accounts={accounts}
                         payments={loanDetail.loanPayments}
                         paymentDetails={paymentDetails}
+                        moneyAddOnOverdue={
+                            loanDetail.loanTypeInterest.moneyAddOnOverdue
+                        }
                     />
                 )}
 
@@ -87,6 +93,10 @@ function LoanPayment() {
                     <ResultLoanPayment
                         goToHome={goToHome}
                         paymentDetails={paymentDetails}
+                        payments={loanDetail.loanPayments}
+                        moneyAddOnOverdue={
+                            loanDetail.loanTypeInterest.moneyAddOnOverdue
+                        }
                     />
                 )}
             </div>

@@ -4,6 +4,7 @@ import LoanPaymentStatus from "../FormElements/LoanPaymentStatus";
 import OtpModal from "../../../../../components/OTPModal";
 import { getEmail } from "../../../../../services/customerService";
 import { useLoanPayment } from "../../../../../hooks/useLoanPayment";
+import formatMoney from "../../../../../utils/formatMoney";
 
 function ConfirmLoanPayment({
     preStep,
@@ -11,6 +12,7 @@ function ConfirmLoanPayment({
     accounts,
     payments,
     paymentDetails,
+    moneyAddOnOverdue,
 }) {
     const [otpModal, setOtpModal] = useState(false);
     const [userEmail, setUserEmail] = useState("");
@@ -41,10 +43,18 @@ function ConfirmLoanPayment({
     };
 
     const handleOtpSuccess = () => {
+        const totalAmount =
+            chosenPayment.status === "OVERDUE"
+                ? chosenPayment.amount +
+                  chosenPayment.overdueDays *
+                      chosenPayment.amount *
+                      moneyAddOnOverdue
+                : chosenPayment.amount;
+
         const paymentData = {
             sourceAccount: paymentDetails.sourceAccount,
             targetPayment: paymentDetails.targetPayment,
-            amount: paymentDetails.amount,
+            amount: totalAmount,
         };
 
         loanPayment(paymentData, {
@@ -93,7 +103,7 @@ function ConfirmLoanPayment({
                         Số tiền thanh toán:
                     </p>
                     <p className="text-lg font-semibold mb-2">
-                        {chosenPayment.amount.toLocaleString()} VND
+                        {formatMoney(chosenPayment.amount)} VND
                     </p>
                 </div>
                 <div className="flex justify-between items-center">
@@ -104,12 +114,43 @@ function ConfirmLoanPayment({
                         className={`text-lg font-semibold mb-2 ${
                             chosenPayment.status === "OVERDUE"
                                 ? "text-red-500"
-                                : ""
+                                : "text-green-500"
                         }`}
                     >
                         {chosenPayment.status}
                     </p>
                 </div>
+                {chosenPayment.status === "OVERDUE" && (
+                    <>
+                        <div className="flex justify-between items-center">
+                            <p className="text-lg font-semibold mb-2">
+                                Tiền phạt:
+                            </p>
+                            <p className="text-lg font-semibold mb-2 text-red-500">
+                                {formatMoney(
+                                    chosenPayment.overdueDays *
+                                        chosenPayment.amount *
+                                        moneyAddOnOverdue,
+                                )}{" "}
+                                VND
+                            </p>
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <p className="text-lg font-semibold mb-2">
+                                Tổng số tiền cần trả:
+                            </p>
+                            <p className="text-lg font-semibold mb-2 text-red-500">
+                                {formatMoney(
+                                    chosenPayment.amount +
+                                        chosenPayment.overdueDays *
+                                            chosenPayment.amount *
+                                            moneyAddOnOverdue,
+                                )}{" "}
+                                VND
+                            </p>
+                        </div>
+                    </>
+                )}
                 <Button onClick={preStep} variant="secondary" fullWidth>
                     Quay lại
                 </Button>

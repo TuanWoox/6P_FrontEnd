@@ -1,7 +1,13 @@
 import React from "react";
 import Button from "../FormElements/Button";
+import formatMoney from "../../../../../utils/formatMoney";
 
-function ResultLoanPayment({ goToHome, paymentDetails }) {
+function ResultLoanPayment({
+    goToHome,
+    paymentDetails,
+    payments,
+    moneyAddOnOverdue,
+}) {
     const today = new Date();
     const formattedDate = today.toLocaleString("vi-VN", {
         day: "2-digit",
@@ -10,6 +16,16 @@ function ResultLoanPayment({ goToHome, paymentDetails }) {
         hour: "2-digit",
         minute: "2-digit",
     });
+    const chosenPayment = payments.find(
+        (pay) => pay._id === paymentDetails.targetPayment,
+    );
+    const totalAmount =
+        chosenPayment.status === "OVERDUE"
+            ? chosenPayment.amount +
+              chosenPayment.overdueDays *
+                  chosenPayment.amount *
+                  moneyAddOnOverdue
+            : chosenPayment.amount;
 
     return (
         <div>
@@ -56,8 +72,8 @@ function ResultLoanPayment({ goToHome, paymentDetails }) {
                     <p className="text-lg font-semibold mb-2">
                         Số tiền thanh toán:
                     </p>
-                    <p className="text-lg font-semibold mb-2">
-                        {paymentDetails.amount}
+                    <p className="text-lg font-semibold mb-2 text-green-500">
+                        {formatMoney(totalAmount)} VND
                     </p>
                 </div>
             </div>
