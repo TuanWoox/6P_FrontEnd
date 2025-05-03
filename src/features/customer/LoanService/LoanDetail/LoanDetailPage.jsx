@@ -51,7 +51,10 @@ function LoanDetailPage() {
                         {loanDetail && (
                             <>
                                 <LoanAccountCard
-                                    id={loanDetail._id || loanDetail.id}
+                                    id={
+                                        loanDetail.accountNumber ||
+                                        loanDetail._id
+                                    }
                                     loanTypeName={loanTypeName}
                                 />
                                 <Tabs

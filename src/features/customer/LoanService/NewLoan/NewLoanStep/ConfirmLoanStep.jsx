@@ -7,26 +7,36 @@ import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useCreateNewLoan } from "../../../../../hooks/useCreateNewLoan";
 
-function ConfirmLoanStep({ nextStep, preStep, loanData }) {
+function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
     console.log("loanData", loanData);
+    console.log(
+        "loanData.selectedLoanInterestRate",
+        loanData.selectedLoanInterestRate,
+    );
     const [otpModalOpen, setOtpModalOpen] = useState(false);
     const [userEmail, setUserEmail] = useState("");
 
     const today = new Date();
     const dueDate = new Date(today);
-    dueDate.setMonth(today.getMonth() + parseInt(loanData.loanTerm));
+    dueDate.setMonth(
+        today.getMonth() +
+            parseInt(loanData.selectedLoanInterestRate.termMonths),
+    );
 
     // Format lại theo kiểu Việt Nam (ví dụ: 28/10/2025)
     const formattedDueDate = dueDate.toLocaleDateString("vi-VN");
 
     // Tính số tiền trả mỗi tháng
-    const monthlyPayment =
-        parseInt(loanData.loanAmount) / parseInt(loanData.loanTerm);
 
-    const annualInterestRate = loanData.findResult.annualInterestRate;
+    const annualInterestRate =
+        loanData.selectedLoanInterestRate.annualInterestRate;
 
     const totalInterest = annualInterestRate * parseInt(loanData.loanAmount);
     const totalPayment = parseInt(loanData.loanAmount) + totalInterest;
+
+    const monthlyPayment =
+        parseInt(totalPayment) /
+        parseInt(loanData.selectedLoanInterestRate.termMonths);
 
     //lấy email của người dùng để sử dụng cho OTP
     useEffect(() => {
@@ -48,10 +58,11 @@ function ConfirmLoanStep({ nextStep, preStep, loanData }) {
         // isLoading: isCreating,
         // error: createError,
     } = useCreateNewLoan({
-        onSuccess: () => {
+        onSuccess: (result) => {
             toast.success("Tạo khoản vay thành công!");
             queryClient.invalidateQueries({ queryKey: ["loanList"] });
-            nextStep();
+            handleCreateLoanNext(result);
+            // nextStep();
         },
         onError: (error) => toast.error(error.message),
     });
@@ -71,7 +82,8 @@ function ConfirmLoanStep({ nextStep, preStep, loanData }) {
                         <div className="flex justify-between items-center">
                             <span className="text-gray-700">Thời hạn</span>
                             <span className="text-gray-900 font-medium">
-                                {loanData.loanTerm} tháng
+                                {loanData.selectedLoanInterestRate.termMonths}{" "}
+                                tháng
                             </span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -89,15 +101,7 @@ function ConfirmLoanStep({ nextStep, preStep, loanData }) {
                         <div className="flex justify-between items-center">
                             <span className="text-gray-700">Trả mỗi tháng</span>
                             <span className="text-gray-900 font-medium">
-                                Ngày bắt đầu trả
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-900 font-medium">
                                 {formatCurrency(monthlyPayment)} VND
-                            </span>
-                            <span className="text-gray-900 font-medium">
-                                06/12/2024
                             </span>
                         </div>
                     </div>
@@ -118,7 +122,7 @@ function ConfirmLoanStep({ nextStep, preStep, loanData }) {
                         <div className="flex justify-between items-center">
                             <span className="text-gray-700">Lãi suất năm</span>
                             <span className="text-gray-900 font-medium">
-                                {annualInterestRate * 100} %
+                                {(annualInterestRate * 100).toFixed(1)} %
                             </span>
                         </div>
                         <div className="flex justify-between items-center">

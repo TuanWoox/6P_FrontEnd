@@ -68,6 +68,7 @@ export const createNewLoan = async (data) => {
             `${API_URL}/loanAccount/createNewLoan`,
             data,
         );
+        console.log("Tạo khoản vay thành công", response.data);
         return response.data;
     } catch (err) {
         const errMsg =

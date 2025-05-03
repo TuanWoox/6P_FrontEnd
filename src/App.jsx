@@ -11,11 +11,12 @@ import TransferPage from "./features/customer/Transaction/TransferMoney/Transfer
 import NewLoanPage from "./features/customer/LoanService/NewLoan/NewLoanPage";
 import LoanPayment from "./features/customer/LoanService/LoanPayment/LoanPayment";
 
-// Lazy load layouts
+// Lazy load components & pages
+const Spinner = lazy(() => import("./components/Spinner"));
 const GeneralLayout = lazy(() => import("./layouts/GeneralLayout"));
 const CustomerLayout = lazy(() => import("./layouts/CustomerLayout"));
 
-// Lazy load guest feature components
+// Guest pages
 const HomePageGuest = lazy(() => import("./features/guest/Home/HomePage"));
 const Faq = lazy(() => import("./features/guest/ConnectAndSupport/Faq/Faq"));
 const LoanHomepage = lazy(
@@ -45,7 +46,8 @@ const SignIn = lazy(() => import("./features/guest/SignIn/SignIn"));
 const ForgetPassword = lazy(
     () => import("./features/guest/ForgetPassword/ForgetPassword"),
 );
-// Lazy load customer feature components
+
+// Customer pages
 const HomePageCustomer = lazy(
     () => import("./features/customer/Home/HomePage"),
 );
@@ -61,9 +63,21 @@ const SavingDetailPage = lazy(
 const TransactionInquiry = lazy(
     () => import("./features/customer/Transaction/TransactionInquiry"),
 );
+const TransferPage = lazy(
+    () => import("./features/customer/Transaction/TransferMoney/TransferPage"),
+);
 const LoanPage = lazy(() => import("./features/customer/LoanService/LoanPage"));
+const NewLoanPage = lazy(
+    () => import("./features/customer/LoanService/NewLoan/NewLoanPage"),
+);
 const LoanDetailPage = lazy(
     () => import("./features/customer/LoanService/LoanDetail/LoanDetailPage"),
+);
+const LoanDetailHistory = lazy(
+    () =>
+        import(
+            "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory"
+        ),
 );
 const ChangePassword = lazy(
     () => import("./features/customer/ChangePassword/ChangePassword"),
@@ -74,6 +88,13 @@ const PersonalInfor = lazy(
 const UpdateContact = lazy(
     () => import("./features/customer/ManagePersonal/UpdateContact"),
 );
+const NewSavingPage = lazy(
+    () => import("./features/customer/SavingService/NewSaving/NewSavingPage"),
+);
+const SetLimitTransaction = lazy(
+    () => import("./features/customer/SetLimitTransaction/SetLimitTransaction"),
+);
+
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
@@ -145,6 +166,10 @@ function App() {
                                     element={<HomePageCustomer />}
                                 />
                                 <Route
+                                    path="/customer/saving/new"
+                                    element={<NewSavingPage />}
+                                />
+                                <Route
                                     path="/customer/saving"
                                     element={<SavingPage />}
                                 />
@@ -165,20 +190,21 @@ function App() {
                                     element={<LoanPage />}
                                 />
                                 <Route
+                                    path="/customer/loan/new/"
+                                    element={<NewLoanPage />}
+                                />
+                                <Route
                                     path="/customer/loan/:loanId"
                                     element={<LoanDetailPage />}
                                 />
                                 <Route
-                                    path="/customer/loan/:loanId/payment/:paymentId"
-                                    element={<LoanDetailHistory />}
-                                />
-                                <Route
                                     path="/customer/loan/:loanId/process"
                                     element={<LoanPayment />}
+                                />{" "}
                                 />
                                 <Route
-                                    path="/customer/loan/new/"
-                                    element={<NewLoanPage />}
+                                    path="/customer/loan/:loanId/payment/:paymentId"
+                                    element={<LoanDetailHistory />}
                                 />
                                 <Route
                                     path="/customer/change-password"
@@ -191,6 +217,10 @@ function App() {
                                 <Route
                                     path="/customer/personal-infor/update-contact"
                                     element={<UpdateContact />}
+                                />
+                                <Route
+                                    path="/customer/set-limit"
+                                    element={<SetLimitTransaction />}
                                 />
                             </Route>
                         </Routes>
