@@ -5,10 +5,22 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import queryClient from "./config/reactQuery";
 import AuthProvider from "./context/AuthContext";
-import Spinner from "./components/Spinner";
-import LoanDetailHistory from "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory";
-import TransferPage from "./features/customer/Transaction/TransferMoney/TransferPage";
-import NewLoanPage from "./features/customer/LoanService/NewLoan/NewLoanPage";
+const Spinner = lazy(() => import("./components/Spinner"));
+const LoanDetailHistory = lazy(
+    () =>
+        import(
+            "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory"
+        ),
+);
+const TransferPage = lazy(
+    () => import("./features/customer/Transaction/TransferMoney/TransferPage"),
+);
+const NewLoanPage = lazy(
+    () => import("./features/customer/LoanService/NewLoan/NewLoanPage"),
+);
+const NewSavingPage = lazy(
+    () => import("./features/customer/SavingService/NewSaving/NewSavingPage"),
+);
 
 // Lazy load layouts
 const GeneralLayout = lazy(() => import("./layouts/GeneralLayout"));
@@ -41,8 +53,8 @@ const Connect = lazy(
 );
 const SignUp = lazy(() => import("./features/guest/SignUp/SignUp"));
 const SignIn = lazy(() => import("./features/guest/SignIn/SignIn"));
-const ForgetPassword = lazy(() =>
-  import("./features/guest/ForgetPassword/ForgetPassword")
+const ForgetPassword = lazy(
+    () => import("./features/guest/ForgetPassword/ForgetPassword"),
 );
 // Lazy load customer feature components
 const HomePageCustomer = lazy(
@@ -131,7 +143,10 @@ function App() {
                                 />
                                 <Route path="/signup" element={<SignUp />} />
                                 <Route path="/signin" element={<SignIn />} />
-                                <Route path="/forget-password" element={<ForgetPassword />} />
+                                <Route
+                                    path="/forget-password"
+                                    element={<ForgetPassword />}
+                                />
                             </Route>
 
                             {/* Customer Routes */}
@@ -139,6 +154,10 @@ function App() {
                                 <Route
                                     path="/customer"
                                     element={<HomePageCustomer />}
+                                />
+                                <Route
+                                    path="/customer/saving/new"
+                                    element={<NewSavingPage />}
                                 />
                                 <Route
                                     path="/customer/saving"
@@ -161,6 +180,10 @@ function App() {
                                     element={<LoanPage />}
                                 />
                                 <Route
+                                    path="/customer/loan/new/"
+                                    element={<NewLoanPage />}
+                                />
+                                <Route
                                     path="/customer/loan/:loanId"
                                     element={<LoanDetailPage />}
                                 />
@@ -168,10 +191,7 @@ function App() {
                                     path="/customer/loan/:loanId/payment/:paymentId"
                                     element={<LoanDetailHistory />}
                                 />
-                                <Route
-                                    path="/customer/loan/new/"
-                                    element={<NewLoanPage />}
-                                />
+
                                 <Route
                                     path="/customer/change-password"
                                     element={<ChangePassword />}
