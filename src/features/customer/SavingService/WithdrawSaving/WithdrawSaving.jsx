@@ -1,4 +1,7 @@
+import { useState } from "react";
+import { useWithdrawSavingAccount } from "../../../../hooks/useWithdrawSavingAccount";
 import WithdrawDetailCard from "./WithdrawDetailCard";
+import OTPModal from "../../../../components/OTPModal";
 
 function WithdrawSaving({
     rawSavingDetail,
@@ -11,6 +14,14 @@ function WithdrawSaving({
     onCancel,
     onConfirm,
 }) {
+    const { withdrawSavingFn, isLoading, error } = useWithdrawSavingAccount();
+    const [otpModal, setOtpModal] = useState(false);
+
+    const onNextStep = () => {
+        withdrawSavingFn({
+            savingAccountNumber: rawSavingDetail._id,
+        });
+    };
     return (
         <>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">
@@ -25,11 +36,14 @@ function WithdrawSaving({
                     principalAmount: principalAmount.toLocaleString(),
                     withdrawalDate: today.toLocaleDateString("vi-VN"),
                     annualInterestRate: `${annualInterestRate}%/năm`,
-                    amountReceived: Math.round(finalAmountReceived).toLocaleString(),
+                    amountReceived:
+                        Math.round(finalAmountReceived).toLocaleString(),
                 }}
                 isEarlyWithdrawal={isEarlyWithdrawal}
                 percentMoneyLose={
-                    isEarlyWithdrawal ? Math.round(penaltyAmount).toLocaleString() : null
+                    isEarlyWithdrawal
+                        ? Math.round(penaltyAmount).toLocaleString()
+                        : null
                 }
             />
             <div className="flex justify-center gap-4 mt-6">
@@ -40,12 +54,23 @@ function WithdrawSaving({
                     ← Quay lại
                 </button>
                 <button
-                    onClick={onConfirm}
+                    onClick={() => {
+                        setOtpModal(true);
+                    }}
                     className="self-start bg-[#95C475] text-white font-semibold py-2 px-4 rounded hover:bg-white hover:text-[#95C475] transition-colors duration-200 border border-[#95C475]"
                 >
-                    Tiếp tục tất toán
+                    {isLoading ? "Đang tất toán " : "Tiếp tục tất toán"}
                 </button>
             </div>
+            {otpModal && (
+                <OTPModal
+                    isOpen={otpModal}
+                    setIsOpen={setOtpModal}
+                    action={"withdrawSaving"}
+                    email={rawSavingDetail.owner.email}
+                    onNextStep={onNextStep}
+                />
+            )}
         </>
     );
 }

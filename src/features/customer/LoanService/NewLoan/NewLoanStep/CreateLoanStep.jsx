@@ -2,7 +2,6 @@ import { useForm, Controller } from "react-hook-form";
 import Button from "../Button";
 import { useFetchAllLoanInterestRates } from "../../../../../hooks/useFetchAllLoanInterestRates";
 import { useLocation } from "react-router";
-import { useFindLoanInterestRates } from "../../../../../hooks/useFindLoanInterestRates";
 import useCheckingAccounts from "../../../../../hooks/useGetCheckingAccount";
 import { formatCurrency } from "../../../../../utils/helpers";
 
@@ -12,12 +11,19 @@ function CreateLoanStep({ handleCreateLoanNext }) {
         loading: accountsLoading,
         error: accountsError,
     } = useCheckingAccounts();
-    const { loanInterestRates, isLoading, error } =
-        useFetchAllLoanInterestRates();
+    const {
+        loanInterestRates = [],
+        isLoading,
+        error,
+    } = useFetchAllLoanInterestRates();
+
+    console.log("loan interestes rates", loanInterestRates);
+
     const location = useLocation();
     const loanType = location.state?.product;
 
-    console.log("loanType", loanType);
+    // console.log("loanType", loanType);
+    // console.log("loanInterestRates", loanInterestRates);
 
     const accountOptions = accounts.map((acc) => ({
         value: acc.accountNumber,
@@ -33,48 +39,49 @@ function CreateLoanStep({ handleCreateLoanNext }) {
     } = useForm({
         defaultValues: {
             loanType: loanType._id,
-            loanTerm: "",
+            loanInterestRates: "",
             loanAmount: "",
             destAccountNumber: "",
             Income: "",
         },
     });
 
-    const {
-        mutate: findLoanInterestRates,
-        isLoading: isFinding,
-        error: findError,
-    } = useFindLoanInterestRates({
-        onSuccess: (result, variables) => {
-            console.log("Component onSuccess:", result);
-            handleCreateLoanNext({ ...variables, findResult: result });
-        },
-        onError: (error) => {
-            console.log("Component onError:", error);
-        },
-    });
+    // const {
+    //     mutate: findLoanInterestRates,
+    //     isLoading: isFinding,
+    //     error: findError,
+    // } = useFindLoanInterestRates({
+    //     onSuccess: (result, variables) => {
+    //         // console.log("Component onSuccess:", result);
+    //         handleCreateLoanNext({ ...variables, findResult: result });
+    //     },
+    //     onError: (error) => {
+    //         console.log("Component onError:", error);
+    //     },
+    // });
 
     // Xử lý khi submit form
     const onSubmit = (data) => {
-        console.log("Gửi dữ liệu đi");
-        findLoanInterestRates(data);
+        // console.log("Gửi dữ liệu đi");
+        // findLoanInterestRates(data);
+        const selectedLoanInterestRate = loanInterestRates.find(
+            (item) => item._id === data.loanInterestRates,
+        );
+        handleCreateLoanNext({
+            ...data,
+            selectedLoanInterestRate,
+        });
     };
 
-    // Lấy danh sách termMonths duy nhất và sắp xếp tăng dần
-    const termMonthsOptions = loanInterestRates
-        ? [...new Set(loanInterestRates.map((item) => item.termMonths))]
-              .sort((a, b) => a - b)
-              .map((term) => ({
-                  value: term.toString(),
-                  label: `${term} tháng`,
-              }))
-        : [];
+    const filteredInterestRates = loanInterestRates?.filter(
+        (item) => item.loanType && item.loanType._id === loanType._id,
+    );
 
     if (isLoading) return <div>Đang tải dữ liệu...</div>;
     if (error) return <div>Đã xảy ra lỗi: {error.message}</div>;
 
-    if (isFinding) return <div>Đang tìm kiếm lãi suất...</div>;
-    if (findError) return <div>Đã xảy ra lỗi: {findError.message}</div>;
+    // if (isFinding) return <div>Đang tìm kiếm lãi suất...</div>;
+    // if (findError) return <div>Đã xảy ra lỗi: {findError.message}</div>;
 
     if (accountsLoading)
         return <div className="text-center py-8">Đang tải tài khoản...</div>;
@@ -132,7 +139,7 @@ function CreateLoanStep({ handleCreateLoanNext }) {
                                 ></path>
                             </svg>
                         </div>
-                        {errors.loanTerm && (
+                        {errors.destAccountNumber && (
                             <p className="text-red-500 text-sm mt-1">
                                 {errors.destAccountNumber.message}
                             </p>
@@ -162,7 +169,7 @@ function CreateLoanStep({ handleCreateLoanNext }) {
                             </label>
                             <div className="relative">
                                 <Controller
-                                    name="loanTerm"
+                                    name="loanInterestRates"
                                     control={control}
                                     rules={{
                                         required: "Vui lòng chọn thời hạn vay",
@@ -175,14 +182,22 @@ function CreateLoanStep({ handleCreateLoanNext }) {
                                             <option value="" disabled>
                                                 Chọn thời hạn vay
                                             </option>
-                                            {termMonthsOptions.map((option) => (
-                                                <option
-                                                    key={option.value}
-                                                    value={option.value}
-                                                >
-                                                    {option.label}
-                                                </option>
-                                            ))}
+                                            {filteredInterestRates.map(
+                                                (rate) => (
+                                                    <option
+                                                        key={rate._id}
+                                                        value={rate._id}
+                                                    >
+                                                        {rate.termMonths}
+                                                        tháng - Lãi suất{" "}
+                                                        {(
+                                                            rate.monthlyInterestRate *
+                                                            100
+                                                        ).toFixed(1)}
+                                                        %
+                                                    </option>
+                                                ),
+                                            )}
                                         </select>
                                     )}
                                 />
@@ -200,9 +215,9 @@ function CreateLoanStep({ handleCreateLoanNext }) {
                                     </svg>
                                 </div>
                             </div>
-                            {errors.loanTerm && (
+                            {errors.loanInterestRates && (
                                 <p className="text-red-500 text-sm mt-1">
-                                    {errors.loanTerm.message}
+                                    {errors.loanInterestRates.message}
                                 </p>
                             )}
                         </div>

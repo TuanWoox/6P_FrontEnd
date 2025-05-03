@@ -1,17 +1,39 @@
+import { Link } from "react-router";
 
-function SavingsProductCard({ imageSrc, title, description }) {
+function SavingsProductCard({ imageSrc, title, description, link }) {
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row mb-6">
-            <img src={imageSrc} alt={title} className="w-full md:w-1/3 h-48 md:h-auto object-cover" />
-            <div className="p-4 flex flex-col justify-center md:w-2/3">
-                <h3 className="text-xl font-semibold text-[#95C475] mb-2">{title}</h3>
-                <p className="text-gray-600 mb-4">{description}</p>
-                <button className="self-start bg-[#95C475] text-white font-semibold py-2 px-4 rounded hover:bg-white hover:text-[#95C475] transition-colors duration-200 border border-[#95C475]">
-                    MỞ NGAY
-                </button>
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col md:flex-row mb-8 transition-transform hover:scale-[1.01]">
+            <img
+                src={imageSrc}
+                alt={title}
+                className="w-full md:w-1/3 h-52 md:h-auto object-cover"
+            />
+            <div className="p-6 flex flex-col justify-between md:w-2/3">
+                <div>
+                    <h3 className="text-2xl font-bold text-[#4B9560] mb-3">
+                        {title}
+                    </h3>
+                    <p className="text-gray-600 text-base leading-relaxed mb-6">
+                        {description}
+                    </p>
+                </div>
+                <div className="flex gap-4 flex-wrap">
+                    <Link
+                        to={link}
+                        className="bg-[#4B9560] text-white font-medium py-2 px-5 rounded-lg hover:bg-white hover:text-[#4B9560] border border-[#4B9560] transition-all duration-200"
+                    >
+                        Chi tiết
+                    </Link>
+                    <Link
+                        to="/customer/saving/new"
+                        className="bg-[#95C475] text-white font-medium py-2 px-5 rounded-lg hover:bg-white hover:text-[#95C475] border border-[#95C475] transition-all duration-200"
+                    >
+                        Mở ngay
+                    </Link>
+                </div>
             </div>
         </div>
     );
-};
+}
 
 export default SavingsProductCard;

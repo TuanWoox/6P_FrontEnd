@@ -61,7 +61,7 @@ function SavingDetailPage() {
   const isEarlyWithdrawal = maturityPeriodMonths > 0 && !isMaturityDatePassed;
 
   if (isEarlyWithdrawal) {
-    penaltyAmount = grossAmountReceived * (percentMoneyLose / 100);
+    penaltyAmount = interestEarned;
     finalAmountReceived = grossAmountReceived - penaltyAmount;
   }
 
