@@ -61,7 +61,7 @@ export default function ConfirmTransactionStep({
                     <div className="border-t border-gray-200 pt-4">
                         <TransactionDetail
                             label="Số tiền"
-                            value={`${transactionDetails.amount} VND`}
+                            value={`${Number(transactionDetails.amount).toLocaleString()} VND`}
                             highlight
                         />
                     </div>

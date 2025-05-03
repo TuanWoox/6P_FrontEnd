@@ -5,6 +5,7 @@ import OtpModal from "../../../components/OTPModal";
 import { useState, useEffect } from "react";
 import { getEmail } from "../../../services/customerService";
 import ChangePasswordInput from "./ChangePasswordInput";
+import InnerHeader from "../../../components/InnerHeader";
 
 function ChangePassword() {
     const {
@@ -55,21 +56,14 @@ function ChangePassword() {
             setOtpModal(false);
         }
     };
-
+    const title = "Cài đặt mật khẩu";
+    const breadcrumbs = [
+        { label: "Trang chủ", path: "/customer", icon: true },
+        { label: "Cài đặt mật khẩu", isCurrent: true },
+    ];
     return (
         <div className="max-w mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-4">Cài đặt mật khẩu</h1>
-
-            <nav className="flex text-sm mb-6">
-                <a
-                    href="/customer"
-                    className="text-gray-600 hover:text-gray-800"
-                >
-                    Trang chủ
-                </a>
-                <span className="mx-2 text-gray-500">&gt;</span>
-                <span className="text-gray-800 font-medium">Đặt mật khẩu</span>
-            </nav>
+            <InnerHeader title={title} breadcrumbs={breadcrumbs} />
 
             <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">
                 <p>
