@@ -156,7 +156,7 @@ function UpdateContact() {
             <OtpModal
                 isOpen={otpModal}
                 setIsOpen={setOtpModal}
-                action="resetPassword"
+                action="updateInfo"
                 email={watch("customer.email")}
                 onNextStep={onSubmit}
             />
