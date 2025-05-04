@@ -4,10 +4,20 @@ import {
     getTodayFormatted,
 } from "../../../../../utils/helpers";
 import Button from "../Button";
+import { useFetchLoanTypeInterest } from "../../../../../hooks/useFetchLoanTypeInterest";
 
 function ResultLoanStep({ goToHome, loanData }) {
     console.log("loanData", loanData);
-    const loanType = loanData.loanTypeInterest.loanType.name;
+
+    // Fetch loanTypeInterest details
+    const { loanTypeInterest, isLoading, error } = useFetchLoanTypeInterest(
+        loanData.loanTypeInterest,
+    );
+
+    if (isLoading) return <div>Đang tải thông tin sản phẩm vay...</div>;
+    if (error) return <div>Lỗi: {error.message}</div>;
+
+    const loanType = loanTypeInterest?.loanType?.name || "Không xác định";
 
     // Chuyển dateOpened từ string sang Date object
     const openedDate = new Date(loanData.dateOpened);
@@ -17,7 +27,7 @@ function ResultLoanStep({ goToHome, loanData }) {
 
     // Cộng thêm số tháng từ loanTerm
     dueDate.setMonth(
-        dueDate.getMonth() + parseInt(loanData.loanTypeInterest.termMonths), // hoặc loanTerm nếu đúng tên trường
+        dueDate.getMonth() + parseInt(loanTypeInterest?.termMonths || 0),
     );
 
     // Định dạng ngày theo "vi-VN"
@@ -28,9 +38,6 @@ function ResultLoanStep({ goToHome, loanData }) {
         <div className="max-w-2xl mx-auto p-4">
             <div className="bg-gray-100 rounded-lg p-6 mb-4 text-center">
                 <div className="text-green-500 font-medium mb-1">VFB 🍀</div>
-                <div className="flex justify-center mb-2">
-                    {/* <CheckCircleIcon className="h-8 w-8 text-green-500" /> */}
-                </div>
                 <div className="text-gray-800 font-medium mb-1">
                     Cho vay thành công!
                 </div>
@@ -39,7 +46,6 @@ function ResultLoanStep({ goToHome, loanData }) {
                 </div>
             </div>
 
-            {/* Phần 5: Chi tiết giao dịch */}
             <div className="bg-gray-100 rounded-lg p-6">
                 <div className="space-y-4">
                     <div className="flex justify-between">
@@ -60,7 +66,7 @@ function ResultLoanStep({ goToHome, loanData }) {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-gray-800 font-medium">
-                            {getTodayFormatted(loanType.dateOpened)}
+                            {getTodayFormatted(loanData.dateOpened)}
                         </span>
                         <span className="text-gray-800 font-medium">
                             {formattedDueDate}
@@ -69,8 +75,7 @@ function ResultLoanStep({ goToHome, loanData }) {
                     <div className="flex justify-between">
                         <span className="text-gray-600">Lãi suất</span>
                         <span className="text-gray-800 font-medium">
-                            {loanData.loanTypeInterest.annualInterestRate}% /
-                            năm
+                            {loanTypeInterest?.annualInterestRate}% / năm
                         </span>
                     </div>
                     <div className="flex justify-between">
@@ -89,7 +94,7 @@ function ResultLoanStep({ goToHome, loanData }) {
                     height="h-12"
                     link={`/customer/loan/`}
                     onClick={goToHome}
-                    position="center" // hoặc 'left', 'center'
+                    position="center"
                 />
             </div>
         </div>

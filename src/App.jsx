@@ -5,11 +5,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 import queryClient from "./config/reactQuery";
 import AuthProvider from "./context/AuthContext";
-import Spinner from "./components/Spinner";
-import LoanDetailHistory from "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory";
-import TransferPage from "./features/customer/Transaction/TransferMoney/TransferPage";
-import NewLoanPage from "./features/customer/LoanService/NewLoan/NewLoanPage";
-import LoanPayment from "./features/customer/LoanService/LoanPayment/LoanPayment";
 
 // Lazy load components & pages
 const Spinner = lazy(() => import("./components/Spinner"));
@@ -78,6 +73,9 @@ const LoanDetailHistory = lazy(
         import(
             "./features/customer/LoanService/LoanDetail/LoanHistory/LoanDetailHistory"
         ),
+);
+const LoanPayment = lazy(
+    () => import("./features/customer/LoanService/LoanPayment/LoanPayment"),
 );
 const ChangePassword = lazy(
     () => import("./features/customer/ChangePassword/ChangePassword"),
@@ -200,7 +198,6 @@ function App() {
                                 <Route
                                     path="/customer/loan/:loanId/process"
                                     element={<LoanPayment />}
-                                />{" "}
                                 />
                                 <Route
                                     path="/customer/loan/:loanId/payment/:paymentId"
