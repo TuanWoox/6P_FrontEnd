@@ -2,6 +2,7 @@ import { updatePersonalInfo } from "../services/customerService";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import queryClient from "../config/reactQuery";
 export default function useUpdatePersonalInfo() {
     const navigate = useNavigate();
     const {
@@ -22,6 +23,13 @@ export default function useUpdatePersonalInfo() {
                 pauseOnHover: true,
                 draggable: true,
             });
+            queryClient.invalidateQueries({
+                queryKey: ["personalInfo"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["sidebarInfo"],
+            });
+
             // navigate("/customer/personal-infor");
         },
         onError: (error) => {
@@ -43,5 +51,4 @@ export default function useUpdatePersonalInfo() {
         error,
         data,
     };
-    
 }

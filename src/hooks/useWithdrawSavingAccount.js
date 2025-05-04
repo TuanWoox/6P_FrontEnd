@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { withdrawSavingAccount } from "../services/savingAccountService";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import queryClient from "../config/reactQuery";
 
 export function useWithdrawSavingAccount() {
     const navigate = useNavigate();
@@ -20,6 +21,13 @@ export function useWithdrawSavingAccount() {
                 pauseOnHover: true,
                 draggable: true,
             });
+            queryClient.invalidateQueries({
+                queryKey: ["sidebarInfo"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["checkingAccounts"],
+            });
+
             navigate("/customer/saving");
         },
         onError: (err) => {

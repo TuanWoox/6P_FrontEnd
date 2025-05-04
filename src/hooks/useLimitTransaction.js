@@ -19,6 +19,12 @@ export const useUpdateLimitTransaction = () => {
     return useMutation(updateLimitTransaction, {
         onSuccess: () => {
             queryClient.invalidateQueries(["limitTransaction"]); // Refresh data after mutation
+            queryClient.invalidateQueries({
+                queryKey: ["sidebarInfo"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["checkingAccounts"],
+            });
         },
         onError: (error) => {
             console.error("Error updating limit transaction:", error.message);

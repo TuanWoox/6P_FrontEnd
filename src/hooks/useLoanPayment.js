@@ -3,10 +3,6 @@ import axiosAuth from "../axios/axios";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-/**
- * Hook to handle loan payment requests.
- * @returns {Object} Mutation object for loan payment.
- */
 export function useLoanPayment() {
     const loanPayment = async (paymentData) => {
         try {
