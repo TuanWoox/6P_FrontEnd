@@ -31,7 +31,7 @@ export default function SideBar() {
                 })
                 .catch((err) => {
                     // Handle errors (e.g., permission denied)
-                    console.error("Failed to copy text: ", err);
+                    // console.error("Failed to copy text: ", err);
                     alert("Failed to copy account number."); // Inform the user
                 });
         } else {

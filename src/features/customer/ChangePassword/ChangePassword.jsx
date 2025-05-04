@@ -28,7 +28,7 @@ function ChangePassword() {
                 const emailData = await getEmail();
                 setUserEmail(emailData.email);
             } catch (error) {
-                console.error("Lỗi truy xuất Email:", error);
+                // console.error("Lỗi truy xuất Email:", error);
             }
         };
         fetchEmail();

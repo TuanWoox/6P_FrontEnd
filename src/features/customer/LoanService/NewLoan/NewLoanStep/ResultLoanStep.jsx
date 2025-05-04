@@ -6,8 +6,6 @@ import {
 import Button from "../Button";
 
 function ResultLoanStep({ goToHome, loanData }) {
-    console.log("loanData", loanData);
-
     // Fetch loanTypeInterest details
     // const { loanTypeInterest, isLoading, error } = useFetchLoanTypeInterest(
     //     loanData.loanTypeInterest,
@@ -30,12 +28,11 @@ function ResultLoanStep({ goToHome, loanData }) {
 
     // Định dạng ngày theo "vi-VN"
     const formattedDueDate = dueDate.toLocaleDateString("vi-VN");
-    console.log("formattedDueDate", formattedDueDate);
 
     return (
         <div className="max-w-2xl mx-auto p-4">
             <div className="bg-gray-100 rounded-lg p-6 mb-4 text-center">
-                <div className="text-green-500 font-medium mb-1">VFB 🍀</div>
+                <div className="text-green-500 font-medium mb-1">6PBank 🍀</div>
                 <div className="text-gray-800 font-medium mb-1">
                     Cho vay thành công!
                 </div>

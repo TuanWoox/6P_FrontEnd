@@ -8,7 +8,7 @@ import ResultLoanPayment from "./PaymentStep/ResultLoanPayment.jsx";
 import useCheckingAccounts from "../../../../hooks/useGetCheckingAccount.js";
 import { useFetchLoanDetail } from "../../../../hooks/useFetchLoanDetail.js";
 import { useUpdateLoanPaymentsQuery } from "../../../../hooks/useUpdateLoanPayments.js";
-
+import Spinner from "../../../../components/Spinner.jsx";
 function LoanPayment() {
     const title = "Thanh toán khoản vay";
     const { loanId } = useParams();

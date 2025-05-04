@@ -1,12 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosAuth from "../axios/axios";
+import queryClient from "../config/reactQuery";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 
-/**
- * Hook to handle loan payment requests.
- * @returns {Object} Mutation object for loan payment.
- */
 export function useLoanPayment() {
     const loanPayment = async (paymentData) => {
         try {
@@ -14,6 +11,9 @@ export function useLoanPayment() {
                 `${API_URL}/loanAccount/loanPayment/confirm`,
                 paymentData,
             );
+            queryClient.invalidateQueries({
+                queryKey: ["sidebarInfo"],
+            });
             return response.data;
         } catch (error) {
             const errMsg =

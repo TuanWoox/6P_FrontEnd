@@ -31,7 +31,6 @@ function SignUp() {
         const data = getValues();
         // Submit directly without re-validation
         registerUser(data);
-        setOtpModal(false);
     };
     const handleRegisterClick = () => {
         // Validate form first
@@ -53,10 +52,10 @@ function SignUp() {
                 {/* Header */}
                 <div className="mb-8 text-center">
                     <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                        Mở tài khoản VFB trực tuyến chỉ trong 1 phút
+                        Mở tài khoản 6PBank trực tuyến chỉ trong 1 phút
                     </h1>
                     <p className="text-sm text-gray-700">
-                        Nếu đã có tài khoản tại VFB, vui lòng{" "}
+                        Nếu đã có tài khoản tại 6PBank, vui lòng{" "}
                         <Link
                             to="/signin"
                             className="text-blue-600 hover:underline font-medium"

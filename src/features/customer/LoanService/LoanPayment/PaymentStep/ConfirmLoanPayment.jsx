@@ -59,7 +59,6 @@ function ConfirmLoanPayment({
 
         loanPayment(paymentData, {
             onSuccess: () => {
-                console.log("Thanh toán thành công!");
                 nextStep();
             },
             onError: (error) => {

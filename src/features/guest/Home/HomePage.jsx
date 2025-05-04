@@ -1,7 +1,7 @@
 function HomePage() {
     return (
         <div
-            className="w-full h-full bg-cover bg-center relative"
+            className="w-full h-screen bg-cover bg-center relative"
             style={{
                 backgroundImage: "url('/images/homepage.jpg')",
             }}

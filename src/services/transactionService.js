@@ -3,7 +3,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL;
 export const getAllTransaction = async () => {
     try {
         const response = await axiosAuth.get(`${API_URL}/transaction/history`);
-        console.log(response.data);
+
         return response.data;
     } catch (err) {
         const errMsg =

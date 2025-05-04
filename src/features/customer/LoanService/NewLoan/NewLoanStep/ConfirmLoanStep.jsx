@@ -9,11 +9,6 @@ import { useCreateNewLoan } from "../../../../../hooks/useCreateNewLoan";
 import { createPayments } from "../../../../../services/paymentService";
 
 function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
-    console.log("loanData", loanData);
-    console.log(
-        "loanData.selectedLoanInterestRate",
-        loanData.selectedLoanInterestRate,
-    );
     const [otpModalOpen, setOtpModalOpen] = useState(false);
     const [userEmail, setUserEmail] = useState("");
 
@@ -102,8 +97,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                 });
             });
 
-            console.log("Loan Response:", loanResponse);
-            console.log("Loan Data:", loanData);
             // Tính toán monthlyPayment (nếu chưa có)
             const monthlyPayment = calculateMonthlyPayment(
                 loanData.loanAmount,
@@ -140,7 +133,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
     };
 
     function handleNext() {
-        console.log("loanData gửi đi", loanData);
         // Gọi hàm tiếp theo trong quy trình
         // createNewLoan(loanData);
         handleCreateLoan(loanData);

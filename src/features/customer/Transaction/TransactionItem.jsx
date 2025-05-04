@@ -31,7 +31,7 @@ export default function TransactionItem({
     const iconColor = isOutgoing ? "#EE1D1D" : "#00BA00";
     const iconBg = isOutgoing ? "bg-red-100" : "bg-green-100";
     const amountColor = isOutgoing ? "text-red-600" : "text-green-600";
-    const IconComponent = isOutgoing ? ArrowDownLeftIcon : ArrowUpRightIcon;
+    const IconComponent = isOutgoing ? ArrowUpRightIcon : ArrowDownLeftIcon;
 
     return (
         <>

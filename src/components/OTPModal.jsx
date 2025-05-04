@@ -41,8 +41,6 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
 
     useEffect(() => {
         if (isOpen) {
-            console.log("Type of action:", action);
-            console.log("Email in OTP modal:", email);
             triggerOTPService({ email, type: action });
         }
     }, [isOpen]); // Add isOpen to the dependency array
@@ -50,6 +48,7 @@ const OtpModal = ({ isOpen, setIsOpen, action, email, onNextStep }) => {
     useEffect(() => {
         if (isVerifyingSuccess) {
             onNextStep();
+            setIsOpen(false);
         }
     }, [isVerifyingSuccess]);
 

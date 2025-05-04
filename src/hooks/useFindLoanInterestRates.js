@@ -14,7 +14,6 @@ export function useFindLoanInterestRates(options = {}) {
             }
         },
         onSuccess: (data, variables, context) => {
-            console.log("Loan interest rates found successfully:", data);
             if (options.onSuccess) {
                 options.onSuccess(data, variables, context);
             }

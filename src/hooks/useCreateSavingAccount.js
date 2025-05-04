@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { createSavingAccount } from "../services/savingAccountService";
+import queryClient from "../config/reactQuery";
 
 export default function useCreateSavingAccount() {
     const {
@@ -13,11 +14,14 @@ export default function useCreateSavingAccount() {
             return createSavingAccount(data);
         },
         onSuccess: (data) => {
-            console.log(data);
+            queryClient.invalidateQueries({
+                queryKey: ["sidebarInfo"],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["checkingAccounts"],
+            });
         },
-        onError: (err) => {
-            console.log(err);
-        },
+        onError: (err) => {},
     });
     return {
         createSavingAccountFn,

@@ -9,6 +9,7 @@ import { LIMIT_OPTIONS } from "./constants";
 import SuccessMessage from "./components/SuccessMessage";
 import LimitOptions from "./components/LimitOptions";
 import ConfirmationModal from "./components/ConfirmationModal";
+import Spinner from "../../../components/Spinner";
 
 export default function SetLimitTransaction() {
     const {
@@ -23,7 +24,6 @@ export default function SetLimitTransaction() {
     const [pendingLimit, setPendingLimit] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    console.log("Selected limit:", data);
 
     // Once fetch returns, pick the matching option
     useEffect(() => {
@@ -32,7 +32,6 @@ export default function SetLimitTransaction() {
             const limitValue = Number(data);
             const opt = LIMIT_OPTIONS.find((o) => o.value === limitValue);
             setSelectedLimit(opt?.label ?? null);
-            console.log("Selected limit:", opt?.label ?? null);
         }
     }, [data]);
 
@@ -74,7 +73,11 @@ export default function SetLimitTransaction() {
     ];
 
     if (loadingLimit) {
-        return <div className="text-center py-8">Đang tải hạn mức…</div>;
+        return (
+            <div className="text-center py-8">
+                <Spinner />
+            </div>
+        );
     }
     if (loadError) {
         return (
