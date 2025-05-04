@@ -35,10 +35,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
     const totalInterest = annualInterestRate * parseInt(loanData.loanAmount);
     const totalPayment = parseInt(loanData.loanAmount) + totalInterest;
 
-    const monthlyPayment =
-        parseInt(totalPayment) /
-        parseInt(loanData.selectedLoanInterestRate.termMonths);
-
     //lấy email của người dùng để sử dụng cho OTP
     useEffect(() => {
         const fetchEmail = async () => {
@@ -175,12 +171,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                                 {formattedDueDate}
                             </span>
                         </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-700">Trả mỗi tháng</span>
-                            <span className="text-gray-900 font-medium">
-                                {formatCurrency(monthlyPayment)} VND
-                            </span>
-                        </div>
                     </div>
                 </div>
 
@@ -188,24 +178,9 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                 <div className="bg-gray-100 p-6 rounded-lg mb-6">
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <span className="text-gray-700">
-                                Số tiền thực nhận
-                            </span>
-                            <span className="text-red-600 font-medium">
-                                {formatCurrency(loanData.loanAmount)} VND
-                            </span>
-                        </div>
-                        <div className="border-b border-gray-200 my-2"></div>
-                        <div className="flex justify-between items-center">
                             <span className="text-gray-700">Lãi suất năm</span>
                             <span className="text-gray-900 font-medium">
                                 {(annualInterestRate * 100).toFixed(1)} %
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <span className="text-gray-700">Lãi tạm tính</span>
-                            <span className="text-gray-900 font-medium">
-                                {formatCurrency(totalInterest)} VND
                             </span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -217,10 +192,10 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                         <div className="border-b border-gray-200 my-2"></div>
                         <div className="flex justify-between items-center">
                             <span className="text-gray-700">
-                                Tổng thanh toán tạm tính
+                                Số tiền thực nhận
                             </span>
                             <span className="text-red-600 font-medium">
-                                {formatCurrency(totalPayment)} VND
+                                {formatCurrency(loanData.loanAmount)} VND
                             </span>
                         </div>
                     </div>

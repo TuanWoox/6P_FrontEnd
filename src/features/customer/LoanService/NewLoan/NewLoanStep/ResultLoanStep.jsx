@@ -75,7 +75,14 @@ function ResultLoanStep({ goToHome, loanData }) {
                     <div className="flex justify-between">
                         <span className="text-gray-600">Lãi suất</span>
                         <span className="text-gray-800 font-medium">
-                            {loanTypeInterest?.annualInterestRate}% / năm
+                            {loanData.loanTypeInterest.annualInterestRate * 100}
+                            % / năm
+                        </span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-gray-600">Số tháng vay</span>
+                        <span className="text-gray-800 font-medium">
+                            {loanData.loanTypeInterest.termMonths} tháng
                         </span>
                     </div>
                     <div className="flex justify-between">
