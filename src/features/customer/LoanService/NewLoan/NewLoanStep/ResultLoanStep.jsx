@@ -4,20 +4,17 @@ import {
     getTodayFormatted,
 } from "../../../../../utils/helpers";
 import Button from "../Button";
-import { useFetchLoanTypeInterest } from "../../../../../hooks/useFetchLoanTypeInterest";
 
 function ResultLoanStep({ goToHome, loanData }) {
     console.log("loanData", loanData);
 
     // Fetch loanTypeInterest details
-    const { loanTypeInterest, isLoading, error } = useFetchLoanTypeInterest(
-        loanData.loanTypeInterest,
-    );
+    // const { loanTypeInterest, isLoading, error } = useFetchLoanTypeInterest(
+    //     loanData.loanTypeInterest,
+    // );
 
-    if (isLoading) return <div>Đang tải thông tin sản phẩm vay...</div>;
-    if (error) return <div>Lỗi: {error.message}</div>;
-
-    const loanType = loanTypeInterest?.loanType?.name || "Không xác định";
+    const loanType =
+        loanData?.loanTypeInterest?.loanType?.name || "Không xác định";
 
     // Chuyển dateOpened từ string sang Date object
     const openedDate = new Date(loanData.dateOpened);
@@ -27,7 +24,8 @@ function ResultLoanStep({ goToHome, loanData }) {
 
     // Cộng thêm số tháng từ loanTerm
     dueDate.setMonth(
-        dueDate.getMonth() + parseInt(loanTypeInterest?.termMonths || 0),
+        dueDate.getMonth() +
+            parseInt(loanData?.loanTypeInterest?.termMonths || 0),
     );
 
     // Định dạng ngày theo "vi-VN"
