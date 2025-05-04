@@ -6,6 +6,7 @@ import { getEmail } from "../../../../../services/customerService";
 import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useCreateNewLoan } from "../../../../../hooks/useCreateNewLoan";
+import { createPayments } from "../../../../../services/paymentService";
 
 function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
     console.log("loanData", loanData);
@@ -57,16 +58,92 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
         onSuccess: (result) => {
             toast.success("Tạo khoản vay thành công!");
             queryClient.invalidateQueries({ queryKey: ["loanList"] });
-            handleCreateLoanNext(result);
+            // handleCreateLoanNext(result);
             // nextStep();
         },
         onError: (error) => toast.error(error.message),
     });
 
+    // Tính toán các kỳ thanh toán
+    const calculatePayments = (
+        loanId,
+        startDate,
+        termMonths,
+        monthlyPayment,
+    ) => {
+        const payments = [];
+        const dueDate = new Date(startDate);
+
+        for (let month = 1; month <= termMonths; month++) {
+            // Tăng tháng lên 1 cho mỗi kỳ thanh toán
+            dueDate.setMonth(dueDate.getMonth() + 1);
+
+            const payment = {
+                loan: loanId,
+                amount: monthlyPayment,
+                dueDate: new Date(dueDate), // Clone ngày để tránh reference
+                status: "PENDING",
+            };
+
+            payments.push(payment);
+        }
+
+        return payments;
+    };
+
+    // Trong hàm xử lý tạo khoản vay
+    const handleCreateLoan = async (loanData) => {
+        try {
+            // Tạo khoản vay và chờ kết quả trả về
+            const loanResponse = await new Promise((resolve, reject) => {
+                createNewLoan(loanData, {
+                    onSuccess: resolve,
+                    onError: reject,
+                });
+            });
+
+            console.log("Loan Response:", loanResponse);
+            console.log("Loan Data:", loanData);
+            // Tính toán monthlyPayment (nếu chưa có)
+            const monthlyPayment = calculateMonthlyPayment(
+                loanData.loanAmount,
+                loanData.selectedLoanInterestRate.annualInterestRate,
+                loanData.selectedLoanInterestRate.termMonths,
+            );
+
+            // Tạo các kỳ thanh toán
+            const payments = calculatePayments(
+                loanResponse._id,
+                new Date(),
+                loanData.selectedLoanInterestRate.termMonths,
+                monthlyPayment,
+            );
+
+            // Gọi API để lưu các kỳ thanh toán
+            await createPayments(payments);
+
+            // Chuyển đến bước tiếp theo
+            handleCreateLoanNext(loanResponse);
+        } catch (error) {
+            console.error("Error creating loan:", error);
+            toast.error("Không thể tạo khoản vay. Vui lòng thử lại.");
+        }
+    };
+
+    // Hàm tính toán số tiền trả hàng tháng
+    const calculateMonthlyPayment = (amount, annualRate, termMonths) => {
+        const monthlyRate = annualRate / 100 / 12;
+        const payment =
+            (amount * monthlyRate) /
+            (1 - Math.pow(1 + monthlyRate, -termMonths));
+        return Math.round(payment);
+    };
+
     function handleNext() {
         console.log("loanData gửi đi", loanData);
         // Gọi hàm tiếp theo trong quy trình
-        createNewLoan(loanData);
+        // createNewLoan(loanData);
+        handleCreateLoan(loanData);
     }
 
     return (

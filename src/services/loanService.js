@@ -90,3 +90,17 @@ export const getAllLoanTypes = async () => {
         throw { message: errMsg };
     }
 };
+
+export const getLoanTypeInterest = async (id) => {
+    try {
+        const response = await axiosAuth.get(
+            `${API_URL}/loanAccount/loanTypeInterest/${id}`,
+        );
+        return response.data;
+    } catch (err) {
+        const errMsg =
+            err.response?.data?.message ||
+            "Không thể lấy thông tin loại lãi suất khoản vay";
+        throw { message: errMsg };
+    }
+};

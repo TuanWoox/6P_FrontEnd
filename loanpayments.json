@@ -1,0 +1,93 @@
+[
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71460"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71451"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-15T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "PENDING",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71461"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71451"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-16T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "PAID",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71462"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71451"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-17T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "OVERDUE",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71463"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71450"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-17T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "PAID",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71464"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71450"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-17T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "PAID",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71465"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71450"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-17T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "OVERDUE",
+        "overdueDays": 0
+    },
+    {
+        "_id": {
+            "$oid": "79078ecd387dabca60d71466"
+        },
+        "loan": {
+            "$oid": "68078ecd387dabca60d71450"
+        },
+        "amount": "1000000",
+        "paymentDate": "2025-03-17T09:30:22.456+00:00",
+        "dueDate": "2025-04-15T09:30:22.456+00:00",
+        "status": "PENDING",
+        "overdueDays": 0
+    }
+]
