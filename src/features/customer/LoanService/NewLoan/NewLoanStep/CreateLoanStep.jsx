@@ -188,13 +188,13 @@ function CreateLoanStep({ handleCreateLoanNext }) {
                                                         key={rate._id}
                                                         value={rate._id}
                                                     >
-                                                        {rate.termMonths}
-                                                        tháng - Lãi suất{" "}
+                                                        {rate.termMonths} tháng
+                                                        - Lãi suất:{" "}
                                                         {(
-                                                            rate.monthlyInterestRate *
+                                                            rate.annualInterestRate *
                                                             100
                                                         ).toFixed(1)}
-                                                        %
+                                                        % / năm
                                                     </option>
                                                 ),
                                             )}
