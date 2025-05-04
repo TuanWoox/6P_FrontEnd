@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import InnerHeader from "../../../../components/InnerHeader.jsx";
 import ProgressSteps from "./ProgressSteps.jsx";
@@ -12,6 +12,7 @@ import { useUpdateLoanPaymentsQuery } from "../../../../hooks/useUpdateLoanPayme
 function LoanPayment() {
     const title = "Thanh toán khoản vay";
     const { loanId } = useParams();
+    const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const { accounts } = useCheckingAccounts();
     const { loanDetail, isLoading, isError, error } =
@@ -37,7 +38,7 @@ function LoanPayment() {
     };
 
     const preStep = () => setCurrentStep((step) => step - 1);
-    const goToHome = () => setCurrentStep(1);
+    const goToHome = () => navigate(`/customer/loan/${loanId}`);
 
     const paymentBreadcrumbs = [
         { label: "Trang chủ", path: "/customer", icon: true },

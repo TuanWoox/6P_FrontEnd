@@ -19,10 +19,22 @@ function CreateLoanPayment({
         value: acc.accountNumber,
         label: `${acc.accountNumber} - Số dư khả dụng: ${acc.balance.toLocaleString()} VND`,
     }));
-    const paymentOptions = unpaidPayments.map((pay) => ({
-        value: pay._id,
-        label: `Khoản vay ${pay._id} - Trạng thái: ${pay.status}`,
-    }));
+
+    const today = new Date();
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(today.getMonth() + 1);
+
+    const filteredPayments = unpaidPayments.filter(
+        (pay) => new Date(pay.dueDate) <= oneMonthLater,
+    );
+
+    const paymentOptions = filteredPayments
+        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+        .map((pay) => ({
+            value: pay._id,
+            label: `Trạng thái: ${pay.status} - Số tiền: ${pay.amount.toLocaleString()} VND - Ngày đến hạn: ${new Date(pay.dueDate).toLocaleDateString("vi-VN")}`,
+        }));
+
     const chosenPayment = unpaidPayments.find(
         (pay) => pay._id === paymentDetails.targetPayment,
     );
@@ -50,6 +62,11 @@ function CreateLoanPayment({
             {allPaymentsPaid ? (
                 <p className="text-green-500 text-lg font-semibold">
                     Chúc mừng bạn đã thanh toán hết khoản vay này!
+                </p>
+            ) : filteredPayments.length === 0 ? (
+                <p className="text-blue-500 text-lg font-semibold">
+                    Hiện tại không có khoản thanh toán nào cần trả trong vòng 1
+                    tháng.
                 </p>
             ) : (
                 <>

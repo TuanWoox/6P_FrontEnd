@@ -33,8 +33,14 @@ function LoanDetailPage() {
     const loanTypeName = loanDetail?.loanTypeInterest?.loanType?.name;
 
     const totalPaid = loanDetail?.loanPayments
-        ? loanDetail.loanPayments.reduce((sum, p) => sum + (p.amount || 0), 0)
+        ? loanDetail.loanPayments
+              .filter((payment) => payment.status === "PAID") // Chỉ lấy các khoản thanh toán có trạng thái "PAID"
+              .reduce((sum, p) => sum + (p.amount || 0), 0)
         : 0;
+
+    const paidLoanPayments = loanDetail?.loanPayments
+        ? loanDetail.loanPayments.filter((payment) => payment.status === "PAID") // Lọc danh sách "PAID"
+        : [];
 
     return (
         <div className="mx-auto p-4">
@@ -78,7 +84,7 @@ function LoanDetailPage() {
                                     ) : (
                                         <LoanHistoryList
                                             loanHistoryData={
-                                                loanDetail.loanPayments || []
+                                                paidLoanPayments || []
                                             }
                                         />
                                     )}
