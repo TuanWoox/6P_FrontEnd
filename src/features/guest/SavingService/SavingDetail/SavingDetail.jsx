@@ -12,7 +12,7 @@ function SavingDetail({ savingType }) {
     const [productInfo, setProductInfo] = useState("Thông tin chung");
 
     return (
-        <div className="py-8 px-24">
+        <div className="px-4 py-4 sm:py-6 md:py-8 sm:px-8 md:px-12 lg:px-16 xl:px-24">
             <SavingDetail_Image
                 title={title}
                 content1_title={content1_title}
@@ -20,7 +20,7 @@ function SavingDetail({ savingType }) {
                 content2_title={content2_title}
                 content2={content2}
             />
-            <div className="flex my-10 justify-between">
+            <div className="flex flex-col justify-between gap-4 my-6 sm:flex-row md:my-8 lg:my-10 sm:gap-6">
                 {infoCard.map((item, index) => (
                     <SavingDetail_Advantage
                         key={index}
@@ -31,18 +31,18 @@ function SavingDetail({ savingType }) {
                 ))}
             </div>
             {/* Product Information Section */}
-            <div className="mb-10">
+            <div className="mb-6 md:mb-8 lg:mb-10">
                 {/* Header already in your code */}
-                <h1 className="text-3xl font-semibold mb-6">
+                <h1 className="mb-4 text-xl font-semibold sm:text-2xl md:text-3xl md:mb-6">
                     THÔNG TIN SẢN PHẨM
                 </h1>
 
                 {/* Tabs */}
-                <div className="flex mb-4">
+                <div className="flex mb-4 overflow-x-auto">
                     {/* Tab 1: Thông tin chung */}
                     <div
                         onClick={() => setProductInfo("Thông tin chung")}
-                        className={`pb-2 mr-6 cursor-pointer border-b-2 font-semibold text-2xl duration-600 ${
+                        className={`pb-2 mr-4 sm:mr-6 cursor-pointer border-b-2 font-semibold text-lg sm:text-xl md:text-2xl duration-600 whitespace-nowrap ${
                             productInfo === "Thông tin chung"
                                 ? "border-[#95C475] text-[#95C475]"
                                 : "border-transparent text-gray-500 hover:border-[#95C475] hover:text-[#95C475]"
@@ -54,7 +54,7 @@ function SavingDetail({ savingType }) {
                     {/* Tab 2: Điều kiện tham gia */}
                     <div
                         onClick={() => setProductInfo("Điều kiện tham gia")}
-                        className={`pb-2 cursor-pointer border-b-2 font-semibold text-2xl duration-600 ${
+                        className={`pb-2 cursor-pointer border-b-2 font-semibold text-lg sm:text-xl md:text-2xl duration-600 whitespace-nowrap ${
                             productInfo === "Điều kiện tham gia"
                                 ? "border-[#95C475] text-[#95C475]"
                                 : "border-transparent text-gray-500 hover:border-[#95C475] hover:text-[#95C475]"

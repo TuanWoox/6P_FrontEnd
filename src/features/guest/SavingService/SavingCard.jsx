@@ -9,26 +9,34 @@ function SavingCard({
     imgAlt = "Saving service",
 
     //Link to detail page
-    link="",
+    link = "",
 }) {
-
     return (
-        <div className="max-w-sm rounded-xl overflow-hidden shadow-lg m-5">
-            <img className="w-full rounded-t-xl" src={imgSrc} alt={imgAlt} />
-            <div className="px-6 py-4">
-                <div className="font-bold text-2xl">{title}</div>
+        <div className="w-full m-2 overflow-hidden transition-transform duration-300 shadow-lg sm:max-w-sm rounded-xl sm:m-3 md:m-5 hover:scale-105">
+            <img
+                className="object-cover w-full h-auto rounded-t-xl"
+                src={imgSrc}
+                alt={imgAlt}
+            />
+            <div className="px-4 py-3 sm:px-6 sm:py-4">
+                <div className="text-xl font-bold sm:text-2xl">{title}</div>
             </div>
-            <div className="px-6 pb-4">
-                <div className="flex justify-between items-center">
-                    <button className="w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-6 rounded-md text-center">
+            <div className="px-4 pb-3 sm:px-6 sm:pb-4">
+                <div className="flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-4">
+                    <Link
+                        to="/customer/saving/new"
+                        className="w-full sm:w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-4 sm:px-6 rounded-md text-center text-sm sm:text-base transition-colors duration-300"
+                    >
                         Đăng ký
-                    </button>
-                    <Link to={link} className="w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-6 rounded-md text-center">
+                    </Link>
+                    <Link
+                        to={link}
+                        className="w-full sm:w-40 bg-[#95C475] hover:bg-gray-100 text-white hover:text-[#95C475] border hover:border-[#95C475] py-2 px-4 sm:px-6 rounded-md text-center text-sm sm:text-base transition-colors duration-300"
+                    >
                         Tìm hiểu thêm
                     </Link>
                 </div>
             </div>
-
         </div>
     );
 }
