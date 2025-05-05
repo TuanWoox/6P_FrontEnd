@@ -31,21 +31,27 @@ function SavingCalculate({ savingTypes, interestRates }) {
     const maturityPeriod = selectedRate?.maturityPeriod || 0;
 
     return (
-        <div className="bg-gradient-to-r from-[#f3ffe9] to-[#eaf6fe] border-[#e7e7e7] border w-full mx-auto mt-8 mb-8 rounded-md shadow-md flex flex-col md:flex-row gap-4">
-            <SavingCalculateInput
-                register={register}
-                savingTypes={savingTypes}
-                filteredInterestRates={filteredInterestRates}
-                setValue={setValue}
-                isTerm={isTerm}
-            />
-            <SavingCalculateResult
-                amount={amount}
-                monthlyInterestRate={monthlyInterestRate}
-                dailyInterestRate={dailyInterestRate}
-                maturityPeriod={maturityPeriod}
-                isTerm={isTerm}
-            />
+        <div className="bg-gradient-to-r from-[#f3ffe9] to-[#eaf6fe] border-[#e7e7e7] border w-full mx-auto mt-4 sm:mt-6 lg:mt-8 mb-4 sm:mb-6 lg:mb-8 rounded-md shadow-md p-3 sm:p-4 md:p-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+                <div className="w-full lg:w-1/2">
+                    <SavingCalculateInput
+                        register={register}
+                        savingTypes={savingTypes}
+                        filteredInterestRates={filteredInterestRates}
+                        setValue={setValue}
+                        isTerm={isTerm}
+                    />
+                </div>
+                <div className="w-full lg:w-1/2">
+                    <SavingCalculateResult
+                        amount={amount}
+                        monthlyInterestRate={monthlyInterestRate}
+                        dailyInterestRate={dailyInterestRate}
+                        maturityPeriod={maturityPeriod}
+                        isTerm={isTerm}
+                    />
+                </div>
+            </div>
         </div>
     );
 }

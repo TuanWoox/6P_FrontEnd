@@ -7,12 +7,14 @@ function SavingCalculateInput({
     isTerm,
 }) {
     return (
-        <div className="flex-1 p-12 space-y-4">
+        <div className="flex-1 p-4 space-y-3 sm:p-6 md:p-8 lg:p-12 sm:space-y-4">
             <div>
-                <label className="block mb-2 text-sm">Loại tiết kiệm</label>
+                <label className="block mb-1 text-sm sm:mb-2">
+                    Loại tiết kiệm
+                </label>
                 <select
                     {...register("savingTypeId")}
-                    className="w-full border rounded-md p-4"
+                    className="w-full p-2 text-sm border rounded-md sm:p-3 md:p-4 sm:text-base"
                     onChange={(e) => {
                         setValue("savingTypeId", e.target.value);
                         setValue("interestRateId", ""); // reset interest rate selection
@@ -28,12 +30,12 @@ function SavingCalculateInput({
             </div>
 
             <div>
-                <label className="block mb-2 text-sm">
+                <label className="block mb-1 text-sm sm:mb-2">
                     Chọn kỳ hạn & lãi suất
                 </label>
                 <select
                     {...register("interestRateId")}
-                    className="w-full border rounded-md p-4"
+                    className="w-full p-2 text-sm border rounded-md sm:p-3 md:p-4 sm:text-base"
                     disabled={!filteredInterestRates.length}
                 >
                     <option value="">Chọn kỳ hạn & lãi suất</option>
@@ -49,12 +51,14 @@ function SavingCalculateInput({
             </div>
 
             <div>
-                <label className="block mb-2 text-sm">Số tiền gửi</label>
+                <label className="block mb-1 text-sm sm:mb-2">
+                    Số tiền gửi
+                </label>
                 <input
                     {...register("amount", { valueAsNumber: true })}
                     type="number"
                     placeholder="Nhập số tiền"
-                    className="w-full border rounded-md p-4"
+                    className="w-full p-2 text-sm border rounded-md sm:p-3 md:p-4 sm:text-base"
                 />
             </div>
         </div>
