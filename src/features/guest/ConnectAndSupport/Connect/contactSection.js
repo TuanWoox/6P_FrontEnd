@@ -18,7 +18,7 @@ const contactSections = [
         content: "6PBank",
     },
     {
-        header: "ĐẾN NGÂN HÀNG PHÚ QUÝ VIỆT NAM",
+        header: "ĐẾN NGÂN HÀNG 6P VIỆT NAM",
         content: "Số 1 Võ Văn Ngân, thành phố Thủ Đức, thành phố Hồ Chí Minh",
     },
 ];
