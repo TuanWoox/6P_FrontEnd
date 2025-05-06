@@ -17,6 +17,7 @@ import { useFetchPersonalInfo } from "../../../hooks/useFetchPersonalInfo";
 import Spinner from "../../../components/Spinner";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { formatCurrency, getTodayFormatted } from "../../../utils/helpers";
+import { motion } from "framer-motion";
 
 const title = "Thông tin cá nhân";
 const PersonalInforBreadcrumbs = [
@@ -64,12 +65,27 @@ function PersonalInfor() {
                   : "bg-gray-200";
 
     return (
-        <div className="mx-auto p-4 sm:p-6">
+        <motion.div
+            className="mx-auto p-4 sm:p-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+        >
             <InnerHeader title={title} breadcrumbs={PersonalInforBreadcrumbs} />
 
-            <div className="max-w-6xl mx-auto p-4 sm:p-6 border-2 border-[#96C576] rounded-lg flex flex-col lg:flex-row gap-6">
+            <motion.div
+                className="max-w-6xl mx-auto p-4 sm:p-6 border-2 border-[#96C576] rounded-lg flex flex-col lg:flex-row gap-6"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+            >
                 {/* Left Section */}
-                <div className="w-full lg:w-3/5 flex flex-col gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 pb-4 lg:pb-0 lg:pr-6">
+                <motion.div
+                    className="w-full lg:w-3/5 flex flex-col gap-4 border-b-2 lg:border-b-0 lg:border-r-2 border-gray-300 pb-4 lg:pb-0 lg:pr-6"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
+                >
                     <InfoItem
                         icon={LuUser}
                         label="Họ và tên"
@@ -114,11 +130,21 @@ function PersonalInfor() {
                         label="Địa chỉ thường trú"
                         value={personalInfo?.customerProfile?.address}
                     />
-                </div>
+                </motion.div>
 
                 {/* Right Section */}
-                <div className="w-full lg:w-2/5 flex flex-col gap-4">
-                    <div className="flex flex-col items-center mb-4">
+                <motion.div
+                    className="w-full lg:w-2/5 flex flex-col gap-4"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                    <motion.div
+                        className="flex flex-col items-center mb-4"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                    >
                         <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden mb-3">
                             <img
                                 src="/avatar_default.png"
@@ -132,7 +158,7 @@ function PersonalInfor() {
                             ></span>
                             <span className="text-sm">{statusLabel}</span>
                         </div>
-                    </div>
+                    </motion.div>
                     <InfoItem
                         icon={LuCreditCard}
                         label="Số tài khoản"
@@ -150,18 +176,23 @@ function PersonalInfor() {
                             personalInfo?.checkingAccount?.dateOpened,
                         )}
                     />
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
-            <div className="max-w-xl mx-auto mt-8">
+            <motion.div
+                className="max-w-xl mx-auto mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.4 }}
+            >
                 <Link
                     to="/customer/personal-infor/update-contact"
                     className="block text-center bg-[#96C576] hover:bg-white hover:text-[#95C475] text-white font-medium py-3 rounded-md transition-colors border-2 border-[#96C576]"
                 >
                     Thay đổi thông tin cá nhân
                 </Link>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

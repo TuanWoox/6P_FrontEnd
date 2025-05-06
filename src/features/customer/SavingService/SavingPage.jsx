@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from "framer-motion";
 import SavingsList from "./SavingList";
 import Tabs from "./Tabs";
 import Breadcrumbs from "../../../components/Breadcrumbs.jsx";
@@ -29,25 +30,41 @@ function SavingPage() {
             <div className="max-w-screen-lg mx-auto">
                 <Tabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-                {activeTab === "savinglist" ? (
-                    <>
-                        {isLoading && (
-                            <div className="text-center text-gray-500 py-8">
-                                <Spinner />
-                            </div>
-                        )}
-                        {error && (
-                            <div className="text-center text-red-500 py-8">
-                                Đã xảy ra lỗi khi tải dữ liệu.
-                            </div>
-                        )}
-                        {!isLoading && !error && (
-                            <SavingsList savingsData={savingList || []} />
-                        )}
-                    </>
-                ) : (
-                    <AddSavingsProductContent products={productsData} />
-                )}
+                <AnimatePresence mode="wait">
+                    {activeTab === "savinglist" ? (
+                        <motion.div
+                            key="savinglist"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {isLoading && (
+                                <div className="text-center text-gray-500 py-8">
+                                    <Spinner />
+                                </div>
+                            )}
+                            {error && (
+                                <div className="text-center text-red-500 py-8">
+                                    Đã xảy ra lỗi khi tải dữ liệu.
+                                </div>
+                            )}
+                            {!isLoading && !error && (
+                                <SavingsList savingsData={savingList || []} />
+                            )}
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="addsaving"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <AddSavingsProductContent products={productsData} />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );

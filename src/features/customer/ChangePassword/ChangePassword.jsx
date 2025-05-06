@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { getEmail } from "../../../services/customerService";
 import ChangePasswordInput from "./ChangePasswordInput";
 import InnerHeader from "../../../components/InnerHeader";
+import { motion } from "framer-motion"; // Import framer-motion
 
 function ChangePassword() {
     const {
@@ -62,18 +63,34 @@ function ChangePassword() {
         { label: "Cài đặt mật khẩu", isCurrent: true },
     ];
     return (
-        <div className="max-w-5xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
+        <motion.div
+            className="max-w-5xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <InnerHeader title={title} breadcrumbs={breadcrumbs} />
 
-            <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">
+            <motion.div
+                className="bg-gray-100 p-4 mb-6 rounded-md text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+            >
                 <p>
                     Mật khẩu truy cập phải đủ từ 6 kí tự và không được trùng với
                     mật khẩu cũ. Vui lòng không sử dụng các thông tin cá nhân
                     như tên, ngày sinh, số điện thoại làm mật khẩu.
                 </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">
+            <motion.div
+                className="bg-gray-100 p-4 mb-6 rounded-md text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+            >
                 <form className="space-y-4">
                     <ChangePasswordInput
                         register={register}
@@ -119,7 +136,12 @@ function ChangePassword() {
                         }}
                     />
 
-                    <div className="mb-4 flex justify-between items-center">
+                    <motion.div
+                        className="mb-4 flex justify-between items-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.4, duration: 0.5 }}
+                    >
                         <button
                             disabled={isSubmitting}
                             type="button"
@@ -131,9 +153,9 @@ function ChangePassword() {
                                 ? "Đang xử lý..."
                                 : "Thay đổi mật khẩu"}
                         </button>
-                    </div>
+                    </motion.div>
                 </form>
-            </div>
+            </motion.div>
 
             <OtpModal
                 isOpen={otpModal}
@@ -142,7 +164,7 @@ function ChangePassword() {
                 email={userEmail}
                 onNextStep={onNextStep}
             />
-        </div>
+        </motion.div>
     );
 }
 

@@ -5,7 +5,6 @@ import InfoItem from "../../../components/InfoItem";
 import InputField from "../../../components/InputField";
 import { useForm } from "react-hook-form";
 import OtpModal from "../../../components/OTPModal";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import Spinner from "../../../components/Spinner";
@@ -13,6 +12,8 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { isEmailAvailable } from "../../../services/authService";
 import { useFetchPersonalInfo } from "../../../hooks/useFetchPersonalInfo";
 import useUpdatePersonalInfo from "../../../hooks/useUpdatePersonalInfo";
+import { motion } from "framer-motion";
+
 const title = "Thông tin cá nhân";
 const PersonalInforBreadcrumbs = [
     { label: "Trang chủ", path: "/customer", icon: true },
@@ -21,7 +22,7 @@ const PersonalInforBreadcrumbs = [
         label: "Cập nhật thông tin cá nhân",
         path: "/customer/personal-infor/update-contact",
         isCurrent: true,
-    }, // Mark the last item as current
+    },
 ];
 
 function UpdateContact() {
@@ -31,6 +32,7 @@ function UpdateContact() {
         return (
             <p className="text-red-500">{error?.message || "Đã xảy ra lỗi"}</p>
         );
+
     const {
         register,
         formState: { errors },
@@ -41,22 +43,25 @@ function UpdateContact() {
     } = useForm();
     const [otpModal, setOtpModal] = useState(false);
     const { updateInfo, isUpdating } = useUpdatePersonalInfo();
+
     const onSubmit = async () => {
         const data = getValues();
         updateInfo(data);
         setOtpModal(false);
     };
+
     const parsedNumber = parsePhoneNumberFromString(
         personalInfo?.customerProfile?.phoneNumber,
-    ).country;
+    )?.country;
+
     const handleUpdateContact = () => {
-        handleSubmit(async (data) => {
-            setOtpModal(true);
-        })();
+        handleSubmit(() => setOtpModal(true))();
     };
+
     const dateOfBirth = personalInfo?.customerProfile?.dateOfBirth
         ? new Date(personalInfo.customerProfile.dateOfBirth)
         : null;
+
     const status = personalInfo?.checkingAccount?.status || "ACTIVE";
     const statusLabel =
         status === "ACTIVE"
@@ -68,6 +73,7 @@ function UpdateContact() {
                 : status === "CLOSED"
                   ? "Đã đóng"
                   : "Chưa xác định";
+
     const statusColor =
         status === "ACTIVE"
             ? "bg-green-500"
@@ -78,16 +84,34 @@ function UpdateContact() {
                 : status === "CLOSED"
                   ? "bg-red-500"
                   : "bg-gray-200";
+
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="mx-auto p-4">
+            <motion.form
+                onSubmit={handleSubmit(onSubmit)}
+                className="mx-auto p-4"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
                 <InnerHeader
                     title={title}
                     breadcrumbs={PersonalInforBreadcrumbs}
                 />
-                <div className="max-w-6xl mx-auto p-4 md:p-6 border-3 border-[#96C576] rounded-lg flex flex-col md:flex-row gap-4">
+
+                <motion.div
+                    className="max-w-6xl mx-auto p-4 md:p-6 border-3 border-[#96C576] rounded-lg flex flex-col md:flex-row gap-4"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.3, duration: 0.4 }}
+                >
                     {/* Left Section */}
-                    <div className="md:w-1/2 flex flex-col gap-4 p-4 border-b-2 md:border-b-0 md:border-r-2 border-gray-300">
+                    <motion.div
+                        className="md:w-1/2 flex flex-col gap-4 p-4 border-b-2 md:border-b-0 md:border-r-2 border-gray-300"
+                        initial={{ x: -30, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         <InfoItem
                             icon={LuCreditCard}
                             label="CCCD"
@@ -143,11 +167,21 @@ function UpdateContact() {
                             error={errors.customer?.phoneNumber}
                             type="phone"
                         />
-                    </div>
+                    </motion.div>
 
                     {/* Right Section */}
-                    <div className="md:w-1/2 flex flex-col gap-4 p-4">
-                        <div className="flex flex-col items-center">
+                    <motion.div
+                        className="md:w-1/2 flex flex-col gap-4 p-4"
+                        initial={{ x: 30, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <motion.div
+                            className="flex flex-col items-center"
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                        >
                             <div className="rounded-full w-24 h-24 flex items-center justify-center mb-3 overflow-hidden">
                                 <img
                                     src="/avatar_default.png"
@@ -161,7 +195,7 @@ function UpdateContact() {
                                 ></div>
                                 <span className="text-sm">{statusLabel}</span>
                             </div>
-                        </div>
+                        </motion.div>
                         <InputField
                             label="Địa chỉ thường trú"
                             name="customer.address"
@@ -203,20 +237,27 @@ function UpdateContact() {
                             control={control}
                             error={errors.customer?.email}
                         />
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
 
                 {/* Submit Button */}
-                <div className="flex justify-center mt-4">
-                    <button
+                <motion.div
+                    className="flex justify-center mt-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                >
+                    <motion.button
                         type="button"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         className="bg-[#95C475] hover:bg-white hover:text-[#95C475] hover:border-[#95C475] border-2 text-white py-2 px-6 rounded-2xl w-full md:w-1/2 transition"
                         onClick={handleUpdateContact}
                     >
                         Chấp nhận thay đổi
-                    </button>
-                </div>
-            </form>
+                    </motion.button>
+                </motion.div>
+            </motion.form>
 
             <OtpModal
                 isOpen={otpModal}
