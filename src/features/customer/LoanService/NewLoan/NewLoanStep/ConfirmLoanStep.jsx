@@ -6,7 +6,7 @@ import { getEmail } from "../../../../../services/customerService";
 import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { useCreateNewLoan } from "../../../../../hooks/useCreateNewLoan";
-import { createPayments } from "../../../../../services/paymentService";
+// import { createPayments } from "../../../../../services/paymentService";
 
 function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
     const [otpModalOpen, setOtpModalOpen] = useState(false);
@@ -59,33 +59,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
         onError: (error) => toast.error(error.message),
     });
 
-    // Tính toán các kỳ thanh toán
-    const calculatePayments = (
-        loanId,
-        startDate,
-        termMonths,
-        monthlyPayment,
-    ) => {
-        const payments = [];
-        const dueDate = new Date(startDate);
-
-        for (let month = 1; month <= termMonths; month++) {
-            // Tăng tháng lên 1 cho mỗi kỳ thanh toán
-            dueDate.setMonth(dueDate.getMonth() + 1);
-
-            const payment = {
-                loan: loanId,
-                amount: monthlyPayment,
-                dueDate: new Date(dueDate), // Clone ngày để tránh reference
-                status: "PENDING",
-            };
-
-            payments.push(payment);
-        }
-
-        return payments;
-    };
-
     // Trong hàm xử lý tạo khoản vay
     const handleCreateLoan = async (loanData) => {
         try {
@@ -97,23 +70,8 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                 });
             });
 
-            // Tính toán monthlyPayment (nếu chưa có)
-            const monthlyPayment = calculateMonthlyPayment(
-                loanData.loanAmount,
-                loanData.selectedLoanInterestRate.annualInterestRate,
-                loanData.selectedLoanInterestRate.termMonths,
-            );
-
-            // Tạo các kỳ thanh toán
-            const payments = calculatePayments(
-                loanResponse._id,
-                new Date(),
-                loanData.selectedLoanInterestRate.termMonths,
-                monthlyPayment,
-            );
-
             // Gọi API để lưu các kỳ thanh toán
-            await createPayments(payments);
+            // await createPayments(payments);
 
             // Chuyển đến bước tiếp theo
             handleCreateLoanNext(loanResponse);
@@ -121,15 +79,6 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
             console.error("Error creating loan:", error);
             toast.error("Không thể tạo khoản vay. Vui lòng thử lại.");
         }
-    };
-
-    // Hàm tính toán số tiền trả hàng tháng
-    const calculateMonthlyPayment = (amount, annualRate, termMonths) => {
-        const monthlyRate = annualRate / 100 / 12;
-        const payment =
-            (amount * monthlyRate) /
-            (1 - Math.pow(1 + monthlyRate, -termMonths));
-        return Math.round(payment);
     };
 
     function handleNext() {
@@ -140,26 +89,26 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto p-4">
+            <div className="max-w-2xl p-4 mx-auto">
                 {/* Thông tin khoản vay đã được duyệt */}
-                <div className="bg-gray-100 p-6 rounded-lg mb-6">
+                <div className="p-6 mb-6 bg-gray-100 rounded-lg">
                     <div className="space-y-4">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">Thời hạn</span>
-                            <span className="text-gray-900 font-medium">
+                            <span className="font-medium text-gray-900">
                                 {loanData.selectedLoanInterestRate.termMonths}{" "}
                                 tháng
                             </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">Ngày vay</span>
-                            <span className="text-gray-900 font-medium">
+                            <span className="font-medium text-gray-900">
                                 {new Date().toLocaleDateString("vi-VN")}
                             </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">Ngày hết hạn</span>
-                            <span className="text-gray-900 font-medium">
+                            <span className="font-medium text-gray-900">
                                 {formattedDueDate}
                             </span>
                         </div>
@@ -167,26 +116,26 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                 </div>
 
                 {/* Chi tiết khoản vay */}
-                <div className="bg-gray-100 p-6 rounded-lg mb-6">
+                <div className="p-6 mb-6 bg-gray-100 rounded-lg">
                     <div className="space-y-4">
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">Lãi suất năm</span>
-                            <span className="text-gray-900 font-medium">
+                            <span className="font-medium text-gray-900">
                                 {(annualInterestRate * 100).toFixed(1)} %
                             </span>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">Phí thu hộ</span>
-                            <span className="text-gray-900 font-medium">
+                            <span className="font-medium text-gray-900">
                                 0 VND
                             </span>
                         </div>
-                        <div className="border-b border-gray-200 my-2"></div>
-                        <div className="flex justify-between items-center">
+                        <div className="my-2 border-b border-gray-200"></div>
+                        <div className="flex items-center justify-between">
                             <span className="text-gray-700">
                                 Số tiền thực nhận
                             </span>
-                            <span className="text-red-600 font-medium">
+                            <span className="font-medium text-red-600">
                                 {formatCurrency(loanData.loanAmount)} VND
                             </span>
                         </div>
