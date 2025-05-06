@@ -20,9 +20,19 @@ const silentAxios = axios.create({
     validateStatus: () => true,
 });
 
+// Use a promise to prevent multiple refresh calls
+let refreshTokenPromise = null;
+// Flag to track if we need to redirect to signin
+let redirectRequired = false;
+
 export const refreshAccessTokenFn = async () => {
-    const response = await axiosAuth.post(`${API_URL}/auth/refreshToken`);
-    return response.data;
+    try {
+        const response = await axiosAuth.post(`${API_URL}/auth/refreshToken`);
+        return response.data;
+    } catch (error) {
+        redirectRequired = true;
+        throw error; // Propagate the error
+    }
 };
 
 // Utility function to check if a token is valid
@@ -31,32 +41,57 @@ export const checkTokenValidity = async () => {
     return response.status === 200;
 };
 
-// Flag to prevent multiple redirects
-let isRedirecting = false;
+// Function to handle redirection to signin
+const redirectToSignIn = () => {
+    // Only redirect once
+    if (!redirectRequired) {
+        redirectRequired = true;
+        window.location.href = "/signin";
+    }
+};
 
 axiosAuth.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
 
-        // If the request failed due to expired/invalid token
+        // If the request failed due to expired/invalid token and we haven't tried to refresh yet
         if (error.response?.status === 403 && !originalRequest._retry) {
             originalRequest._retry = true;
 
             try {
-                await refreshAccessTokenFn(); // Refresh token using cookie
-                return axiosAuth(originalRequest); // Retry original request silently
-            } catch (refreshError) {
-                // Prevent multiple redirects and errors
-                if (!isRedirecting) {
-                    isRedirecting = true;
-                    window.location.href = "/signin";
+                // If already refreshing, wait for that promise instead of creating a new one
+                if (!refreshTokenPromise) {
+                    refreshTokenPromise = refreshAccessTokenFn();
+                }
 
-                    // Return a resolved promise to prevent the error from propagating
+                await refreshTokenPromise.finally(() => {
+                    // Reset the promise after it resolves or rejects
+                    refreshTokenPromise = null;
+                });
+
+                // If we successfully refreshed the token, retry the original request
+                return axiosAuth(originalRequest);
+            } catch (refreshError) {
+                // If refresh failed and we need to redirect
+                if (redirectRequired) {
+                    redirectToSignIn();
+                    // Return a never-resolving promise to prevent error propagation
                     return new Promise(() => {});
                 }
                 return Promise.reject(refreshError);
             }
+        }
+
+        // Handle the case where the refresh token itself is invalid/deleted
+        if (
+            error.response?.status === 401 &&
+            (error.config.url === `${API_URL}/auth/refreshToken` ||
+                error.response?.data?.message?.includes("refresh token"))
+        ) {
+            redirectToSignIn();
+            // Return a never-resolving promise to prevent error propagation
+            return new Promise(() => {});
         }
 
         // If not a token issue or already retried
