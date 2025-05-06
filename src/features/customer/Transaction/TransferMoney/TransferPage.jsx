@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import ProgressSteps from "./ProgressSteps";
+import ProgressSteps from "../../../../components/ProgressStep.jsx";
 import CreateTransactionStep from "./TransferStep/CreateTransactionStep";
 import ConfirmTransactionStep from "./TransferStep/ConfirmTransactionStep";
 import ResultTransactionStep from "./TransferStep/ResultTransactionStep";

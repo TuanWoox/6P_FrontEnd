@@ -1,5 +1,6 @@
-// SetLimitTransaction.jsx - Main Component
+// SetLimitTransaction.jsx - Main Component with Framer Motion
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import InnerHeader from "../../../components/InnerHeader";
 import {
     useGetLimitTransaction,
@@ -10,6 +11,45 @@ import SuccessMessage from "./components/SuccessMessage";
 import LimitOptions from "./components/LimitOptions";
 import ConfirmationModal from "./components/ConfirmationModal";
 import Spinner from "../../../components/Spinner";
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            duration: 0.4,
+            when: "beforeChildren",
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const contentVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.3 },
+    },
+    exit: {
+        opacity: 0,
+        scale: 0.96,
+        transition: { duration: 0.2 },
+    },
+};
+
+const spinnerVariants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.3,
+            repeat: 0,
+        },
+    },
+};
 
 export default function SetLimitTransaction() {
     const {
@@ -74,44 +114,80 @@ export default function SetLimitTransaction() {
 
     if (loadingLimit) {
         return (
-            <div className="text-center py-8">
+            <motion.div
+                className="text-center py-8"
+                initial="hidden"
+                animate="visible"
+                variants={spinnerVariants}
+            >
                 <Spinner />
-            </div>
+            </motion.div>
         );
     }
+
     if (loadError) {
         return (
-            <div className="text-center py-8 text-red-600">
+            <motion.div
+                className="text-center py-8 text-red-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+            >
                 Lỗi tải hạn mức: {loadError.message}
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="p-5 bg-gray-100 rounded-lg max-w-5xl mx-auto">
+        <motion.div
+            className="p-5 bg-gray-100 rounded-lg max-w-5xl mx-auto"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+        >
             <InnerHeader title={title} breadcrumbs={breadcrumbs} />
 
-            {isSuccess ? (
-                <SuccessMessage
-                    selectedLimit={selectedLimit}
-                    onClose={closeSuccessMessage}
-                />
-            ) : (
-                <LimitOptions
-                    options={LIMIT_OPTIONS}
-                    selectedLimit={selectedLimit}
-                    onSelectLimit={handleLimitSelection}
-                />
-            )}
+            <AnimatePresence mode="wait">
+                {isSuccess ? (
+                    <motion.div
+                        key="successMessage"
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        variants={contentVariants}
+                    >
+                        <SuccessMessage
+                            selectedLimit={selectedLimit}
+                            onClose={closeSuccessMessage}
+                        />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="limitOptions"
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        variants={contentVariants}
+                    >
+                        <LimitOptions
+                            options={LIMIT_OPTIONS}
+                            selectedLimit={selectedLimit}
+                            onSelectLimit={handleLimitSelection}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {showPopup && (
-                <ConfirmationModal
-                    pendingLimit={pendingLimit}
-                    updating={updating}
-                    onConfirm={confirmChange}
-                    onCancel={cancelChange}
-                />
-            )}
-        </div>
+            <AnimatePresence>
+                {showPopup && (
+                    <ConfirmationModal
+                        pendingLimit={pendingLimit}
+                        updating={updating}
+                        onConfirm={confirmChange}
+                        onCancel={cancelChange}
+                    />
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }

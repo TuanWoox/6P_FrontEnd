@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from "react";
 import InnerHeader from "../../../../components/InnerHeader";
-import ProgressSteps from "../../LoanService/NewLoan/ProgressSteps";
+import ProgressSteps from "../../../../components/ProgressStep";
 import CreateSavingStep from "./NewSavingStep/CreateSavingStep";
 import { useFetchAllSavingTypes } from "../../../../hooks/useFetchAllSavingTypes";
 import { useFetchAllSavingnterestRates } from "../../../../hooks/useFetchAllSavingnterestRates";
