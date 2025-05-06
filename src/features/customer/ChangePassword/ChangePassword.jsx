@@ -62,7 +62,7 @@ function ChangePassword() {
         { label: "Cài đặt mật khẩu", isCurrent: true },
     ];
     return (
-        <div className="max-w mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
+        <div className="max-w-5xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
             <InnerHeader title={title} breadcrumbs={breadcrumbs} />
 
             <div className="bg-gray-100 p-4 mb-6 rounded-md text-sm">

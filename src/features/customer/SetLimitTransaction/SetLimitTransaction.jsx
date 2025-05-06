@@ -88,7 +88,7 @@ export default function SetLimitTransaction() {
     }
 
     return (
-        <div className="p-5 bg-gray-100 rounded-lg">
+        <div className="p-5 bg-gray-100 rounded-lg max-w-5xl mx-auto">
             <InnerHeader title={title} breadcrumbs={breadcrumbs} />
 
             {isSuccess ? (

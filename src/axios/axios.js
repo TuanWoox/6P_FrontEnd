@@ -9,92 +9,59 @@ const axiosAuth = axios.create({
     },
 });
 
-// Silent axios instance for token validation that doesn't trigger browser errors
-const silentAxios = axios.create({
-    withCredentials: true,
-    headers: {
-        "Content-Type": "application/json",
-    },
-    // Setting validateStatus to always return true prevents axios from treating
-    // any status code as an error, so it won't show up as red in dev tools
-    validateStatus: () => true,
-});
-
-// Use a promise to prevent multiple refresh calls
-let refreshTokenPromise = null;
-// Flag to track if we need to redirect to signin
-let redirectRequired = false;
-
 export const refreshAccessTokenFn = async () => {
-    try {
-        const response = await axiosAuth.post(`${API_URL}/auth/refreshToken`);
-        return response.data;
-    } catch (error) {
-        redirectRequired = true;
-        throw error; // Propagate the error
-    }
+    const response = await axiosAuth.post(`${API_URL}/auth/refreshToken`);
+    return response.data;
 };
 
-// Utility function to check if a token is valid
-export const checkTokenValidity = async () => {
-    const response = await silentAxios.post(`${API_URL}/auth/validateJWT`);
-    return response.status === 200;
-};
+// For navigating to sign-in page when unauthorized
+let navigate = null;
 
-// Function to handle redirection to signin
-const redirectToSignIn = () => {
-    // Only redirect once
-    if (!redirectRequired) {
-        redirectRequired = true;
-        window.location.href = "/signin";
-    }
+// Function to set the navigate function from your component
+export const setAuthNavigate = (navigateFunction) => {
+    navigate = navigateFunction;
 };
 
 axiosAuth.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        return response;
+    },
     async (error) => {
         const originalRequest = error.config;
 
-        // If the request failed due to expired/invalid token and we haven't tried to refresh yet
-        if (error.response?.status === 403 && !originalRequest._retry) {
+        // Check for 403 Forbidden status code
+        if (
+            error.response &&
+            error.response.status === 403 &&
+            !originalRequest._retry
+        ) {
             originalRequest._retry = true;
-
             try {
-                // If already refreshing, wait for that promise instead of creating a new one
-                if (!refreshTokenPromise) {
-                    refreshTokenPromise = refreshAccessTokenFn();
-                }
-
-                await refreshTokenPromise.finally(() => {
-                    // Reset the promise after it resolves or rejects
-                    refreshTokenPromise = null;
-                });
-
-                // If we successfully refreshed the token, retry the original request
+                // Attempt to refresh the token
+                await refreshAccessTokenFn();
+                // Retry the original request with the new token
                 return axiosAuth(originalRequest);
             } catch (refreshError) {
-                // If refresh failed and we need to redirect
-                if (redirectRequired) {
-                    redirectToSignIn();
-                    // Return a never-resolving promise to prevent error propagation
-                    return new Promise(() => {});
-                }
+                // If token refresh fails, reject with the refresh error
                 return Promise.reject(refreshError);
             }
         }
 
-        // Handle the case where the refresh token itself is invalid/deleted
-        if (
-            error.response?.status === 401 &&
-            (error.config.url === `${API_URL}/auth/refreshToken` ||
-                error.response?.data?.message?.includes("refresh token"))
-        ) {
-            redirectToSignIn();
-            // Return a never-resolving promise to prevent error propagation
-            return new Promise(() => {});
+        // Check for 401 Unauthorized status code
+        if (error.response && error.response.status === 401) {
+            // Redirect to sign-in page if navigate function is available
+            if (navigate) {
+                navigate("/signin");
+            } else {
+                console.warn(
+                    "Navigation function not set. Unable to redirect to sign-in page.",
+                );
+                // Alternative approach if you're not using React Router:
+                // window.location.href = "/signin";
+            }
         }
 
-        // If not a token issue or already retried
+        // For other errors, just reject with the original error
         return Promise.reject(error);
     },
 );

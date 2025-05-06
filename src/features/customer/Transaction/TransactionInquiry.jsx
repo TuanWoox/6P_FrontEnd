@@ -91,7 +91,7 @@ export default function TransactionInquiry() {
 
             <div className="flex flex-col gap-3 w-full max-w-4xl mx-auto bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-89 h-89 overflow-y-auto">
                 {loading ? (
-                    <div className="text-center text-2xl py-8 text-gray-500">
+                    <div className="flex justify-center items-center h-40">
                         <Spinner />
                     </div>
                 ) : error ? (

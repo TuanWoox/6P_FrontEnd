@@ -10,7 +10,7 @@ import Spinner from "../../../components/Spinner";
 import { checkAccount } from "../../../services/authService";
 function SignIn() {
     const { login, loading } = useAuth();
-    const { isAuthenticated, loading: isAuthenticating } = useAuthContext();
+    const { isAuthenticated } = useAuthContext();
     const {
         register,
         formState: { errors },
@@ -30,7 +30,7 @@ function SignIn() {
             setOtpModal(true);
         })();
     };
-    if (isAuthenticating) return <Spinner />;
+
     if (isAuthenticated) {
         return <Navigate to="/customer" replace />;
     }
