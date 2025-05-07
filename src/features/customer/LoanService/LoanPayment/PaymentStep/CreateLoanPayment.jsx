@@ -1,5 +1,4 @@
 import Button from "../FormElements/Button";
-import InputField from "../FormElements/InputField";
 import SelectField from "../FormElements/SelectField";
 import LoanPaymentStatus from "../FormElements/LoanPaymentStatus";
 import { useEffect } from "react";
@@ -8,25 +7,16 @@ function CreateLoanPayment({
     nextStep,
     accounts,
     payments,
+    filteredPayments,
     paymentDetails,
     handleInputChange,
     moneyAddOnOverdue,
+    allPaymentsPaid,
 }) {
-    const unpaidPayments = payments.filter((pay) => pay.status !== "PAID");
-    const allPaymentsPaid = unpaidPayments.length === 0;
-
     const accountOptions = accounts.map((acc) => ({
         value: acc.accountNumber,
         label: `${acc.accountNumber} - Số dư khả dụng: ${acc.balance.toLocaleString()} VND`,
     }));
-
-    const today = new Date();
-    const oneMonthLater = new Date();
-    oneMonthLater.setMonth(today.getMonth() + 1);
-
-    const filteredPayments = unpaidPayments.filter(
-        (pay) => new Date(pay.dueDate) <= oneMonthLater,
-    );
 
     const paymentOptions = filteredPayments
         .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
@@ -35,7 +25,7 @@ function CreateLoanPayment({
             label: `Trạng thái: ${pay.status} - Số tiền: ${pay.amount.toLocaleString()} VND - Ngày đến hạn: ${new Date(pay.dueDate).toLocaleDateString("vi-VN")}`,
         }));
 
-    const chosenPayment = unpaidPayments.find(
+    const chosenPayment = payments.find(
         (pay) => pay._id === paymentDetails.targetPayment,
     );
     const chosenAccount = accounts.find(
@@ -52,11 +42,13 @@ function CreateLoanPayment({
                         chosenPayment.amount
                       : 0)
             : false;
+
     useEffect(() => {
         if (chosenPayment) {
             handleInputChange("amount", chosenPayment.amount);
         }
     }, [chosenPayment, handleInputChange]);
+
     return (
         <div className="bg-gray-50 p-6 rounded-lg space-y-4">
             {allPaymentsPaid ? (

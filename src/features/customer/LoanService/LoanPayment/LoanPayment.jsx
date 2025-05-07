@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import InnerHeader from "../../../../components/InnerHeader.jsx";
-import ProgressSteps from "./ProgressSteps.jsx";
+import ProgressSteps from "../../../../components/ProgressStep.jsx";
 import CreateLoanPayment from "./PaymentStep/CreateLoanPayment.jsx";
 import ConfirmLoanPayment from "./PaymentStep/ConfirmLoanPayment.jsx";
 import ResultLoanPayment from "./PaymentStep/ResultLoanPayment.jsx";
@@ -9,6 +9,7 @@ import useCheckingAccounts from "../../../../hooks/useGetCheckingAccount.js";
 import { useFetchLoanDetail } from "../../../../hooks/useFetchLoanDetail.js";
 import { useUpdateLoanPaymentsQuery } from "../../../../hooks/useUpdateLoanPayments.js";
 import Spinner from "../../../../components/Spinner.jsx";
+
 function LoanPayment() {
     const title = "Thanh toán khoản vay";
     const { loanId } = useParams();
@@ -52,28 +53,53 @@ function LoanPayment() {
     ];
 
     if (isLoading || isUpdating)
-        return <div className="text-center py-8">Đang tải tài khoản...</div>;
+        return (
+            <div className="text-center py-8">
+                <Spinner />
+            </div>
+        );
     if (isError || isUpdateError)
         return (
             <div className="text-center py-8 text-red-600">
                 Lỗi tải tài khoản: {error?.message}
             </div>
         );
+
+    const unpaidPayments = loanDetail.loanPayments.filter(
+        (pay) => pay.status !== "PAID",
+    );
+
+    const today = new Date();
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(today.getMonth() + 1);
+
+    const filteredPayments = unpaidPayments.filter(
+        (pay) => new Date(pay.dueDate) <= oneMonthLater,
+    );
+
+    const allPaymentsPaid = unpaidPayments.length === 0;
+    const noPaymentThisMonth = filteredPayments.length === 0;
+
     return (
         <div>
             <InnerHeader title={title} breadcrumbs={paymentBreadcrumbs} />
             <div className="max-w-3xl mx-auto p-4 font-sans">
-                <ProgressSteps currentStep={currentStep} />
+                {!noPaymentThisMonth && (
+                    <ProgressSteps currentStep={currentStep} />
+                )}
+
                 {currentStep === 1 && (
                     <CreateLoanPayment
                         nextStep={nextStep}
                         accounts={accounts}
                         payments={loanDetail.loanPayments}
+                        filteredPayments={filteredPayments}
                         paymentDetails={paymentDetails}
                         handleInputChange={handleInputChange}
                         moneyAddOnOverdue={
                             loanDetail.loanTypeInterest.moneyAddOnOverdue
                         }
+                        allPaymentsPaid={allPaymentsPaid}
                     />
                 )}
 
