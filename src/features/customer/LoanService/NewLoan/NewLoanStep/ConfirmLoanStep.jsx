@@ -47,7 +47,7 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
 
     const {
         mutate: createNewLoan,
-        // isLoading: isCreating,
+        isLoading: isCreating,
         // error: createError,
     } = useCreateNewLoan({
         onSuccess: (result) => {
@@ -146,8 +146,11 @@ function ConfirmLoanStep({ preStep, loanData, handleCreateLoanNext }) {
                     <Button variant="secondary" onClick={preStep}>
                         Quay lại
                     </Button>
-                    <Button onClick={() => setOtpModalOpen(true)}>
-                        Tiếp tục
+                    <Button
+                        onClick={() => setOtpModalOpen(true)}
+                        isDisable={isCreating}
+                    >
+                        {isCreating ? "Đang tạo tài khoản" : "Tiếp tục"}
                     </Button>
                 </div>
             </div>

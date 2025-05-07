@@ -3,6 +3,7 @@ export default function Button({
     variant = "primary",
     children,
     fullWidth = false,
+    isDisable = false,
 }) {
     const baseClasses = "font-medium py-3 px-4 rounded transition duration-200";
     const variantClasses = {
@@ -15,6 +16,7 @@ export default function Button({
         <button
             onClick={onClick}
             className={`${baseClasses} ${variantClasses[variant]} ${fullWidth ? "w-full" : ""} `}
+            disabled={isDisable}
         >
             {children}
         </button>
