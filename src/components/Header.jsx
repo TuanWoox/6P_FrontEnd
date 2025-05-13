@@ -49,17 +49,23 @@ function Header() {
     const [searchResults, setSearchResults] = useState([]);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const searchContainerRef = useRef(null);
+    const desktopSearchRef = useRef(null);
+    const mobileSearchRef = useRef(null);
     const mobileMenuRef = useRef(null);
     const navigate = useNavigate();
     const { isAuthenticated } = useAuthContext();
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (
-                searchContainerRef.current &&
-                !searchContainerRef.current.contains(event.target)
-            ) {
+            // Check if clicked outside of both search containers
+            const clickedOutsideDesktopSearch =
+                desktopSearchRef.current &&
+                !desktopSearchRef.current.contains(event.target);
+            const clickedOutsideMobileSearch =
+                mobileSearchRef.current &&
+                !mobileSearchRef.current.contains(event.target);
+
+            if (clickedOutsideDesktopSearch && clickedOutsideMobileSearch) {
                 setIsSearchFocused(false);
             }
 
@@ -109,17 +115,19 @@ function Header() {
         setIsSearchFocused(true);
     };
 
-    const handleResultClick = (link) => {
+    const handleSearchResultClick = (link) => {
+        console.log("Clicked link:", link);
         navigate(link);
         setSearchTerm("");
         setSearchResults([]);
         setIsSearchFocused(false);
         setMobileMenuOpen(false);
-        if (searchContainerRef.current) {
-            const inputElement =
-                searchContainerRef.current.querySelector("input");
-            inputElement?.blur();
-        }
+
+        // Blur both search inputs
+        const desktopInput = desktopSearchRef.current?.querySelector("input");
+        const mobileInput = mobileSearchRef.current?.querySelector("input");
+        desktopInput?.blur();
+        mobileInput?.blur();
     };
 
     const toggleMobileMenu = () => {
@@ -175,7 +183,7 @@ function Header() {
                     />
                 )}
 
-                <div className="relative" ref={searchContainerRef}>
+                <div className="relative" ref={desktopSearchRef}>
                     <input
                         type="text"
                         className="w-40 lg:w-56 bg-slate-100 transition-transform duration-300 ease-in-out rounded-full p-2 px-4 border-2 border-[#F0F0F0] outline-none text-gray-600 focus:scale-105 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -193,7 +201,7 @@ function Header() {
                                             <button
                                                 type="button"
                                                 onClick={() =>
-                                                    handleResultClick(
+                                                    handleSearchResultClick(
                                                         result.link,
                                                     )
                                                 }
@@ -235,7 +243,7 @@ function Header() {
             >
                 <div className="flex flex-col h-full p-4 pt-16">
                     <div className="mb-4">
-                        <div className="relative" ref={searchContainerRef}>
+                        <div className="relative" ref={mobileSearchRef}>
                             <input
                                 type="text"
                                 className="w-full bg-slate-100 rounded-full p-2 px-4 border-2 border-[#F0F0F0] outline-none text-gray-600 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -258,7 +266,7 @@ function Header() {
                                                     <button
                                                         type="button"
                                                         onClick={() =>
-                                                            handleResultClick(
+                                                            handleSearchResultClick(
                                                                 result.link,
                                                             )
                                                         }
