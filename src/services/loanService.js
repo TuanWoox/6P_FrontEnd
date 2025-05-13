@@ -103,3 +103,18 @@ export const getLoanTypeInterest = async (id) => {
         throw { message: errMsg };
     }
 };
+
+// Cập nhật các khoản thanh toán liên quan đến khoản vay
+export const updateLoanPayments = async (loanId) => {
+    try {
+        const response = await axiosAuth.get(
+            `${API_URL}/loanAccount/loanPayment/update?loan=${loanId}`,
+        );
+        return response.data;
+    } catch (error) {
+        const errMsg =
+            error.response?.data?.message ||
+            "Không thể cập nhật trạng thái khoản thanh toán";
+        throw new Error(errMsg);
+    }
+};

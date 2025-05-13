@@ -16,6 +16,8 @@ function LoanPayment() {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const { accounts } = useCheckingAccounts();
+    const { isLoading: isUpdating, isError: isUpdateError } =
+        useUpdateLoanPaymentsQuery(loanId);
     const { loanDetail, isLoading, isError, error } =
         useFetchLoanDetail(loanId);
     const [paymentDetails, setPaymentDetails] = useState({
@@ -30,9 +32,6 @@ function LoanPayment() {
             [field]: value,
         }));
     }, []);
-
-    const { isLoading: isUpdating, isError: isUpdateError } =
-        useUpdateLoanPaymentsQuery(loanId);
 
     const nextStep = async () => {
         setCurrentStep((step) => step + 1);
