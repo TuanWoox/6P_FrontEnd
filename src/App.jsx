@@ -172,7 +172,7 @@ function App() {
                                     element={<SavingPage />}
                                 />
                                 <Route
-                                    path="/customer/saving/:accountId"
+                                    path="/customer/saving/detail"
                                     element={<SavingDetailPage />}
                                 />
                                 <Route

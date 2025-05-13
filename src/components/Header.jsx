@@ -76,6 +76,14 @@ function Header() {
             ) {
                 setMobileMenuOpen(false);
             }
+
+            if (
+                mobileMenuRef.current &&
+                !mobileMenuRef.current.contains(event.target) &&
+                !event.target.closest(".mobile-menu-button")
+            ) {
+                setMobileMenuOpen(false);
+            }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
@@ -182,7 +190,6 @@ function Header() {
                         className="px-4 py-2"
                     />
                 )}
-
                 <div className="relative" ref={desktopSearchRef}>
                     <input
                         type="text"
