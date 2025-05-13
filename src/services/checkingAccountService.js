@@ -32,7 +32,7 @@ export const checkAvailableTargetAccount = async (targetAccount) => {
         const response = await axiosAuth.get(
             `${API_URL}/checkingAccount/checkAvilableTargetAccount/${targetAccount}`,
         );
-        console.log(response.data);
+
         return response.data;
     } catch (err) {
         const msg =
@@ -46,7 +46,7 @@ export const getLimitTransaction = async () => {
         const response = await axiosAuth.get(
             `${API_URL}/checkingAccount/setLimitTransaction`,
         );
-        console.log(response.data);
+
         return response.data;
     } catch (err) {
         const msg = err.response?.data?.message || "Không thể lấy hạn mức";
@@ -56,7 +56,6 @@ export const getLimitTransaction = async () => {
 
 export const updateLimitTransaction = async (data) => {
     try {
-        console.log("Data to update:", data);
         const response = await axiosAuth.post(
             `${API_URL}/checkingAccount/setLimitTransaction`,
             data,

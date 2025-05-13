@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const servicesAndProducts = [
     { name: "Cho vay", link: "/loan" },
@@ -47,9 +48,12 @@ function Header() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const searchContainerRef = useRef(null);
+    const mobileMenuRef = useRef(null);
     const navigate = useNavigate();
     const { isAuthenticated } = useAuthContext();
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (
@@ -57,6 +61,14 @@ function Header() {
                 !searchContainerRef.current.contains(event.target)
             ) {
                 setIsSearchFocused(false);
+            }
+
+            if (
+                mobileMenuRef.current &&
+                !mobileMenuRef.current.contains(event.target) &&
+                !event.target.closest(".mobile-menu-button")
+            ) {
+                setMobileMenuOpen(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -102,6 +114,7 @@ function Header() {
         setSearchTerm("");
         setSearchResults([]);
         setIsSearchFocused(false);
+        setMobileMenuOpen(false);
         if (searchContainerRef.current) {
             const inputElement =
                 searchContainerRef.current.querySelector("input");
@@ -109,91 +122,263 @@ function Header() {
         }
     };
 
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
+    };
+
     return (
-        <header className="w-full flex flex-row justify-between items-center p-4 bg-white border-b-2 border-[#F0F0F0] shadow-md relative z-20">
-            <Logo to="/" />
-            <DropDownLink
-                title="Sản phẩm & Dịch vụ"
-                items={servicesAndProducts}
-                tabOpen={tabOpen}
-                setTabOpen={setTabOpen}
-            />
-            <DropDownLink
-                title="Công cụ & Tiện ích"
-                items={toolsAndUtilities}
-                tabOpen={tabOpen}
-                setTabOpen={setTabOpen}
-            />
-            <DropDownLink
-                title="Liên hệ & Hỗ trợ"
-                items={connectAndSupport}
-                tabOpen={tabOpen}
-                setTabOpen={setTabOpen}
-            />
-            {isAuthenticated ? (
-                <Link
-                    to="/customer"
-                    className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out py-2 px-4 ms-auto"
-                >
-                    <UserCircleIcon className="w-6 h-6" />
-                </Link>
-            ) : (
+        <header className="w-full flex flex-row justify-between items-center p-2 sm:p-4 bg-white border-b-2 border-[#F0F0F0] shadow-md relative z-20">
+            <Logo to="/" className="z-30" />
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex md:items-center md:space-x-1 lg:space-x-4">
                 <DropDownLink
-                    icon={
-                        <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
-                    }
-                    title="Người dùng"
-                    items={User}
+                    title="Sản phẩm & Dịch vụ"
+                    items={servicesAndProducts}
                     tabOpen={tabOpen}
                     setTabOpen={setTabOpen}
-                    className="py-2 px-4 ms-auto" // Add ms-auto here as well
                 />
-            )}
-
-            {/* <a className="ms-auto" href="/signin">
-        <UserCircleIcon className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-all duration-300 ease-in-out" />
-      </a> */}
-
-            {/* <input
-        type="text"
-        className="w-56 bg-slate-100 transition-transform duration-300 ease-in-out rounded-full p-2 border-2 border-[#F0F0F0] outline-none ms-auto text-gray-600 focus:scale-105"
-        placeholder="Tìm kiếm"
-      /> */}
-
-            <div className="relative ms-auto" ref={searchContainerRef}>
-                <input
-                    type="text"
-                    className="w-56 bg-slate-100 transition-transform duration-300 ease-in-out rounded-full p-2 px-4 border-2 border-[#F0F0F0] outline-none text-gray-600 focus:scale-105 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Tìm kiếm..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    onFocus={handleSearchFocus}
+                <DropDownLink
+                    title="Công cụ & Tiện ích"
+                    items={toolsAndUtilities}
+                    tabOpen={tabOpen}
+                    setTabOpen={setTabOpen}
                 />
-                {isSearchFocused && searchTerm && (
-                    <div className="absolute top-full left-0 right-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg z-30 max-h-60 overflow-y-auto">
-                        {searchResults.length > 0 ? (
-                            <ul>
-                                {searchResults.map((result) => (
-                                    <li key={result.link + result.name}>
-                                        <button
-                                            type="button"
+                <DropDownLink
+                    title="Liên hệ & Hỗ trợ"
+                    items={connectAndSupport}
+                    tabOpen={tabOpen}
+                    setTabOpen={setTabOpen}
+                />
+            </div>
+
+            {/* Desktop User and Search */}
+            <div className="hidden md:flex md:items-center md:space-x-2">
+                {isAuthenticated ? (
+                    <Link
+                        to="/customer"
+                        className="flex items-center gap-2 px-4 py-2 text-gray-700 bg-white rounded-full border border-gray-200 shadow-sm transition-all duration-200 hover:bg-gray-100 hover:shadow-md"
+                    >
+                        <UserCircleIcon className="w-5 h-5 text-gray-600" />
+                        <span className="font-medium">Trang cá nhân</span>
+                    </Link>
+                ) : (
+                    <DropDownLink
+                        icon={
+                            <UserCircleIcon className="w-6 h-6 text-gray-600 transition-all duration-300 ease-in-out hover:text-gray-800" />
+                        }
+                        title="Người dùng"
+                        items={User}
+                        tabOpen={tabOpen}
+                        setTabOpen={setTabOpen}
+                        className="px-4 py-2"
+                    />
+                )}
+
+                <div className="relative" ref={searchContainerRef}>
+                    <input
+                        type="text"
+                        className="w-40 lg:w-56 bg-slate-100 transition-transform duration-300 ease-in-out rounded-full p-2 px-4 border-2 border-[#F0F0F0] outline-none text-gray-600 focus:scale-105 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Tìm kiếm..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        onFocus={handleSearchFocus}
+                    />
+                    {isSearchFocused && searchTerm && (
+                        <div className="absolute left-0 right-0 z-30 w-full mt-1 overflow-y-auto bg-white border border-gray-200 rounded-md shadow-lg top-full max-h-60">
+                            {searchResults.length > 0 ? (
+                                <ul>
+                                    {searchResults.map((result) => (
+                                        <li key={result.link + result.name}>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    handleResultClick(
+                                                        result.link,
+                                                    )
+                                                }
+                                                className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                            >
+                                                {result.name}
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <div className="px-4 py-3 text-sm text-gray-500">
+                                    Không tìm thấy kết quả nào.
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+                className="z-30 flex items-center ml-auto text-gray-600 md:hidden mobile-menu-button focus:outline-none"
+                onClick={toggleMobileMenu}
+            >
+                {mobileMenuOpen ? (
+                    <XMarkIcon className="w-6 h-6" />
+                ) : (
+                    <Bars3Icon className="w-6 h-6" />
+                )}
+            </button>
+
+            {/* Mobile Menu */}
+            <div
+                ref={mobileMenuRef}
+                className={`fixed inset-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
+                    mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                } md:hidden`}
+            >
+                <div className="flex flex-col h-full p-4 pt-16">
+                    <div className="mb-4">
+                        <div className="relative" ref={searchContainerRef}>
+                            <input
+                                type="text"
+                                className="w-full bg-slate-100 rounded-full p-2 px-4 border-2 border-[#F0F0F0] outline-none text-gray-600 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Tìm kiếm..."
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                                onFocus={handleSearchFocus}
+                            />
+                            {isSearchFocused && searchTerm && (
+                                <div className="absolute left-0 right-0 z-30 w-full mt-1 overflow-y-auto bg-white border border-gray-200 rounded-md shadow-lg top-full max-h-60">
+                                    {searchResults.length > 0 ? (
+                                        <ul>
+                                            {searchResults.map((result) => (
+                                                <li
+                                                    key={
+                                                        result.link +
+                                                        result.name
+                                                    }
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleResultClick(
+                                                                result.link,
+                                                            )
+                                                        }
+                                                        className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                    >
+                                                        {result.name}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <div className="px-4 py-3 text-sm text-gray-500">
+                                            Không tìm thấy kết quả nào.
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="flex-grow space-y-4 overflow-y-auto">
+                        <div className="pb-2 border-b">
+                            <h3 className="mb-2 font-medium text-gray-800">
+                                Sản phẩm & Dịch vụ
+                            </h3>
+                            <ul className="space-y-2">
+                                {servicesAndProducts.map((item) => (
+                                    <li key={item.link}>
+                                        <Link
+                                            to={item.link}
+                                            className="block px-2 py-1 text-gray-600 rounded hover:text-gray-900 hover:bg-gray-100"
                                             onClick={() =>
-                                                handleResultClick(result.link)
+                                                setMobileMenuOpen(false)
                                             }
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                                         >
-                                            {result.name}
-                                        </button>
+                                            {item.name}
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
-                        ) : (
-                            <div className="px-4 py-3 text-sm text-gray-500">
-                                Không tìm thấy kết quả nào.
-                            </div>
-                        )}
+                        </div>
+
+                        <div className="pb-2 border-b">
+                            <h3 className="mb-2 font-medium text-gray-800">
+                                Công cụ & Tiện ích
+                            </h3>
+                            <ul className="space-y-2">
+                                {toolsAndUtilities.map((item) => (
+                                    <li key={item.link}>
+                                        <Link
+                                            to={item.link}
+                                            className="block px-2 py-1 text-gray-600 rounded hover:text-gray-900 hover:bg-gray-100"
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="pb-2 border-b">
+                            <h3 className="mb-2 font-medium text-gray-800">
+                                Liên hệ & Hỗ trợ
+                            </h3>
+                            <ul className="space-y-2">
+                                {connectAndSupport.map((item) => (
+                                    <li key={item.link}>
+                                        <Link
+                                            to={item.link}
+                                            className="block px-2 py-1 text-gray-600 rounded hover:text-gray-900 hover:bg-gray-100"
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 className="mb-2 font-medium text-gray-800">
+                                Tài khoản
+                            </h3>
+                            <ul className="space-y-2">
+                                {isAuthenticated ? (
+                                    <li>
+                                        <Link
+                                            to="/customer"
+                                            className="block px-2 py-1 text-gray-600 rounded hover:text-gray-900 hover:bg-gray-100"
+                                            onClick={() =>
+                                                setMobileMenuOpen(false)
+                                            }
+                                        >
+                                            Tài khoản của tôi
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    User.map((item) => (
+                                        <li key={item.link}>
+                                            <Link
+                                                to={item.link}
+                                                className="block px-2 py-1 text-gray-600 rounded hover:text-gray-900 hover:bg-gray-100"
+                                                onClick={() =>
+                                                    setMobileMenuOpen(false)
+                                                }
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                )}
+                            </ul>
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
         </header>
     );

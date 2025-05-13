@@ -1,14 +1,20 @@
+import Spinner from "../../../components/Spinner";
 import { useFetchAllLoanTypes } from "../../../hooks/useFetchAllLoanTypes";
 import LoanProductCard from "./LoanProductCard";
+import Error from "../../../components/Error";
 
 const benefits =
-    "Lợi ích khi sử dụng sản phẩm cho vay của VFB: Giải ngân nhah chóng - Lãi suất cạnh tranh - Phương thức trả nợ thuận tiện";
+    "Lợi ích khi sử dụng sản phẩm cho vay của 6PBank: Giải ngân nhah chóng - Lãi suất cạnh tranh - Phương thức trả nợ thuận tiện";
 function AddLoanProductContent() {
     const { loanTypes: products, isLoading, error } = useFetchAllLoanTypes();
 
-    console.log("products", products);
-    if (isLoading) return <div>Đang tải dữ liệu loại vay...</div>;
-    if (error) return <div>Lỗi: {error.message}</div>;
+    if (isLoading)
+        return (
+            <div>
+                <Spinner />
+            </div>
+        );
+    if (error) return <Error />;
 
     return (
         // Ensure this outer div doesn't have conflicting height/overflow

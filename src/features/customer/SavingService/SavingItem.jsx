@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 
 function SavingsItem({ item }) {
@@ -7,7 +7,11 @@ function SavingsItem({ item }) {
   const shouldShowRemainingDays = term !== "Không kỳ hạn" && remainingDays != null;
 
   return (
-    <Link to={`/customer/saving/${id}`} className="block no-underline">
+    <Link
+      to="/customer/saving/detail"      // just the URL…
+      state={item?.id}                  // …and pass your item here
+      className="block no-underline"
+    >
       <div className="bg-white p-4 rounded-lg shadow mb-4 hover:shadow-lg transition-shadow duration-200">
         <div className="flex justify-between items-center mb-2">
           <div>

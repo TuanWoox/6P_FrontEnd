@@ -14,7 +14,6 @@ export default function useCreateSignUpOTP() {
         onSuccess: (data) => {},
         onError: (error) => {
             console.error("Error sending OTP:", error.message);
-            console.log(error);
         },
     });
 

@@ -13,9 +13,7 @@ export function useTransferMoney() {
                 queryKey: ["checkingAccounts"],
             });
         },
-        onSuccess: (data) => {
-            console.log("Transfer successful:", data);
-        },
+        onSuccess: (data) => {},
     });
 
     // return the full mutation object, including mutate/mutateAsync

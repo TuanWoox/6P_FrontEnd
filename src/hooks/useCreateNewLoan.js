@@ -13,7 +13,6 @@ export function useCreateNewLoan(options = {}) {
             }
         },
         onSuccess: (data, variables, context) => {
-            console.log("New loan created successfully:", data);
             if (options.onSuccess) {
                 options.onSuccess(data, variables, context);
             }

@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import ProgressSteps from "./ProgressSteps";
+import ProgressSteps from "../../../../components/ProgressStep.jsx";
 import CreateTransactionStep from "./TransferStep/CreateTransactionStep";
 import ConfirmTransactionStep from "./TransferStep/ConfirmTransactionStep";
 import ResultTransactionStep from "./TransferStep/ResultTransactionStep";
 import InnerHeader from "../../../../components/InnerHeader.jsx";
 import useCheckingAccounts from "../../../../hooks/useGetCheckingAccount.js";
+import Spinner from "../../../../components/Spinner.jsx";
 
 export default function TransferPage() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -36,7 +37,7 @@ export default function TransferPage() {
             }));
         }
     }, [accounts]);
-    console.log(accounts);
+
     const handleInputChange = useCallback((field, value) => {
         setTransactionDetails((prev) => ({
             ...prev,
@@ -55,7 +56,11 @@ export default function TransferPage() {
     ];
 
     if (accountsLoading)
-        return <div className="text-center py-8">Đang tải tài khoản...</div>;
+        return (
+            <div className="text-center py-8">
+                <Spinner />
+            </div>
+        );
     if (accountsError)
         return (
             <div className="text-center py-8 text-red-600">

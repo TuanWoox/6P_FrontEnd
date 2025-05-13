@@ -14,7 +14,6 @@ export default function useCreateSavingAccount() {
             return createSavingAccount(data);
         },
         onSuccess: (data) => {
-            console.log("Mutation success, invalidating...");
             queryClient.invalidateQueries({
                 queryKey: ["sidebarInfo"],
             });
@@ -22,9 +21,7 @@ export default function useCreateSavingAccount() {
                 queryKey: ["checkingAccounts"],
             });
         },
-        onError: (err) => {
-            console.log(err);
-        },
+        onError: (err) => {},
     });
     return {
         createSavingAccountFn,

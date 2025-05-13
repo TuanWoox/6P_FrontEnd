@@ -5,6 +5,8 @@ import LoanList from "./LoanList";
 import AddLoanProductContent from "./AddLoanProductContent";
 // import loanData from "./loanData.js";
 import { useFetchLoanList } from "../../../hooks/useFetchLoanList";
+import Spinner from "../../../components/Spinner";
+import Error from "../../../components/Error";
 
 const title = "Danh Sách Vay";
 
@@ -16,8 +18,6 @@ const loansListBreadcrumbs = [
 function LoanPage() {
     const [activeTab, setActiveTab] = useState("loanlist"); // Default to 'savinglist' (Danh sách)
     const { loanList: loanData, isLoading, error } = useFetchLoanList();
-
-    console.log("loanData", loanData);
 
     const handleTabChange = (tab) => {
         setActiveTab(tab);
@@ -32,10 +32,13 @@ function LoanPage() {
               : []
         : [];
 
-    if (isLoading) return <div>Đang tải dữ liệu khoản vay...</div>;
-    if (error) return <div>Lỗi: {error.message}</div>;
-
-    console.log("filteredLoans", filteredLoans);
+    if (isLoading)
+        return (
+            <div>
+                <Spinner />
+            </div>
+        );
+    if (error) return <Error />;
 
     return (
         <div className="mx-auto p-4">

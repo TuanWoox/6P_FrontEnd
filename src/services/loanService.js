@@ -7,7 +7,7 @@ export const getAllLoanAccounts = async () => {
         const response = await axiosAuth.post(
             `${API_URL}/loanAccount/getAllLoanAccount`,
         );
-        console.log(response.data);
+
         return response.data;
     } catch (err) {
         const errMsg =
@@ -51,7 +51,7 @@ export const findLoanInterestRates = async (data) => {
             `${API_URL}/loanAccount/findLoanInterestRates`,
             data,
         );
-        console.log(response.data);
+
         return response.data;
     } catch (err) {
         const errMsg =
@@ -62,13 +62,12 @@ export const findLoanInterestRates = async (data) => {
 };
 
 export const createNewLoan = async (data) => {
-    console.log("Chuyển New Loan xuống database", data);
     try {
         const response = await axiosAuth.post(
             `${API_URL}/loanAccount/createNewLoan`,
             data,
         );
-        console.log("Tạo khoản vay thành công", response.data);
+
         return response.data;
     } catch (err) {
         const errMsg =

@@ -35,7 +35,6 @@ const ConfirmSavingStep = ({
 
     const onNextStep = async () => {
         await createSavingAccountFn(state.formData);
-        dispatch({ type: "NEXT_STEP" });
     };
 
     return (
@@ -106,7 +105,7 @@ const ConfirmSavingStep = ({
                 <p className="text-sm text-gray-500">
                     Thỏa thuận cụ thể và các thông tin: số tài khoản tiền gửi,
                     ngày gửi tiền, ngày đến hạn sẽ được gửi đến địa chỉ thư điện
-                    tử (email) mà Quý khách đã đăng ký với VFB
+                    tử (email) mà Quý khách đã đăng ký với 6PBank
                 </p>
 
                 <div className="flex justify-between mt-6">

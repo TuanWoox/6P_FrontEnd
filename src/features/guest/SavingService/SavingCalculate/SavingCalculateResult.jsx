@@ -1,27 +1,44 @@
-import { formatCurrency, getTodayFormatted } from "../../../../utils/helpers";
+// SavingCalculateResult.jsx
+function SavingCalculateResult({
+    amount,
+    monthlyInterestRate,
+    dailyInterestRate,
+    maturityPeriod,
+    isTerm,
+}) {
+    // Default values if inputs are not provided
+    const amountValue = amount || 0;
+    let totalAmount = 0;
+    let displayInterestRate = 0;
 
-function SavingCalculateResult({ amount, interestRate }) {
-  const totalAmount = amount * (1 + interestRate / 100);
+    if (amountValue > 0) {
+        if (isTerm && monthlyInterestRate > 0) {
+            // Có kỳ hạn: calculate for the entire maturity period using monthly interest
+            totalAmount =
+                amountValue +
+                (amountValue * monthlyInterestRate * maturityPeriod) / 100;
+            displayInterestRate = monthlyInterestRate;
+        } else if (!isTerm && dailyInterestRate > 0) {
+            totalAmount = amountValue + (amountValue * dailyInterestRate) / 100;
+            displayInterestRate = dailyInterestRate;
+        }
+    }
 
-  return (
-    <div className="flex-1 bg-gray-50 p-12 rounded-md space-y-3 flex flex-col">
-      <div className="text-sm text-gray-600 space-y-2 flex flex-col items-end">
-        <div className="text-4xl font-semibold text-gray-800 mb-6">
-          {formatCurrency(totalAmount)} VND
+    return (
+        <div className="flex flex-col flex-1 p-4 space-y-2 rounded-md bg-gray-50 sm:p-6 md:p-8 lg:p-12 sm:space-y-3">
+            <div className="flex flex-col items-end space-y-1 text-sm text-gray-600 sm:space-y-2">
+                <div className="mb-2 text-2xl font-semibold text-gray-800 sm:text-3xl md:text-4xl sm:mb-4 md:mb-6">
+                    {totalAmount.toLocaleString()} VND
+                </div>
+                <div className="text-base text-gray-800 sm:text-lg md:text-xl">
+                    {amountValue.toLocaleString()} VND
+                </div>
+                <div className="text-lg text-gray-800 sm:text-xl md:text-2xl">
+                    {displayInterestRate}% {isTerm ? "/tháng" : "/ngày"}
+                </div>
+            </div>
         </div>
-
-        <div className="text-xl text-gray-800 mt-2 mb-6">
-          {formatCurrency(amount)} VND
-        </div>
-
-        <div className="text-2xl text-gray-800 mt-1">{interestRate}%</div>
-      </div>
-
-      <div className="border-t border-gray-300 mt-6 pt-4">
-        <div className="text-gray-600 ">{getTodayFormatted()}</div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default SavingCalculateResult;

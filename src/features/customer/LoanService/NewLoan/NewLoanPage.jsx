@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InnerHeader from "../../../../components/InnerHeader";
-import ProgressSteps from "./ProgressSteps";
+import ProgressSteps from "./../../../../components/ProgressStep";
 import CreateLoanStep from "./NewLoanStep/CreateLoanStep";
 import ConfirmLoanStep from "./NewLoanStep/ConfirmLoanStep";
 import ResultLoanStep from "./NewLoanStep/ResultLoanStep";

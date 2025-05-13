@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useFetchSavingDetail } from "../../../../hooks/useFetchSavingDetail";
 import Breadcrumbs from "../../../../components/Breadcrumbs";
@@ -9,8 +9,10 @@ import WithdrawSaving from "../WithdrawSaving/WithdrawSaving";
 import { differenceInDays } from "date-fns";
 
 function SavingDetailPage() {
-  const { accountId } = useParams();
-  const { savingDetail: rawSavingDetail, isLoading, isError, error } = useFetchSavingDetail(accountId);
+  const location = useLocation();
+  const id = location.state;    // Instead of using useParams, we are using location.state to get the id
+  
+  const { savingDetail: rawSavingDetail, isLoading, isError, error } = useFetchSavingDetail(id);
   const [showWithdrawalConfirm, setShowWithdrawalConfirm] = useState(false);
 
   if (isLoading) {

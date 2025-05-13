@@ -1,10 +1,10 @@
 import { Link } from "react-router";
 
-function Logo({ className, to }) {
+function Logo({ className }) {
     return (
         <div className={`w-10 h-10 ${className}`}>
             <Link
-                to={to}
+                to={"/"}
                 className="w-full h-full flex items-center justify-center"
             >
                 <img

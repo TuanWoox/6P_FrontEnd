@@ -4,6 +4,7 @@ import { useFetchAllLoanInterestRates } from "../../../../../hooks/useFetchAllLo
 import { useLocation } from "react-router";
 import useCheckingAccounts from "../../../../../hooks/useGetCheckingAccount";
 import { formatCurrency } from "../../../../../utils/helpers";
+import Spinner from "../../../../../components/Spinner";
 
 function CreateLoanStep({ handleCreateLoanNext }) {
     const {
@@ -17,13 +18,8 @@ function CreateLoanStep({ handleCreateLoanNext }) {
         error,
     } = useFetchAllLoanInterestRates();
 
-    console.log("loan interestes rates", loanInterestRates);
-
     const location = useLocation();
     const loanType = location.state?.product;
-
-    // console.log("loanType", loanType);
-    // console.log("loanInterestRates", loanInterestRates);
 
     const accountOptions = accounts.map((acc) => ({
         value: acc.accountNumber,
@@ -52,17 +48,16 @@ function CreateLoanStep({ handleCreateLoanNext }) {
     //     error: findError,
     // } = useFindLoanInterestRates({
     //     onSuccess: (result, variables) => {
-    //         // console.log("Component onSuccess:", result);
+    //
     //         handleCreateLoanNext({ ...variables, findResult: result });
     //     },
     //     onError: (error) => {
-    //         console.log("Component onError:", error);
+    //
     //     },
     // });
 
     // Xử lý khi submit form
     const onSubmit = (data) => {
-        // console.log("Gửi dữ liệu đi");
         // findLoanInterestRates(data);
         const selectedLoanInterestRate = loanInterestRates.find(
             (item) => item._id === data.loanInterestRates,
@@ -77,14 +72,23 @@ function CreateLoanStep({ handleCreateLoanNext }) {
         (item) => item.loanType && item.loanType._id === loanType._id,
     );
 
-    if (isLoading) return <div>Đang tải dữ liệu...</div>;
+    if (isLoading)
+        return (
+            <div>
+                <Spinner />
+            </div>
+        );
     if (error) return <div>Đã xảy ra lỗi: {error.message}</div>;
 
     // if (isFinding) return <div>Đang tìm kiếm lãi suất...</div>;
     // if (findError) return <div>Đã xảy ra lỗi: {findError.message}</div>;
 
     if (accountsLoading)
-        return <div className="text-center py-8">Đang tải tài khoản...</div>;
+        return (
+            <div className="text-center py-8">
+                <Spinner />
+            </div>
+        );
     if (accountsError)
         return (
             <div className="text-center py-8 text-red-600">
