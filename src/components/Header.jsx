@@ -142,10 +142,6 @@ function Header() {
         setMobileMenuOpen(!mobileMenuOpen);
     };
 
-    const toggleMobileMenu = () => {
-        setMobileMenuOpen(!mobileMenuOpen);
-    };
-
     return (
         <header className="w-full flex flex-row justify-between items-center p-2 sm:p-4 bg-white border-b-2 border-[#F0F0F0] shadow-md relative z-20">
             <Logo to="/" className="z-30" />
