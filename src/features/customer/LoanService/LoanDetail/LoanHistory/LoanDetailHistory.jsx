@@ -1,16 +1,21 @@
-import { useParams } from "react-router";
 import InnerHeader from "../../../../../components/InnerHeader";
 import Loader from "../../../../../components/Loader";
 import { useFetchLoanDetail } from "../../../../../hooks/useFetchLoanDetail"; // Đảm bảo đường dẫn đúng
+import { useLocation } from "react-router-dom";
 
 const title = "Chi tiết thanh toán";
 
 function LoanDetailHistory() {
-    const { loanId, paymentId } = useParams();
+    // const { loanId, paymentId } = useParams();
+    const location = useLocation();
+    const { loanId, paymentId } = location.state || {};
+
+    console.log("Loan ID in loan detail page:", loanId);
+    console.log("Payment ID in loan detail page:", paymentId);
+
     const loanDetailBreadcrumbs = [
         { label: "Trang chủ", path: "/customer", icon: true },
         { label: "Danh sách vay", path: "/customer/loan", icon: true },
-        { label: "Khoản vay", path: `/customer/loan/${loanId}`, icon: true },
         { label: "Chi tiết hóa đơn", isCurrent: true },
     ];
 
@@ -26,9 +31,9 @@ function LoanDetailHistory() {
     const loanTypeName = loanDetail?.loanTypeInterest?.loanType?.name;
 
     return (
-        <div className="mx-auto p-4">
+        <div className="p-4 mx-auto">
             <InnerHeader title={title} breadcrumbs={loanDetailBreadcrumbs} />
-            <div className="max-w-screen-lg mx-auto bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129">
+            <div className="max-w-screen-lg p-4 mx-auto bg-gray-100 shadow-md rounded-b-2xl max-h-129">
                 {isLoading ? (
                     <Loader />
                 ) : isError ? (
@@ -40,37 +45,37 @@ function LoanDetailHistory() {
                         Không tìm thấy thông tin thanh toán.
                     </p>
                 ) : (
-                    <div className="p-6 rounded-lg mb-6">
+                    <div className="p-6 mb-6 rounded-lg">
                         <h2 className="text-2xl font-bold mb-4 text-[#95C475]">
                             Chi tiết khoản vay
                         </h2>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">Mã giao dịch</div>
                             <div className="font-medium">
                                 {paymentDetail._id}
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-300 my-4"></div>
+                        <div className="my-4 border-t border-gray-300"></div>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">
                                 Sản phẩm cho vay
                             </div>
                             <div className="font-medium">{loanTypeName}</div>
                         </div>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">Tài khoản vay</div>
                             <div className="font-medium">
                                 {loanDetail.accountNumber}
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-300 my-4"></div>
+                        <div className="my-4 border-t border-gray-300"></div>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">
                                 Số tiền thanh toán
                             </div>
@@ -80,7 +85,7 @@ function LoanDetailHistory() {
                             </div>
                         </div>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">Ngày thanh toán</div>
                             <div className="font-medium">
                                 {new Date(
@@ -89,14 +94,14 @@ function LoanDetailHistory() {
                             </div>
                         </div>
 
-                        <div className="flex justify-between items-center mb-4">
+                        <div className="flex items-center justify-between mb-4">
                             <div className="text-gray-600">Trạng thái</div>
                             <div className="font-medium">
                                 {paymentDetail.status}
                             </div>
                         </div>
 
-                        <div className="border-t border-gray-300 my-4"></div>
+                        <div className="my-4 border-t border-gray-300"></div>
                     </div>
                 )}
             </div>

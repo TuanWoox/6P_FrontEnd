@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import InnerHeader from "../../../../components/InnerHeader.jsx";
 import ProgressSteps from "../../../../components/ProgressStep.jsx";
@@ -12,7 +12,9 @@ import Spinner from "../../../../components/Spinner.jsx";
 
 function LoanPayment() {
     const title = "Thanh toán khoản vay";
-    const { loanId } = useParams();
+    const location = useLocation();
+    const _id = location.state;
+    const loanId = _id;
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
     const { accounts } = useCheckingAccounts();
@@ -43,23 +45,22 @@ function LoanPayment() {
     const paymentBreadcrumbs = [
         { label: "Trang chủ", path: "/customer", icon: true },
         { label: "Danh sách vay", path: "/customer/loan", icon: true },
-        { label: "Khoản vay", path: `/customer/loan/${loanId}`, icon: true },
         {
             label: "Thanh toán",
-            path: `/customer/loan/${loanId}/process`,
+            isCurrent: true,
             icon: true,
         },
     ];
 
     if (isLoading || isUpdating)
         return (
-            <div className="text-center py-8">
+            <div className="py-8 text-center">
                 <Spinner />
             </div>
         );
     if (isError || isUpdateError)
         return (
-            <div className="text-center py-8 text-red-600">
+            <div className="py-8 text-center text-red-600">
                 Lỗi tải tài khoản: {error?.message}
             </div>
         );
@@ -82,7 +83,7 @@ function LoanPayment() {
     return (
         <div>
             <InnerHeader title={title} breadcrumbs={paymentBreadcrumbs} />
-            <div className="max-w-3xl mx-auto p-4 font-sans">
+            <div className="max-w-3xl p-4 mx-auto font-sans">
                 {!noPaymentThisMonth && (
                     <ProgressSteps currentStep={currentStep} />
                 )}

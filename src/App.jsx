@@ -192,15 +192,15 @@ function App() {
                                     element={<NewLoanPage />}
                                 />
                                 <Route
-                                    path="/customer/loan/:loanId"
+                                    path="/customer/loan/detail"
                                     element={<LoanDetailPage />}
                                 />
                                 <Route
-                                    path="/customer/loan/:loanId/process"
+                                    path="/customer/loan/process"
                                     element={<LoanPayment />}
                                 />
                                 <Route
-                                    path="/customer/loan/:loanId/payment/:paymentId"
+                                    path="/customer/loan/payment/detail"
                                     element={<LoanDetailHistory />}
                                 />
                                 <Route
