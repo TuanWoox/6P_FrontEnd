@@ -2,22 +2,25 @@ import { Link } from "react-router-dom";
 import { ArrowRightIcon } from "@heroicons/react/16/solid";
 
 function LoanItem({ item }) {
-    const { _id: id, balance: amount, status, accountNumber } = item;
+    const { id, balance: amount, status, accountNumber } = item;
+    console.log("LoanItem", item);
 
     // Format amount with commas
     const formattedAmount = amount.toLocaleString();
 
     const isDisabled = status === "PENDING" || status === "REJECTED";
+    console.log("item?._id", item?._id);
 
     return (
         <Link
-            to={`/customer/loan/${id}`}
+            to="/customer/loan/detail"
+            state={item?._id}
             className={`block no-underline ${isDisabled ? "cursor-not-allowed pointer-events-none" : ""}`}
         >
-            <div className="bg-white px-8 py-10 rounded-lg shadow mb-4 hover:shadow-lg transition-shadow duration-200">
-                <div className="flex justify-between items-start mb-4">
+            <div className="px-8 py-10 mb-4 transition-shadow duration-200 bg-white rounded-lg shadow hover:shadow-lg">
+                <div className="flex items-start justify-between mb-4">
                     <div>
-                        <p className="text-xl text-gray-700 font-medium">
+                        <p className="text-xl font-medium text-gray-700">
                             {accountNumber}
                         </p>
                     </div>
@@ -28,27 +31,27 @@ function LoanItem({ item }) {
                 </div>
                 <div className="">
                     <div>
-                        <p className="text-md text-gray-500 mb-2">
+                        <p className="mb-2 text-gray-500 text-md">
                             Số tiền vay: {formattedAmount} VND
                         </p>
-                        <div className="flex justify-between items-center">
+                        <div className="flex items-center justify-between">
                             {status === "CLOSED" && (
-                                <span className="text-red-500 text-xl font-bold">
+                                <span className="text-xl font-bold text-red-500">
                                     Đã đóng
                                 </span>
                             )}
                             {status === "PENDING" && (
-                                <span className="text-yellow-500 text-xl font-bold">
+                                <span className="text-xl font-bold text-yellow-500">
                                     Chờ Phê duyệt
                                 </span>
                             )}
                             {status === "ACTIVE" && (
-                                <span className="text-green-500 text-xl font-bold">
+                                <span className="text-xl font-bold text-green-500">
                                     Hoạt động
                                 </span>
                             )}
                             {status === "REJECTED" && (
-                                <span className="text-red-500 text-xl font-bold">
+                                <span className="text-xl font-bold text-red-500">
                                     Bị từ chối
                                 </span>
                             )}

@@ -1,4 +1,3 @@
-import { useParams } from "react-router";
 import InnerHeader from "../../../../components/InnerHeader";
 import LoanAccountCard from "../../LoanService/LoanDetail/LoanAccountCard";
 import Tabs from "./Tabs";
@@ -8,6 +7,7 @@ import CustomButton from "../../../../components/CustomButton";
 import LoanHistoryList from "./LoanHistory/LoanHistoryList";
 import { useFetchLoanDetail } from "../../../../hooks/useFetchLoanDetail"; // Đường dẫn tới custom hook của bạn
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const title = "Khoản vay";
 
@@ -18,7 +18,11 @@ const loanDetailBreadcrumbs = [
 ];
 
 function LoanDetailPage() {
-    const { loanId } = useParams();
+    // const { loanId } = useParams();
+    const location = useLocation();
+    const _id = location.state;
+    console.log("Loan ID in loan detail page:", _id);
+
     const [activeTab, setActiveTab] = useState("info");
 
     const handleTabChange = (tab) => {
@@ -26,8 +30,7 @@ function LoanDetailPage() {
     };
 
     // Sử dụng custom hook để lấy chi tiết khoản vay
-    const { loanDetail, isLoading, isError, error } =
-        useFetchLoanDetail(loanId);
+    const { loanDetail, isLoading, isError, error } = useFetchLoanDetail(_id);
 
     // loanDetail.loanTypeInterest.loanType.name
     const loanTypeName = loanDetail?.loanTypeInterest?.loanType?.name;
@@ -43,7 +46,7 @@ function LoanDetailPage() {
         : [];
 
     return (
-        <div className="mx-auto p-4">
+        <div className="p-4 mx-auto">
             <InnerHeader title={title} breadcrumbs={loanDetailBreadcrumbs} />
             <div className="max-w-screen-md mx-auto">
                 {isLoading ? (
@@ -67,7 +70,7 @@ function LoanDetailPage() {
                                     activeTab={activeTab}
                                     onTabChange={handleTabChange}
                                 />
-                                <div className="bg-gray-100 p-4 rounded-b-2xl shadow-md max-h-129 overflow-y-auto">
+                                <div className="p-4 overflow-y-auto bg-gray-100 shadow-md rounded-b-2xl max-h-129">
                                     {activeTab === "info" ? (
                                         <LoanInfoCard
                                             amount={loanDetail.balance}
@@ -93,7 +96,8 @@ function LoanDetailPage() {
                                     name="THANH TOÁN"
                                     width="w-full"
                                     height="h-12"
-                                    link={`/customer/loan/${loanId}/process`}
+                                    state={_id}
+                                    link={`/customer/loan/process`}
                                 />
                             </>
                         )}
