@@ -10,6 +10,8 @@
   [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 </div>
 
+## Link Deploy: https://6-p-front-end-ug5z.vercel.app/
+
 ## 📋 Overview
 
 6P Bank is a comprehensive digital banking solution that provides customers with a seamless banking experience. The platform offers a variety of financial services including account management, money transfers, loan applications, savings accounts, and more.
